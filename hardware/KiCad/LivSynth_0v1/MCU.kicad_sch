@@ -5,6 +5,7 @@
   (paper "A4")
 
   (title_block
+    (title "LivSynth - MCU")
     (date "2022-07-18")
     (rev "${Version}")
     (company "SloBlo Labs")
@@ -1129,7 +1130,6 @@
       )
     )
   )
-
 
   (junction (at 136.525 137.795) (diameter 0) (color 0 0 0 0)
     (uuid 04b634cf-e6d4-4f91-9716-bda0d2395be1)

@@ -5,6 +5,7 @@
   (paper "A4")
 
   (title_block
+    (title "LivSynth - ModMatrix")
     (date "2022-07-18")
     (rev "${Version}")
     (company "SloBlo Labs")
