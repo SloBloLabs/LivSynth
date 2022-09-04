@@ -29,6 +29,8 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
 
+#include "stm32f4xx_ll_adc.h"
+#include "stm32f4xx_ll_dac.h"
 #include "stm32f4xx_ll_i2c.h"
 #include "stm32f4xx_ll_rcc.h"
 #include "stm32f4xx_ll_bus.h"
@@ -69,6 +71,16 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define SR_SHLDN_Pin LL_GPIO_PIN_3
+#define SR_SHLDN_GPIO_Port GPIOC
+#define CLOCK_OUT_Pin LL_GPIO_PIN_4
+#define CLOCK_OUT_GPIO_Port GPIOC
+#define RESET_OUT_Pin LL_GPIO_PIN_5
+#define RESET_OUT_GPIO_Port GPIOC
+#define GATE_OUT_Pin LL_GPIO_PIN_0
+#define GATE_OUT_GPIO_Port GPIOB
+#define LED_OEN_Pin LL_GPIO_PIN_12
+#define LED_OEN_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
