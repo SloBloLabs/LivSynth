@@ -1232,7 +1232,7 @@
     (uuid b30ee296-eca2-43c1-8364-83944bd1bcfd)
     (property "Reference" "RV17" (id 0) (at 168.275 100.33 90))
     (property "Value" "100K" (id 1) (at 168.275 102.87 90))
-    (property "Footprint" "Potentiometer_THT:Potentiometer_Bourns_3296W_Vertical" (id 2) (at 168.275 97.155 0)
+    (property "Footprint" "SloBlo:Potentiometer_Bourns_3296W_Vertical" (id 2) (at 168.275 97.155 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 168.275 97.155 0)

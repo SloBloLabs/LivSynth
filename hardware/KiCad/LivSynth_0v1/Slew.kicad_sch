@@ -593,7 +593,7 @@
     (property "Value" "100n" (id 1) (at 200.66 103.5049 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm" (id 2) (at 197.8152 106.045 0)
+    (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (id 2) (at 197.8152 106.045 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 196.85 102.235 0)
