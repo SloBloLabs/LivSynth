@@ -208,8 +208,8 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 70939261-1769-4cce-86d8-4acffc820913)
   )
-  (text "Todos:\n - Review Square Generator\n - check bypass caps\n - check IO connection security (add opamps and impedance resistors)\n - Check LED resistor values to get real white\n - Test status LED circuits\n - Check 1U Cap component format\n - Check bom output csv + component placement files\n - Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - simulate LFO Shape pot as 100K and adapt circuit accordingly\n - Check Crystal capacitor values according to ABM8-16.000MHZ-D1X-T"
-    (at 125.73 156.845 0)
+  (text "Todos:\n - Check LED resistor values to get real white\n - Check bom output csv + component placement files\n - Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - simulate LFO Shape pot as 100K and adapt circuit accordingly\n - Check Crystal capacitor values according to ABM8-16.000MHZ-D1X-T"
+    (at 125.73 148.59 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8369b649-9f57-4556-ae55-956ffb497b7f)
   )
@@ -1209,7 +1209,7 @@
       (reference "J15") (unit 1) (value "IDC") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/a120fd43-e4fa-457b-8799-55698c0147da"
-      (reference "J16") (unit 1) (value "IDC") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
+      (reference "J16") (unit 1) (value "IDC") (footprint "")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/690645cc-ceed-495c-b456-6eef204f3560"
       (reference "J17") (unit 1) (value "Jumper") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
@@ -1224,7 +1224,7 @@
       (reference "J20") (unit 1) (value "Jumper") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/79eb1d57-ba3c-4a77-a7c2-79d11b1f2eef"
-      (reference "LS1") (unit 1) (value "8R (<32R) 1W") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
+      (reference "LS1") (unit 1) (value "8R (<32R) 1W") (footprint "")
     )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/10232e23-ee31-4051-88b4-9545104f4aad"
       (reference "NT1") (unit 1) (value "NetTie_2") (footprint "NetTie:NetTie-2_SMD_Pad2.0mm")
@@ -1362,7 +1362,7 @@
       (reference "R24") (unit 1) (value "360") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/a8e2a098-2010-4ec0-a897-f9a91ed4a45e/62c2da24-f56e-44f2-bb0c-43671340aecd"
-      (reference "R25") (unit 1) (value "10M") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R25") (unit 1) (value "1M") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/a8e2a098-2010-4ec0-a897-f9a91ed4a45e/e9d792e4-983c-4f8c-8aae-e35c463d3e26"
       (reference "R26") (unit 1) (value "100K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
@@ -1374,16 +1374,16 @@
       (reference "R28") (unit 1) (value "80K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/a8e2a098-2010-4ec0-a897-f9a91ed4a45e/e507c549-8eaa-4f64-9b6d-6c0e9b72953f"
-      (reference "R29") (unit 1) (value "10M") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R29") (unit 1) (value "1M") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/a8e2a098-2010-4ec0-a897-f9a91ed4a45e/f1586601-0a56-497c-9ce8-fce4813bc07e"
-      (reference "R30") (unit 1) (value "2K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R30") (unit 1) (value "1K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/a8e2a098-2010-4ec0-a897-f9a91ed4a45e/4f32a7c5-1d7b-4a20-af94-71ad0fe4cf45"
-      (reference "R31") (unit 1) (value "1K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R31") (unit 1) (value "100R") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/a8e2a098-2010-4ec0-a897-f9a91ed4a45e/1ed420c6-2ee1-44eb-b08b-25a4493a575f"
-      (reference "R32") (unit 1) (value "4K7") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R32") (unit 1) (value "1K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/c0ca57aa-71b4-4f05-9ee8-6e6126a36446/c2af18df-d836-482e-ba08-e0d8ec51dc1e"
       (reference "R33") (unit 1) (value "100K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
