@@ -208,7 +208,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 70939261-1769-4cce-86d8-4acffc820913)
   )
-  (text "Todos:\n - Check LED resistor values to get real white\n - Check bom output csv + component placement files\n - Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - simulate LFO Shape pot as 100K and adapt circuit accordingly\n - Check Crystal capacitor values according to ABM8-16.000MHZ-D1X-T"
+  (text "Todos:\n - Check bom output csv + component placement files\n - Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - simulate LFO Shape pot as 100K and adapt circuit accordingly\n - Check Crystal capacitor values according to ABM8-16.000MHZ-D1X-T"
     (at 125.73 148.59 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8369b649-9f57-4556-ae55-956ffb497b7f)
