@@ -208,7 +208,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 70939261-1769-4cce-86d8-4acffc820913)
   )
-  (text "Todos:\n - Check bom output csv + component placement files\n - Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - simulate LFO Shape pot as 100K and adapt circuit accordingly\n - Check Crystal capacitor values according to ABM8-16.000MHZ-D1X-T"
+  (text "Todos:\n - Check bom output csv + component placement files\n - Done: Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - simulate LFO Shape pot as 100K and adapt circuit accordingly"
     (at 125.73 148.59 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8369b649-9f57-4556-ae55-956ffb497b7f)
@@ -1038,10 +1038,10 @@
       (reference "C28") (unit 1) (value "2.2u") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
     )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/e21e828c-6ff3-42b7-9a03-ab7fa8fd4a18"
-      (reference "C29") (unit 1) (value "16p") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
+      (reference "C29") (unit 1) (value "26p") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
     )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/a3708aba-e02d-4d7a-93cc-9e27a6e07c83"
-      (reference "C30") (unit 1) (value "16p") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
+      (reference "C30") (unit 1) (value "26p") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
     )
     (path "/9b71f1c4-49e8-4b79-9df9-1d6c393fba92/1fbb261a-fa29-467e-9429-2a5861057524"
       (reference "C31") (unit 1) (value "100n") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")

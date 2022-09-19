@@ -390,7 +390,7 @@
       "gencad": "",
       "idf": "",
       "netlist": "",
-      "specctra_dsn": "",
+      "specctra_dsn": "LivSynth_Hardware.dsn",
       "step": "LivSynth_Hardware.step",
       "vrml": ""
     },
