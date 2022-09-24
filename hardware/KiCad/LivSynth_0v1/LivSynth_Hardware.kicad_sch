@@ -993,10 +993,10 @@
       (reference "C13") (unit 1) (value "1u") (footprint "Capacitor_THT:C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/eb4f724c-399f-4e46-8428-e3404af44575"
-      (reference "C14") (unit 1) (value "10U") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm")
+      (reference "C14") (unit 1) (value "10U") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/0cc71d85-ae66-4ee9-bc3c-b6e9b9c9f525"
-      (reference "C15") (unit 1) (value "22u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm")
+      (reference "C15") (unit 1) (value "22u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/ddaeac48-df68-422a-916b-39de2171d5c7"
       (reference "C16") (unit 1) (value "1u") (footprint "Capacitor_THT:C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
@@ -1011,7 +1011,7 @@
       (reference "C19") (unit 1) (value "1u") (footprint "Capacitor_THT:C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
     )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/f0ccd377-e98e-4ffd-9cc8-11c08d791c70"
-      (reference "C20") (unit 1) (value "10u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm")
+      (reference "C20") (unit 1) (value "10u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/d20c06ee-fb10-442d-8bf8-236388379711"
       (reference "C21") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0603_1608Metric_Pad1.08x0.95mm_HandSolder")
@@ -1065,7 +1065,7 @@
       (reference "C38") (unit 1) (value "1p") (footprint "Capacitor_THT:C_Disc_D3.0mm_W1.6mm_P2.50mm")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/0eae80a7-cfb6-42b1-84f5-547873844a8d"
-      (reference "C39") (unit 1) (value "33u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm")
+      (reference "C39") (unit 1) (value "33u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/4b9a7539-edaf-43fa-b426-23c206459406"
       (reference "C40") (unit 1) (value "${VCF_C_Value}") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
@@ -1092,13 +1092,13 @@
       (reference "C47") (unit 1) (value "270n") (footprint "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/5fecdca5-e332-4695-852c-0bc6d40bf524"
-      (reference "C48") (unit 1) (value "10u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm")
+      (reference "C48") (unit 1) (value "10u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/799dbc4e-9332-43de-a075-95a1f77766a2"
       (reference "C49") (unit 1) (value "270n") (footprint "Capacitor_THT:C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/f74f104d-9434-4eff-be50-5346c53735ef"
-      (reference "C50") (unit 1) (value "470u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm")
+      (reference "C50") (unit 1) (value "470u") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/e33720f6-f8f1-4f98-be55-1c574df711fe"
       (reference "C51") (unit 1) (value "100n") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
@@ -1209,7 +1209,7 @@
       (reference "J15") (unit 1) (value "IDC") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/a120fd43-e4fa-457b-8799-55698c0147da"
-      (reference "J16") (unit 1) (value "IDC") (footprint "")
+      (reference "J16") (unit 1) (value "IDC") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/690645cc-ceed-495c-b456-6eef204f3560"
       (reference "J17") (unit 1) (value "Jumper") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
@@ -1224,7 +1224,7 @@
       (reference "J20") (unit 1) (value "Jumper") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/79eb1d57-ba3c-4a77-a7c2-79d11b1f2eef"
-      (reference "LS1") (unit 1) (value "8R (<32R) 1W") (footprint "")
+      (reference "LS1") (unit 1) (value "8R (<32R) 1W") (footprint "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm")
     )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/10232e23-ee31-4051-88b4-9545104f4aad"
       (reference "NT1") (unit 1) (value "NetTie_2") (footprint "NetTie:NetTie-2_SMD_Pad2.0mm")

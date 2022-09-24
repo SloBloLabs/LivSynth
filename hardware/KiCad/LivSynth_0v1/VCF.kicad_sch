@@ -1672,7 +1672,7 @@
     (uuid 0eae80a7-cfb6-42b1-84f5-547873844a8d)
     (property "Reference" "C39" (id 0) (at 245.491 55.88 90))
     (property "Value" "33u" (id 1) (at 245.491 58.42 90))
-    (property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P5.00mm" (id 2) (at 250.19 62.5348 0)
+    (property "Footprint" "Capacitor_THT:CP_Radial_D8.0mm_P3.50mm" (id 2) (at 250.19 62.5348 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 246.38 63.5 0)

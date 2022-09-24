@@ -1,5 +1,5 @@
 Drill report for LivSynth_Hardware.kicad_pcb
-Created on 2022 September 14, Wednesday 21:26:26
+Created on 2022 September 24, Saturday 18:06:23
 
 Copper Layer Stackup:
     =============================================================
@@ -10,7 +10,7 @@ Copper Layer Stackup:
 Drill file 'LivSynth_Hardware-PTH.drl' contains
     plated through holes:
     =============================================================
-    T1  0.400mm  0.0157"  (269 holes)
+    T1  0.400mm  0.0157"  (267 holes)
     T2  0.550mm  0.0217"  (2 holes)  (with 2 slots)
     T3  0.750mm  0.0295"  (48 holes)
     T4  0.800mm  0.0315"  (416 holes)
@@ -25,7 +25,7 @@ Drill file 'LivSynth_Hardware-PTH.drl' contains
     T13  1.600mm  0.0630"  (17 holes)  (with 14 slots)
     T14  2.400mm  0.0945"  (2 holes)
 
-    Total plated holes count 946
+    Total plated holes count 944
 
 
 Drill file 'LivSynth_Hardware-NPTH.drl' contains
