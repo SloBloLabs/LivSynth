@@ -391,7 +391,7 @@
       "idf": "",
       "netlist": "",
       "specctra_dsn": "LivSynth_Hardware.dsn",
-      "step": "LivSynth_Hardware.step",
+      "step": "LivSynth_Hardware_0v1.step",
       "vrml": ""
     },
     "page_layout_descr_file": ""
@@ -428,7 +428,7 @@
       "workbook_filename": ""
     },
     "page_layout_descr_file": "",
-    "plot_directory": "../../",
+    "plot_directory": "pdf/",
     "spice_adjust_passive_values": false,
     "spice_external_command": "spice \"%I\"",
     "subpart_first_id": 65,
