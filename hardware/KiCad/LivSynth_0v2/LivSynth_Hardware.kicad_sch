@@ -208,7 +208,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 70939261-1769-4cce-86d8-4acffc820913)
   )
-  (text "Todos:\n - Done: Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - Soldering holes for 12BH6211-GR too big, 1mm sufficient\n - Make D1 Schottky Diode\n - Increase C26 -> 1u\n - Redesign EG LED schematic\n - Invert RV3 (VCF Cutoff) and RV7 (VCF Resonance) connection (left: close/none, right: open/full)\n - Invert RV11 (VCA Bias) connection (left: close, right: open)\n - Reference EG -> VGND!\n - Check EG timing: Decay should be slower\n - Add switch labels to front side\n - How to make the synth fully silent?"
+  (text "Todos:\n - Done: Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - Soldering holes for 12BH6211-GR too big, 1mm sufficient\n - Make D1 Schottky Diode\n - Increase C26 -> 1u\n - Redesign EG LED schematic\n - Invert RV3 (VCF Cutoff) and RV7 (VCF Resonance) connection (left: close/none, right: open/full)\n - Invert RV11 (VCA Bias) connection (left: close, right: open)\n - Reference EG -> VGND!\n - Check EG timing: Decay should be slower\n - Add switch labels to front side\n - How to make the synth fully silent?\n - Add some debug pin to MCU"
     (at 121.92 161.29 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8369b649-9f57-4556-ae55-956ffb497b7f)

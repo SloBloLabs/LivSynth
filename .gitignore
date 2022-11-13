@@ -1,6 +1,13 @@
 LivSynth_Hardware-backups
 *bak
-/Debug/
 .DS_Store
 \#auto*
 _auto*
+build
+Debug
+Release
+.vscode/.cortex*
+.settings
+*.launch
+*.obj
+*.app
