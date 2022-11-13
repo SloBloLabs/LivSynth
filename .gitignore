@@ -1,4 +1,6 @@
-hardware/KiCad/LivSynth_0v1/LivSynth_Hardware-backups
+LivSynth_Hardware-backups
 *bak
 /Debug/
 .DS_Store
+\#auto*
+_auto*
