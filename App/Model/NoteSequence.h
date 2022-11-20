@@ -5,6 +5,7 @@
 #include "ModelUtils.h"
 
 #include <cstdint>
+#include <array>
 
 #define CONFIG_STEP_COUNT 8
 
