@@ -4,6 +4,7 @@
 extern "C" {
 #endif
 
+void testMain(void);
 void appMain(void);
 void appTick(void);
 void appClockTimer();

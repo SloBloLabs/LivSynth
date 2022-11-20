@@ -31,12 +31,44 @@ static            Model         model;
 static CCMRAM_BSS Engine        engine(model, clockTimer);
 static CCMRAM_BSS UiController  uiController(model, engine);
 
+void testMain() {
+    System::init();
+    ledDriver.init();
+
+    uint32_t curMillis
+           //, logMillis    = 0
+           , updateMillis = 0;
+    
+    while(true) {
+
+        curMillis = System::ticks();
+
+        if(curMillis - updateMillis > 50) {
+            updateMillis = curMillis;
+            
+            static uint8_t curLed = 0;
+            static float hue = 0.;
+
+            hue += 10;
+            if(hue >= 360.) {
+                ledDriver.setColourHSV(curLed, hue, 1., 0.);
+                hue -= 360.;
+                curLed += 1;
+                if(curLed > 9) curLed = 0;
+            }
+
+            ledDriver.setColourHSV(curLed, hue, 1., 1.);
+            ledDriver.process();
+            LL_GPIO_TogglePin(CLOCK_OUT_GPIO_Port, CLOCK_OUT_Pin);
+        }
+    }
+}
+
 void appMain() {
     System::init();
     clockTimer.init();
     adc.init();
     dac.init();
-    //dio.init();
     shiftRegister.init();
     ledDriver.init();
     engine.init();

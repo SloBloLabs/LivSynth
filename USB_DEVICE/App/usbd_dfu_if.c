@@ -102,7 +102,7 @@
   * @{
   */
 
-extern USBD_HandleTypeDef hUsbDeviceHS;
+extern USBD_HandleTypeDef hUsbDeviceFS;
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
 
@@ -117,12 +117,12 @@ extern USBD_HandleTypeDef hUsbDeviceHS;
   * @{
   */
 
-static uint16_t MEM_If_Init_HS(void);
-static uint16_t MEM_If_Erase_HS(uint32_t Add);
-static uint16_t MEM_If_Write_HS(uint8_t *src, uint8_t *dest, uint32_t Len);
-static uint8_t *MEM_If_Read_HS(uint8_t *src, uint8_t *dest, uint32_t Len);
-static uint16_t MEM_If_DeInit_HS(void);
-static uint16_t MEM_If_GetStatus_HS(uint32_t Add, uint8_t Cmd, uint8_t *buffer);
+static uint16_t MEM_If_Init_FS(void);
+static uint16_t MEM_If_Erase_FS(uint32_t Add);
+static uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len);
+static uint8_t *MEM_If_Read_FS(uint8_t *src, uint8_t *dest, uint32_t Len);
+static uint16_t MEM_If_DeInit_FS(void);
+static uint16_t MEM_If_GetStatus_FS(uint32_t Add, uint8_t Cmd, uint8_t *buffer);
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_DECLARATION */
 
@@ -135,54 +135,52 @@ static uint16_t MEM_If_GetStatus_HS(uint32_t Add, uint8_t Cmd, uint8_t *buffer);
 #if defined ( __ICCARM__ ) /* IAR Compiler */
   #pragma data_alignment=4
 #endif
-
-__ALIGN_BEGIN USBD_DFU_MediaTypeDef USBD_DFU_fops_HS __ALIGN_END =
+__ALIGN_BEGIN USBD_DFU_MediaTypeDef USBD_DFU_fops_FS __ALIGN_END =
 {
-    (uint8_t*)FLASH_DESC_STR,
-    MEM_If_Init_HS,
-    MEM_If_DeInit_HS,
-    MEM_If_Erase_HS,
-    MEM_If_Write_HS,
-    MEM_If_Read_HS,
-    MEM_If_GetStatus_HS
+   (uint8_t*)FLASH_DESC_STR,
+    MEM_If_Init_FS,
+    MEM_If_DeInit_FS,
+    MEM_If_Erase_FS,
+    MEM_If_Write_FS,
+    MEM_If_Read_FS,
+    MEM_If_GetStatus_FS
 };
 
 /* Private functions ---------------------------------------------------------*/
-
 /**
   * @brief  Memory initialization routine.
   * @retval USBD_OK if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_Init_HS(void)
+uint16_t MEM_If_Init_FS(void)
 {
-  /* USER CODE BEGIN 6 */
+  /* USER CODE BEGIN 0 */
   return (USBD_OK);
-  /* USER CODE END 6 */
+  /* USER CODE END 0 */
 }
 
 /**
-  * @brief  De-Initializes Memory.
-  * @retval USBD_OK if operation is successful, MAL_FAIL else.
+  * @brief  De-Initializes Memory
+  * @retval USBD_OK if operation is successful, MAL_FAIL else
   */
-uint16_t MEM_If_DeInit_HS(void)
+uint16_t MEM_If_DeInit_FS(void)
 {
-  /* USER CODE BEGIN 7 */
+  /* USER CODE BEGIN 1 */
   return (USBD_OK);
-  /* USER CODE END 7 */
+  /* USER CODE END 1 */
 }
 
 /**
   * @brief  Erase sector.
   * @param  Add: Address of sector to be erased.
-  * @retval USBD_OK if operation is successful, MAL_FAIL else.
+  * @retval 0 if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_Erase_HS(uint32_t Add)
+uint16_t MEM_If_Erase_FS(uint32_t Add)
 {
-  /* USER CODE BEGIN 8 */
+  /* USER CODE BEGIN 2 */
   UNUSED(Add);
 
   return (USBD_OK);
-  /* USER CODE END 8 */
+  /* USER CODE END 2 */
 }
 
 /**
@@ -192,15 +190,15 @@ uint16_t MEM_If_Erase_HS(uint32_t Add)
   * @param  Len: Number of data to be written (in bytes).
   * @retval USBD_OK if operation is successful, MAL_FAIL else.
   */
-uint16_t MEM_If_Write_HS(uint8_t *src, uint8_t *dest, uint32_t Len)
+uint16_t MEM_If_Write_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
 {
-  /* USER CODE BEGIN 9 */
+  /* USER CODE BEGIN 3 */
   UNUSED(src);
   UNUSED(dest);
   UNUSED(Len);
 
   return (USBD_OK);
-  /* USER CODE END 9 */
+  /* USER CODE END 3 */
 }
 
 /**
@@ -210,32 +208,32 @@ uint16_t MEM_If_Write_HS(uint8_t *src, uint8_t *dest, uint32_t Len)
   * @param  Len: Number of data to be read (in bytes).
   * @retval Pointer to the physical address where data should be read.
   */
-uint8_t *MEM_If_Read_HS(uint8_t *src, uint8_t *dest, uint32_t Len)
+uint8_t *MEM_If_Read_FS(uint8_t *src, uint8_t *dest, uint32_t Len)
 {
   /* Return a valid address to avoid HardFault */
-  /* USER CODE BEGIN 10 */
+  /* USER CODE BEGIN 4 */
   UNUSED(src);
   UNUSED(dest);
   UNUSED(Len);
 
   return (uint8_t*)(USBD_OK);
-  /* USER CODE END 10 */
+  /* USER CODE END 4 */
 }
 
 /**
-  * @brief  Get status routine.
-  * @param  Add: Address to be read from.
-  * @param  Cmd: Number of data to be read (in bytes).
+  * @brief  Get status routine
+  * @param  Add: Address to be read from
+  * @param  Cmd: Number of data to be read (in bytes)
   * @param  buffer: used for returning the time necessary for a program or an erase operation
-  * @retval 0 if operation is successful
+  * @retval USBD_OK if operation is successful
   */
-uint16_t MEM_If_GetStatus_HS(uint32_t Add, uint8_t Cmd, uint8_t *buffer)
+uint16_t MEM_If_GetStatus_FS(uint32_t Add, uint8_t Cmd, uint8_t *buffer)
 {
-  /* USER CODE BEGIN 11 */
+  /* USER CODE BEGIN 5 */
   UNUSED(Add);
   UNUSED(buffer);
 
-  switch(Cmd)
+  switch (Cmd)
   {
     case DFU_MEDIA_PROGRAM:
 
@@ -246,8 +244,8 @@ uint16_t MEM_If_GetStatus_HS(uint32_t Add, uint8_t Cmd, uint8_t *buffer)
 
     break;
   }
-  return  (USBD_OK);
-  /* USER CODE END 11 */
+  return (USBD_OK);
+  /* USER CODE END 5 */
 }
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */

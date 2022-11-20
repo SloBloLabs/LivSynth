@@ -87,7 +87,7 @@
   */
 
 /** MEDIA Interface callback. */
-extern USBD_DFU_MediaTypeDef USBD_DFU_fops_HS;
+extern USBD_DFU_MediaTypeDef USBD_DFU_fops_FS;
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
 
