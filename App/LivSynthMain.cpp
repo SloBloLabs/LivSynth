@@ -34,14 +34,14 @@ static CCMRAM_BSS UiController  uiController(model, engine);
 void testMain() {
     System::init();
     //clockTimer.init();
-    //adc.init();
+    adc.init();
     //dac.init();
     shiftRegister.init();
     buttonMatrix.init();
     ledDriver.init();
 
     uint32_t curMillis
-           //, logMillis    = 0
+           , logMillis    = 0
            , updateMillis = 0;
     
     KeyState _keyState;
@@ -53,12 +53,18 @@ void testMain() {
 
         if(curMillis - updateMillis > 79) {
             updateMillis = curMillis;
-            
-            /*shiftRegister.process();
-            uint16_t srValue = shiftRegister.read();
-            DBG("SR_Value=%d", srValue);*/
 
             buttonMatrix.process();
+
+            uint16_t tune = adc.channel(0);
+            uint16_t tempo = adc.channel(1);
+
+            uint8_t numButtons = tune / 4095. * 9;
+            float H = tempo / 4095. * 360;
+
+            for(uint8_t button = 0; button < 8; ++button) {
+                ledDriver.setColourHSV(button, H, 1.f, button < numButtons ? 1. : 0.);
+            }
             
             static float hue = 0.f;
             hue += 10;
@@ -73,32 +79,23 @@ void testMain() {
                 float value = isDown ? 0. : 1.;
                 if(key.isStep()) {
                     ledDriver.setColourHSV(event.value(), hue, 1.f, value);
-                } else if(key.isShift()) {
-                    ledDriver.setColourHSV(9, hue, 1.f, value);
                 } else if(key.isPlay()) {
                     ledDriver.setColourHSV(8, hue, 1.f, value);
+                } else if(key.isShift()) {
+                    ledDriver.setColourHSV(9, hue, 1.f, value);
                 }
             }
 
             ledDriver.process();
-
-
-            /*
-            static uint8_t curLed = 0;
-            static float hue = 0.;
-
-            hue += 10;
-            if(hue >= 360.) {
-                ledDriver.setColourHSV(curLed, hue, 1., 0.);
-                hue -= 360.;
-                curLed += 1;
-                if(curLed > 9) curLed = 0;
-            }
-
-            ledDriver.setColourHSV(curLed, hue, 1., 1.);
-            ledDriver.process();
+            
             LL_GPIO_TogglePin(CLOCK_OUT_GPIO_Port, CLOCK_OUT_Pin);
-            */
+        }
+        
+        // render debug log output
+        if(curMillis - logMillis > 999) {
+            logMillis = curMillis;
+            DBG("Tune_ADC=%d, Tempo_ADC=%d", adc.channel(0), adc.channel(1));
+            LL_GPIO_TogglePin(RESET_OUT_GPIO_Port, RESET_OUT_Pin);
         }
     }
 }
