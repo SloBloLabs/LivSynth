@@ -78,18 +78,19 @@ void testMain() {
 
                 _keyState[event.value()] = isDown;
                 Key key(event.value(), _keyState);
-                float value = isDown ? 0. : 1.;
+                float value = isDown ? 1. : 0.;
                 if(key.isStep()) {
                     ledDriver.setColourHSV(event.value(), hue, 1.f, value);
                 } else if(key.isPlay()) {
                     ledDriver.setColourHSV(8, hue, 1.f, value);
                 } else if(key.isShift()) {
                     ledDriver.setColourHSV(9, hue, 1.f, value);
+                    dio.setGate(isDown);
                 }
             }
 
             ledDriver.process();
-
+            dio.update();
             dac.update();
 
             LL_GPIO_TogglePin(CLOCK_OUT_GPIO_Port, CLOCK_OUT_Pin);

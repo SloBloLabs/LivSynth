@@ -18,7 +18,7 @@ void ButtonMatrix::process() {
 
     for(int buttonIndex = 0; buttonIndex < NUM_BUTTONS; ++buttonIndex) {
         auto &state = _buttonState[buttonIndex].state;
-        bool newState = !(buttonData & (1 << buttonIndex)); // why inversion?
+        bool newState = (buttonData & (1 << buttonIndex));
         if(newState != state) {
             state = newState;
             _events.write(Event(state ? Event::KeyDown : Event::KeyUp, buttonIndex));
