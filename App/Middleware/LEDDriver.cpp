@@ -169,9 +169,8 @@ void LEDDriver::clear() {
 //| LED 4094/4095 | 0x0                   | 0x1     | 0x0                            | 0xFFF   |
 
 void LEDDriver::setSingleLED(uint8_t led, uint16_t brightness) {
-    if(_transmissionBusy) {
-        return;
-    }
+    while(_transmissionBusy);
+
     if(led < NUM_PWM_LED_CHIPS * NUM_LEDS_PER_CHIP) {
         uint32_t chipNumber = led / NUM_LEDS_PER_CHIP;
         led -= chipNumber * NUM_LEDS_PER_CHIP;

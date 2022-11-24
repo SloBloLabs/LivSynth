@@ -7,14 +7,12 @@
 #define PCA9685_MODE1  0x00 // location for Mode1 register address
 #define PCA9685_MODE2  0x01 // location for Mode2 reigster address
 #define PCA9685_LED0   0x06 // location for start of LED0 registers
-#define PRE_SCALE_MODE 0xFE //location for setting prescale (clock speed)
+#define PRE_SCALE_MODE 0xFE // location for setting prescale (clock speed)
 
 #define NUM_PWM_LED_CHIPS 2
 #define NUM_LEDS_PER_CHIP 16
 
 #define LED_I2C        I2C2
-#define I2C_SPEEDCLOCK 100000
-#define I2C_DUTYCYCLE  LL_I2C_DUTYCYCLE_2
 #define LED_ON         0
 #define LED_OFF        1
 

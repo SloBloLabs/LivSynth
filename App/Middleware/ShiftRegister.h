@@ -1,9 +1,6 @@
 #pragma once
 
 #include <cstdint>
-#include <array>
-
-#define NUM_SHIFT_REGISTERS 1
 
 class ShiftRegister {
 public:
@@ -12,15 +9,15 @@ public:
     void init();
     void process();
 
-    uint8_t read(int index) const {
-        return _inputs[index];
+    inline uint16_t read() const {
+        return _input;
     }
 
-    void write(int index, uint8_t value) {
-        _outputs[index];
+    inline void write(uint16_t const data) {
+        _output = data;
     }
 
 private:
-    std::array<uint8_t, NUM_SHIFT_REGISTERS> _outputs;
-    std::array<uint8_t, NUM_SHIFT_REGISTERS> _inputs;
+    uint16_t _input;
+    uint16_t _output;
 };

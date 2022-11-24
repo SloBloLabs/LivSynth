@@ -14,12 +14,11 @@ void ButtonMatrix::process() {
     
     // Output data
 
-    uint8_t buttonData = _shiftRegister.read(0);
+    uint16_t buttonData = _shiftRegister.read();
 
-    for(int i = 0; i < 4; ++i) {
-        int buttonIndex = i;
-        auto &state = _buttonState[i].state;
-        bool newState = !(buttonData & (1 << i));
+    for(int buttonIndex = 0; buttonIndex < NUM_BUTTONS; ++buttonIndex) {
+        auto &state = _buttonState[buttonIndex].state;
+        bool newState = !(buttonData & (1 << buttonIndex)); // why inversion?
         if(newState != state) {
             state = newState;
             _events.write(Event(state ? Event::KeyDown : Event::KeyUp, buttonIndex));

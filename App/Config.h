@@ -10,7 +10,7 @@
 #define CONFIG_PATTERN_COUNT     8
 
 // Buttons
-#define CONFIG_NUM_BUTTONS      10
+#define CONFIG_NUM_BUTTONS      16
 
 // Pots
 #define CONFIG_NUM_POTS          2

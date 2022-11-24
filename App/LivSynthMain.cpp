@@ -33,19 +33,57 @@ static CCMRAM_BSS UiController  uiController(model, engine);
 
 void testMain() {
     System::init();
+    //clockTimer.init();
+    //adc.init();
+    //dac.init();
+    shiftRegister.init();
+    buttonMatrix.init();
     ledDriver.init();
 
     uint32_t curMillis
            //, logMillis    = 0
            , updateMillis = 0;
     
+    KeyState _keyState;
+    _keyState.reset();
+
     while(true) {
 
         curMillis = System::ticks();
 
-        if(curMillis - updateMillis > 50) {
+        if(curMillis - updateMillis > 79) {
             updateMillis = curMillis;
             
+            /*shiftRegister.process();
+            uint16_t srValue = shiftRegister.read();
+            DBG("SR_Value=%d", srValue);*/
+
+            buttonMatrix.process();
+            
+            static float hue = 0.f;
+            hue += 10;
+            if(hue >= 360.f) hue -= 360.f;
+
+            ButtonMatrix::Event event;
+            while(buttonMatrix.nextEvent(event)) {
+                bool isDown = event.action() == ButtonMatrix::Event::KeyDown;
+
+                _keyState[event.value()] = isDown;
+                Key key(event.value(), _keyState);
+                float value = isDown ? 0. : 1.;
+                if(key.isStep()) {
+                    ledDriver.setColourHSV(event.value(), hue, 1.f, value);
+                } else if(key.isShift()) {
+                    ledDriver.setColourHSV(9, hue, 1.f, value);
+                } else if(key.isPlay()) {
+                    ledDriver.setColourHSV(8, hue, 1.f, value);
+                }
+            }
+
+            ledDriver.process();
+
+
+            /*
             static uint8_t curLed = 0;
             static float hue = 0.;
 
@@ -60,6 +98,7 @@ void testMain() {
             ledDriver.setColourHSV(curLed, hue, 1., 1.);
             ledDriver.process();
             LL_GPIO_TogglePin(CLOCK_OUT_GPIO_Port, CLOCK_OUT_Pin);
+            */
         }
     }
 }
@@ -70,6 +109,7 @@ void appMain() {
     adc.init();
     dac.init();
     shiftRegister.init();
+    buttonMatrix.init();
     ledDriver.init();
     engine.init();
     uiController.init();
@@ -131,7 +171,7 @@ void appMain() {
         // render debug log output
         if(debug && curMillis - logMillis > 999) {
             logMillis = curMillis;
-            DBG("ADC0=%d, ADC1=%d, bpm=%.2f, pitch=%.2f, buttons=0x%02X", adc.channel(0), adc.channel(1), _bpm, _pitch, shiftRegister.read(0));
+            DBG("ADC0=%d, ADC1=%d, bpm=%.2f, pitch=%.2f, buttons=0x%02X", adc.channel(0), adc.channel(1), _bpm, _pitch, shiftRegister.read());
         }
     }
 }

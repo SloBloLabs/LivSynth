@@ -20,7 +20,7 @@ public:
         Step7 = 6,
         Step8 = 7,
         Play  = 8,
-        Shift = 9
+        Shift = 15
     };
 
     Key(int code, const KeyState &state) : _code(code), _state(state) {}

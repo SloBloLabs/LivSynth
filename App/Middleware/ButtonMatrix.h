@@ -3,7 +3,7 @@
 #include "ShiftRegister.h"
 #include "RingBuffer.h"
 
-#define NUM_BUTTONS 4
+#define NUM_BUTTONS 16
 
 class ButtonMatrix {
 public:

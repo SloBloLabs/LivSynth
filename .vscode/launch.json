@@ -1,0 +1,25 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "projectName": "LivSynth",
+    "configurations": [
+        {
+            "name": "Cortex Debug LivSynth",
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/LivSynth.elf",
+            "request": "launch", // "attach" to silently attach to MCU
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "device": "STM32F405RG",
+            "interface": "swd",
+            //"preLaunchTask": "build all",
+            "configFiles": [
+                "interface/stlink.cfg",
+                "target/stm32f4x.cfg"
+            ],
+            "svdFile": "./STM32F405.svd"
+        }
+    ]
+}
