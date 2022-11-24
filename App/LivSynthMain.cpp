@@ -35,7 +35,7 @@ void testMain() {
     System::init();
     //clockTimer.init();
     adc.init();
-    //dac.init();
+    dac.init();
     shiftRegister.init();
     buttonMatrix.init();
     ledDriver.init();
@@ -58,6 +58,8 @@ void testMain() {
 
             uint16_t tune = adc.channel(0);
             uint16_t tempo = adc.channel(1);
+
+            dac.setValue(tune);
 
             uint8_t numButtons = tune / 4095. * 9;
             float H = tempo / 4095. * 360;
@@ -87,8 +89,11 @@ void testMain() {
             }
 
             ledDriver.process();
-            
+
+            dac.update();
+
             LL_GPIO_TogglePin(CLOCK_OUT_GPIO_Port, CLOCK_OUT_Pin);
+
         }
         
         // render debug log output
