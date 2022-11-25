@@ -8,6 +8,9 @@
         "*.tcc": "cpp",
         "unordered_map": "cpp",
         "numeric": "cpp",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "bitset": "cpp",
+        "memory": "cpp",
+        "random": "cpp"
     }
 }

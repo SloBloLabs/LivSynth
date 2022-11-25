@@ -150,6 +150,7 @@ void Engine::setCV(PotEvent &event) {
 // called by Clock::notifyObservers
 void Engine::onClockOutput(const IClockObserver::OutputState& state) {
     dio.setClock(!state.clock); // needs inversion due to hardware configuration
+    dio.setReset(!state.reset);
 }
 
 void Engine::updateTrackSetup() {

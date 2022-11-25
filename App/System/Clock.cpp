@@ -147,6 +147,8 @@ void Clock::outputTick(uint32_t tick) {
 void Clock::outputClock(bool clock) {
     if(clock != _outputState.clock) {
         _outputState.clock = clock;
+        // create reset trigger on 8th clock pulse
+        _outputState.reset = !(_tick % (48 * 8));
         notifyObservers();
     }
 }
