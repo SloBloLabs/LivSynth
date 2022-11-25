@@ -16,7 +16,7 @@ public:
 
     void init();
     void handleControls();
-    void renderSequence();
+    void renderUI();
     void updateCV();
 
 private:
@@ -35,4 +35,5 @@ private:
 
     CVReader _cvReader;
     float _cvValue[CONFIG_NUM_POTS];
+    float _hue;
 };

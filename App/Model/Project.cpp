@@ -6,7 +6,7 @@ Project::Project() {
 
 void Project::clear() {
     // TODO: define default project values
-    setTempo(20.f);
+    setTempo(120.f);
     setSwing(50);
     setTimeSignature(TimeSignature());
     _clockSetup.clear();

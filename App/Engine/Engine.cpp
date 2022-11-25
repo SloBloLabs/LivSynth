@@ -26,6 +26,8 @@ bool Engine::update() {
     float dt = (0.001f * (systemTicks - _lastSystemTicks));
     _lastSystemTicks = systemTicks;
 
+    _clock.setMasterBpm(_project.tempo());
+
     updateClockSetup();
 
     // TODO:
@@ -103,6 +105,10 @@ void Engine::keyDown(KeyEvent &event) {
             setCvOutputOverride(true);
             _selectedStep = event.key().code();
             setCvOutput(sequence.step(_selectedStep).note());
+        } else if(event.key().isPlay()) {
+            togglePlay();
+        } else if(event.key().isShift()) {
+
         }
     }
 }
@@ -117,17 +123,33 @@ void Engine::keyUp(KeyEvent &event) {
 }
 
 void Engine::setCV(PotEvent &event) {
-    if(gateOutputOverride()) {
-        NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
-        //DBG("value:%.2f", event.value());
-        sequence.step(_selectedStep).setNote(event.value() * 0xFFF);
-        setCvOutput(sequence.step(_selectedStep).note());
+    if(event.index() == 0) {
+        // Pitch
+        if(gateOutputOverride()) {
+            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
+            //DBG("value:%.2f", event.value());
+            sequence.step(_selectedStep).setNote(event.value() * 0xFFF);
+            setCvOutput(sequence.step(_selectedStep).note());
+        }
+    } else if(event.index() == 1) {
+        // Tempo
+        /*
+        0 - 4095 ^= 20 - 300 bpm
+        0    -> 20
+        4095 -> 300
+        f(x) = mx + b = dy/dx * x + b = (300 - 20) / 4095 * x + b
+        f(0) = 280/4095 * 0 + b = 20
+        f(x) = 280/4096 * x + 20
+        */
+        float bpm =  280.f * event.value() + 20.f;
+        DBG("New BPM:%.2f", bpm);
+        _model.project().setTempo(bpm);
     }
 }
 
 // called by Clock::notifyObservers
 void Engine::onClockOutput(const IClockObserver::OutputState& state) {
-    dio.setClock(state.clock);
+    dio.setClock(!state.clock); // needs inversion due to hardware configuration
 }
 
 void Engine::updateTrackSetup() {

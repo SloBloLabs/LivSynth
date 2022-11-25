@@ -14,6 +14,7 @@ void UiController::init() {
     for(size_t i = 0; i < CONFIG_NUM_POTS; ++i) {
         _cvValue[i] = 0.f;
     }
+    _hue = 0.f;
 }
 
 /*void UiController::update() {
@@ -53,15 +54,29 @@ void UiController::handleControls() {
     }
 }
 
-void UiController::renderSequence() {
+void UiController::renderUI() {
     ledDriver.clear();
     uint8_t pattern = _engine.trackEngine()->pattern();
     uint8_t currentStep = reinterpret_cast<NoteTrackEngine*>(_engine.trackEngine())->currentStep();
     NoteSequence &sequence = _model.project().noteSequence(pattern);
     uint8_t firstStep = sequence.firstStep();
     uint8_t lastStep = sequence.lastStep();
-    bool gate;
+
+    bool     gate;
     uint32_t note;
+
+    if(_engine.clockRunning()) {
+        gate = sequence.step(currentStep).gate();
+        note = sequence.step(currentStep).note();
+        ledDriver.setColourHSV(8, hueFromNote(note), gate ? 1.f : 0.f, gate ? 1.f : .1f);
+        ledDriver.setColourHSV(9, hueFromNote(note), gate ? 1.f : 0.f, 1.f);
+    } else {
+        _hue += 5.f;
+        if(_hue >= 360.f) _hue -= 360.f;
+        ledDriver.setColourHSV(8, _hue, 1.f, 1.f); // red play button
+        ledDriver.setColourHSV(9, 1.f, 0.f, 0.f); // off
+    }
+
     for(uint8_t step = firstStep; step <= lastStep; ++step) {
         gate = sequence.step(step).gate();
         note = sequence.step(step).note();
@@ -115,5 +130,6 @@ void UiController::handleEvent(PotEvent event) {
         _engine.setCV(event);
     } else if(event.index() == 1) {
         // Tempo
+        _engine.setCV(event);
     }
 }
