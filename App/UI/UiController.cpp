@@ -71,10 +71,18 @@ void UiController::renderUI() {
         ledDriver.setColourHSV(8, hueFromNote(note), gate ? 1.f : 0.f, gate ? 1.f : .1f);
         ledDriver.setColourHSV(9, hueFromNote(note), gate ? 1.f : 0.f, 1.f);
     } else {
+        // run button
         _hue += 5.f;
         if(_hue >= 360.f) _hue -= 360.f;
         ledDriver.setColourHSV(8, _hue, 1.f, 1.f); // red play button
-        ledDriver.setColourHSV(9, 1.f, 0.f, 0.f); // off
+
+        // tune pot
+        if(_engine.selectedStep() >= 0) {
+            note = sequence.step(_engine.selectedStep()).note();
+            ledDriver.setColourHSV(9, hueFromNote(note), 1.f, 1.f);
+        } else {
+            ledDriver.setColourHSV(9, 1.f, 0.f, 0.f); // off
+        }
     }
 
     for(uint8_t step = firstStep; step <= lastStep; ++step) {
@@ -91,7 +99,7 @@ void UiController::renderUI() {
             // Note : C           D            E             F#            G#            A#            C
             // 12bit: 0           136          272           408           544           680           816
             // 12bit value = octave [0-4] * 816 + hue * 816 / 360
-            ledDriver.setColourHSV(step, hueFromNote(note), 1.f, step == currentStep ? 1.f : .1f);
+            ledDriver.setColourHSV(step, hueFromNote(note), 1.f, step == currentStep || step == _engine.selectedStep() ? 1.f : .1f);
         } else if(step == currentStep) {
             ledDriver.setColourHSV(step, 0.f, 0.f, .05f);
         }

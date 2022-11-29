@@ -21,6 +21,7 @@ void Engine::init() {
     updateTrackSetup();
 }
 
+// called from main loop each ms
 bool Engine::update() {
     uint32_t systemTicks = System::ticks();
     float dt = (0.001f * (systemTicks - _lastSystemTicks));
@@ -29,10 +30,6 @@ bool Engine::update() {
     _clock.setMasterBpm(_project.tempo());
 
     updateClockSetup();
-
-    // TODO:
-    // read adc input
-    // read buttons (?)
 
     uint32_t tick;
     bool outputUpdated = false;
@@ -45,7 +42,6 @@ bool Engine::update() {
             updateTrackOutputs();
             updateOverrides();
             outputUpdated = true;
-            // notify UI?
         }
     }
     
@@ -53,9 +49,10 @@ bool Engine::update() {
         _trackEngine->update(dt);
         updateTrackOutputs();
         updateOverrides();
-
-        dac.update();
-        dio.update();
+        updatePeripherals();
+    } else if(!clockRunning()) {
+        updateOverrides();
+        updatePeripherals();
     }
 
     return outputUpdated || static_cast<NoteTrackEngine*>(_trackEngine)->stepTriggered();
@@ -90,7 +87,6 @@ uint32_t Engine::measureDivisor() const {
     return _project.timeSignature().measureDivisor();
 }
 
-
 void Engine::keyDown(KeyEvent &event) {
     NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
     if(event.count() > 1) {
@@ -108,15 +104,17 @@ void Engine::keyDown(KeyEvent &event) {
         } else if(event.key().isPlay()) {
             togglePlay();
         } else if(event.key().isShift()) {
-
+            // TODO: implement shifted modes
         }
     }
 }
 
 void Engine::keyUp(KeyEvent &event) {
     if(event.key().isStep() && event.key().none()) {
-        setGateOutputOverride(false);
         setGateOutput(false);
+        updateOverrides();
+        updatePeripherals();
+        setGateOutputOverride(false);
         setCvOutputOverride(false);
         _selectedStep = -1;
     }
@@ -149,8 +147,8 @@ void Engine::setCV(PotEvent &event) {
 
 // called by Clock::notifyObservers
 void Engine::onClockOutput(const IClockObserver::OutputState& state) {
-    dio.setClock(!state.clock); // needs inversion due to hardware configuration
-    dio.setReset(!state.reset);
+    dio.setClock(state.clock);
+    dio.setReset(state.reset);
 }
 
 void Engine::updateTrackSetup() {
@@ -169,11 +167,16 @@ void Engine::updateTrackOutputs() {
 
 void Engine::updateOverrides() {
     if(_gateOutputOverride) {
-        dio.setGate(_gateOutputOverrideValue);
+        dio.setGate(_gateOverrideValue);
     }
     if(_cvOutputOverride) {
         dac.setValue(_cvOverrideValue);
     }
+}
+
+void Engine::updatePeripherals() {
+    dac.update();
+    dio.update();
 }
 
 void Engine::initClock() {

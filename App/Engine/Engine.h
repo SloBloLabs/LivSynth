@@ -28,7 +28,7 @@ public:
     // gate overrides
     inline bool gateOutputOverride() const { return _gateOutputOverride; }
     inline void setGateOutputOverride(bool enabled) { _gateOutputOverride = enabled; }
-    inline void setGateOutput(bool gate) { _gateOutputOverrideValue = gate; }
+    inline void setGateOutput(bool gate) { _gateOverrideValue = gate; }
 
     // cv overrides
     inline bool cvOutputOverride() const { return _cvOutputOverride; }
@@ -53,6 +53,7 @@ private:
     void updateTrackSetup();
     void updateTrackOutputs();
     void updateOverrides();
+    void updatePeripherals();
 
     void initClock();
     
@@ -68,7 +69,7 @@ private:
 
     // gate output overrides
     bool _gateOutputOverride = false;
-    bool _gateOutputOverrideValue = 0;
+    bool _gateOverrideValue = 0;
 
     // cv output overrides
     bool _cvOutputOverride = false;

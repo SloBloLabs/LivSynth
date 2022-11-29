@@ -59,7 +59,6 @@ bool NoteTrackEngine::tick(uint32_t tick) {
 }
 
 void NoteTrackEngine::update(float dt) {
-    //TODO: update Gate and CV
     _cvOutput = _cvOutputTarget;
 }
 

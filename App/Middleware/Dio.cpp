@@ -2,7 +2,7 @@
 #include "main.h"
 
 void Dio::setClock(bool clock) {
-    _clock = clock;
+    _clock = !clock; // needs inversion due to hardware configuration
     if(_clock) {
         LL_GPIO_SetOutputPin(CLOCK_OUT_GPIO_Port, CLOCK_OUT_Pin);
     } else {
@@ -11,7 +11,7 @@ void Dio::setClock(bool clock) {
 }
 
 void Dio::setReset(bool reset) {
-    _reset = reset;
+    _reset = !reset; // needs inversion due to hardware configuration
     if(_reset) {
         LL_GPIO_SetOutputPin(RESET_OUT_GPIO_Port, RESET_OUT_Pin);
     } else {
