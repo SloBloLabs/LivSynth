@@ -1,6 +1,12 @@
 #include "Dio.h"
 #include "main.h"
 
+void Dio::init() {
+    setClock(false);
+    setReset(false);
+    setGate(false);
+}
+
 void Dio::setClock(bool clock) {
     _clock = !clock; // needs inversion due to hardware configuration
     if(_clock) {

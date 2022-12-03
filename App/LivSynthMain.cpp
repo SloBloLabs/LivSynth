@@ -38,6 +38,7 @@ void appMain() {
 
     System::init();
     clockTimer.init();
+    dio.init();
     adc.init();
     dac.init();
     shiftRegister.init();
@@ -116,6 +117,7 @@ void appADCCompleteRequest() {
 void testMain() {
     System::init();
     //clockTimer.init();
+    dio.init();
     adc.init();
     dac.init();
     shiftRegister.init();
