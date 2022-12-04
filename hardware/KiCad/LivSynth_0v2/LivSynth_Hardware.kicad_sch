@@ -208,7 +208,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 70939261-1769-4cce-86d8-4acffc820913)
   )
-  (text "Todos:\n - Done: Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - Soldering holes for 12BH6211-GR too big, 1mm sufficient\n - Make D1 Schottky Diode\n - Increase C26 -> 1u\n - Redesign EG LED schematic\n - Invert RV3 (VCF Cutoff) and RV7 (VCF Resonance) connection (left: close/none, right: open/full)\n - Invert RV11 (VCA Bias) connection (left: close, right: open)\n - Reference EG -> VGND!\n - Check EG timing: Decay should be slower\n - Apply attenuverters to the EG modulation paths\n - Add switch labels to front side\n - How to make the synth fully silent?\n - Add some debug pin to MCU\n - Add SloBlo icon\n - Add Schottky Diode from VBUS to LM1117 input, remove R56\n - Add MCU Debug pins\n - DFU only FS mode compatible. Reroute USB to PA11 and PA12\n - Connect unused SR inputs to GND\n - HC165: pull unused inputs to GND\n - add MCU reset button (pull to GND)\n - set SPI to Full-Duplex (add MOSI pin, left unused)\n - Tempo knob needs inversion\n - Pitch know needs inversion\n"
+  (text "Todos:\n - Done: Use GND + 3.3V copper pours (\"power paddles\") around voltage regulator section (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n - Soldering holes for 12BH6211-GR too big, 1mm sufficient\n - Make D1 Schottky Diode\n - Increase C26 -> 1u\n - Redesign EG LED schematic\n - Invert RV3 (VCF Cutoff) and RV7 (VCF Resonance) connection (left: close/none, right: open/full)\n - Invert RV11 (VCA Bias) connection (left: close, right: open)\n - Reference EG -> VGND!\n - Check EG timing: Decay should be slower\n - Apply attenuverters to the EG modulation paths\n - Add switch labels to front side\n - How to make the synth fully silent?\n - Add some debug pin to MCU\n - Add SloBlo icon\n - Add Schottky Diode from VBUS to LM1117 input, remove R56\n - Add MCU Debug pins\n - DFU only FS mode compatible. Reroute USB to PA11 and PA12\n - Connect unused SR inputs to GND\n - HC165: pull unused inputs to GND\n - add MCU reset button (pull to GND)\n - set SPI to Full-Duplex (add MOSI pin, left unused)\n - Tempo knob needs inversion\n - Pitch know needs inversion\n - EG: Connect R72 with D7 directly, otherwise looping does not work\n - R52 -> 2K\n - C26 -> 10uF\n - "
     (at 120.65 182.88 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8369b649-9f57-4556-ae55-956ffb497b7f)
@@ -1389,7 +1389,7 @@
       (reference "R33") (unit 1) (value "100K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/5bcd4196-1721-40ea-bafe-95ac02171038"
-      (reference "R34") (unit 1) (value "20K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R34") (unit 1) (value "4K7") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/a0830201-d177-4d04-9261-1bfa7e92760e/f8eadc45-80ee-4534-a705-4c60e25b1d15"
       (reference "R35") (unit 1) (value "1K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
