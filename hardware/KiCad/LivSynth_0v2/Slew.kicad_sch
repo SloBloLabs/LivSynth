@@ -590,7 +590,7 @@
     (property "Reference" "C40" (id 0) (at 200.66 100.9649 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "100n" (id 1) (at 200.66 103.5049 0)
+    (property "Value" "1u" (id 1) (at 200.66 103.5049 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
     (property "Footprint" "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2" (id 2) (at 197.8152 106.045 0)

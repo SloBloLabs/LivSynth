@@ -944,7 +944,7 @@
     (in_bom yes) (on_board yes) (fields_autoplaced)
     (uuid 1ccd901e-1147-46d8-9c11-269ae55164f6)
     (property "Reference" "R61" (id 0) (at 139.7 69.85 90))
-    (property "Value" "82K" (id 1) (at 139.7 72.39 90))
+    (property "Value" "51K" (id 1) (at 139.7 72.39 90))
     (property "Footprint" "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal" (id 2) (at 139.7 77.978 90)
       (effects (font (size 1.27 1.27)) hide)
     )
