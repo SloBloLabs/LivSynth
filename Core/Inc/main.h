@@ -82,6 +82,7 @@ void Error_Handler(void);
 #define GATE_OUT_GPIO_Port GPIOB
 #define LED_OEN_Pin LL_GPIO_PIN_12
 #define LED_OEN_GPIO_Port GPIOB
+
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
