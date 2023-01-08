@@ -36,7 +36,7 @@ struct SignedValue {
     }
 };
 
-// the following is based on https://blog.codef00.com/2014/12/06/portable-bitfields-using-c11/
+// the following is based on https://blog.codef00.com/2014/12/06/portable-bitfields-using-c11
 
 template<typename T, size_t Index, size_t Bits = 1>
 class BitField {

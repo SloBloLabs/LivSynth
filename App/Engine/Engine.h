@@ -75,5 +75,5 @@ private:
     bool _cvOutputOverride = false;
     float _cvOverrideValue = 0;
 
-    int _selectedStep = -1;
+    int _selectedStep = 0;
 };

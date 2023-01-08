@@ -44,7 +44,7 @@ void UiController::handleControls() {
     for(size_t i = 0; i < CONFIG_NUM_POTS; ++i) {
         cvValue = _cvReader.getCV(i);
         //DBG("%d ov:%.2f, nv:%.2f, diff:%.2f", i, _cvValue[i], cvValue, cvValue - _cvValue[i]);
-        if(std::abs(cvValue - _cvValue[i]) > 0.02) {
+        if(std::abs(cvValue - _cvValue[i]) > 0.01) {
             // trigger event
             //DBG("cv value updated: index=%d, value=%.2f", i, cvValue);
             _cvValue[i] = cvValue;
@@ -68,13 +68,16 @@ void UiController::renderUI() {
     if(_engine.clockRunning()) {
         gate = sequence.step(currentStep).gate();
         note = sequence.step(currentStep).note();
-        ledDriver.setColourHSV(8, hueFromNote(note), gate ? 1.f : 0.f, gate ? 1.f : .1f);
-        ledDriver.setColourHSV(9, hueFromNote(note), gate ? 1.f : 0.f, 1.f);
+        ledDriver.setColourHSV(Key::Code::Play, hueFromNote(note), gate ? 1.f : 0.f, gate ? 1.f : .1f);
+        if(_engine.selectedStep() >= 0) {
+            note = sequence.step(_engine.selectedStep()).note();
+        }
+        ledDriver.setColourHSV(9, hueFromNote(note), 1.f, 1.f);
     } else {
         // run button
         _hue += 5.f;
         if(_hue >= 360.f) _hue -= 360.f;
-        ledDriver.setColourHSV(8, _hue, 1.f, 1.f); // red play button
+        ledDriver.setColourHSV(Key::Code::Play, _hue, 1.f, 1.f); // red play button
 
         // tune pot
         if(_engine.selectedStep() >= 0) {
@@ -119,7 +122,7 @@ float UiController::hueFromNote(uint32_t note) {
 }
 
 void UiController::handleEvent(KeyEvent event) {
-    //DBG("KeyPressEvent type=%d, key=%d, count=%d", event.type(), event.key().code(), event.count());
+    //DBG("UiController::handleEvent type=%d, key=%d, count=%d", event.type(), event.key().code(), event.count());
     switch(event.type()) {
     case KeyEvent::KeyDown:
         _engine.keyDown(event);

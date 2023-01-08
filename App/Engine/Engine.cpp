@@ -88,6 +88,9 @@ uint32_t Engine::measureDivisor() const {
 }
 
 void Engine::keyDown(KeyEvent &event) {
+    DBG("Engine::keyDown key=%d, count=%d", event.key().code(), event.count());
+    //event.key().show();
+
     NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
     if(event.count() > 1) {
         if(event.key().isStep()) {
@@ -110,24 +113,35 @@ void Engine::keyDown(KeyEvent &event) {
 }
 
 void Engine::keyUp(KeyEvent &event) {
+    DBG("Engine::keyUp   makekey=%d, count=%d", event.key().code(), event.count());
+    //event.key().show();
+
     if(event.key().isStep() && event.key().none()) {
         setGateOutput(false);
         updateOverrides();
         updatePeripherals();
         setGateOutputOverride(false);
         setCvOutputOverride(false);
-        _selectedStep = -1;
+        //_selectedStep = -1;
+    } else if(event.key().isPlay()) {
+        setGateOutputOverride(true);
+        setGateOutput(false);
+        updatePeripherals();
+        setGateOutputOverride(false);
     }
 }
 
 void Engine::setCV(PotEvent &event) {
     if(event.index() == 0) {
         // Pitch
-        if(gateOutputOverride()) {
+        if(_selectedStep != -1) {
             NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
-            //DBG("value:%.2f", event.value());
+            DBG("Set Pitch:%.2f", event.value());
             sequence.step(_selectedStep).setNote(event.value() * 0xFFF);
-            setCvOutput(sequence.step(_selectedStep).note());
+            
+            if(gateOutputOverride()) {
+                setCvOutput(sequence.step(_selectedStep).note());
+            }
         }
     } else if(event.index() == 1) {
         // Tempo

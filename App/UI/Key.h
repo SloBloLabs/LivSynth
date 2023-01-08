@@ -2,6 +2,7 @@
 
 #include "Config.h"
 
+#include "swvPrint.h"
 #include <bitset>
 
 typedef std::bitset<CONFIG_NUM_BUTTONS> KeyState;
@@ -38,6 +39,10 @@ public:
     bool isStep() const { return _code >= Step1 && _code <= Step8; }
 
     bool none() const { return _state.none(); }
+
+    void show() const {
+        DBG("Key: code=%d, KeyState=%d", _code, static_cast<int>(_state[0]));
+    }
 
 private:
     int _code;
