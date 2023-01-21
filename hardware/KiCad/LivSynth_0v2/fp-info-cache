@@ -1,4 +1,4 @@
-20833812769152085
+20835487100097553
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -80568,6 +80568,13 @@ LSM-50M NO-B
 
 0
 4
+2
+SloBlo
+NetTie-2_SMD_Pad0.5mm_noCourtyard
+Net tie, 2 pin, 0.5mm square SMD pads
+net tie
+0
+2
 2
 SloBlo
 Potentiometer_Bourns_3296W_Vertical

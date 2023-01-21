@@ -983,6 +983,12 @@
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/fe28dae8-7879-4235-b12b-8b3d8d0c7826"
       (reference "#PWR0301") (unit 1) (value "GND") (footprint "")
     )
+    (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/ceec0675-d56c-4cc7-b5f0-20cfdbf47f7a"
+      (reference "#PWR0302") (unit 1) (value "+3.3V") (footprint "")
+    )
+    (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/4702fe05-67fb-4fae-952f-50610c452b01"
+      (reference "#PWR0303") (unit 1) (value "GND") (footprint "")
+    )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/838962b7-78ac-41a6-a7d5-6a8d9b4f8397"
       (reference "BT1") (unit 1) (value "9V") (footprint "Battery:BatteryHolder_Eagle_12BH611-GR")
     )
@@ -1312,6 +1318,9 @@
     )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/049d0aa8-7a48-4fa2-9247-8fe3e96f92c6"
       (reference "J301") (unit 1) (value "Debug") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
+    )
+    (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/aa20ae3a-d7f5-4b84-b0e5-a4feeb6a6fe4"
+      (reference "J302") (unit 1) (value "JTAG") (footprint "Connector_PinHeader_1.27mm:PinHeader_2x05_P1.27mm_Vertical")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/a7fe1d31-873f-4c17-b330-04ee00fbee5d"
       (reference "L201") (unit 1) (value "1u5") (footprint "Inductor_SMD:L_Sunlord_SWPA5020S")
