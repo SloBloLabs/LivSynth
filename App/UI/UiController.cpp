@@ -44,7 +44,7 @@ void UiController::handleControls() {
     for(size_t i = 0; i < CONFIG_NUM_POTS; ++i) {
         cvValue = _cvReader.getCV(i);
         //DBG("%d ov:%.2f, nv:%.2f, diff:%.2f", i, _cvValue[i], cvValue, cvValue - _cvValue[i]);
-        if(std::abs(cvValue - _cvValue[i]) > 0.01) {
+        if(std::abs(cvValue - _cvValue[i]) > 0.001) {
             // trigger event
             //DBG("cv value updated: index=%d, value=%.2f", i, cvValue);
             _cvValue[i] = cvValue;
@@ -118,7 +118,8 @@ void UiController::updateCV() {
 }
 
 float UiController::hueFromNote(uint32_t note) {
-    return ((note % 816) * 360.f) / 816;
+    uint16_t partsPerOctave = 4095.f / (12 * 5 + 1) * 12;
+    return ((note % partsPerOctave) * 360.f) / partsPerOctave;
 }
 
 void UiController::handleEvent(KeyEvent event) {

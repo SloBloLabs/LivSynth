@@ -1,4 +1,4 @@
-20832137184115836
+20833812769152085
 Audio_Module
 Reverb_BTDR-1H
 Digital Reverberation Unit, http://www.belton.co.kr/inc/downfile.php?seq=17&file=pdf (footprint from http://www.uk-electronic.de/PDF/BTDR-1.pdf)
@@ -80562,6 +80562,13 @@ LQFP QFP
 0
 64
 64
+SloBlo
+LSM-50M NO-B
+
+
+0
+4
+2
 SloBlo
 Potentiometer_Bourns_3296W_Vertical
 Potentiometer, vertical, Bourns 3296W, https://www.bourns.com/pdfs/3296.pdf
