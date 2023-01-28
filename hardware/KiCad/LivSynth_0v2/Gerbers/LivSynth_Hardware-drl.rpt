@@ -1,0 +1,43 @@
+Drill report for LivSynth_Hardware.kicad_pcb
+Created on 2023 January 28, Saturday 16:51:16
+
+Copper Layer Stackup:
+    =============================================================
+    L1 :  F.Cu                      front
+    L2 :  B.Cu                      back
+
+
+Drill file 'LivSynth_Hardware-PTH.drl' contains
+    plated through holes:
+    =============================================================
+    T1  0.200mm  0.0079"  (12 holes)
+    T2  0.300mm  0.0118"  (1288 holes)
+    T3  0.400mm  0.0157"  (6 holes)
+    T4  0.550mm  0.0217"  (2 holes)  (with 2 slots)
+    T5  0.650mm  0.0256"  (10 holes)
+    T6  0.750mm  0.0295"  (48 holes)
+    T7  0.800mm  0.0315"  (416 holes)
+    T8  0.850mm  0.0335"  (2 holes)  (with 2 slots)
+    T9  0.900mm  0.0354"  (22 holes)
+    T10  1.000mm  0.0394"  (142 holes)  (with 12 slots)
+    T11  1.100mm  0.0433"  (22 holes)  (with 18 slots)
+    T12  1.200mm  0.0472"  (8 holes)
+    T13  1.220mm  0.0480"  (3 holes)
+    T14  1.420mm  0.0559"  (3 holes)
+    T15  1.430mm  0.0563"  (3 holes)
+    T16  1.600mm  0.0630"  (17 holes)  (with 14 slots)
+    T17  2.400mm  0.0945"  (2 holes)
+    T18  3.200mm  0.1260"  (2 holes)
+
+    Total plated holes count 2008
+
+
+Drill file 'LivSynth_Hardware-NPTH.drl' contains
+    unplated through holes:
+    =============================================================
+    T1  0.800mm  0.0315"  (2 holes)
+    T2  1.152mm  0.0454"  (3 holes)
+    T3  2.600mm  0.1024"  (3 holes)
+    T4  3.200mm  0.1260"  (4 holes)
+
+    Total unplated holes count 12
