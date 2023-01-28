@@ -512,9 +512,7 @@
     ]
   ],
   "text_variables": {
-    "VCF_C_Value": "1n",
-    "VCF_Rbig_Value": "10K",
-    "VCF_Rsmall_Value": "200",
+    "VCF_Rsmall_Value": "100",
     "Version": "0v2"
   }
 }

@@ -208,7 +208,7 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 70939261-1769-4cce-86d8-4acffc820913)
   )
-  (text "Todos:\n\nSchematic:\n\nPCB:\n - Use GND + 3.3V copper pours (\"power paddles\") around\n   voltage regulator section\n   (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25\n\nDone:\n - Power: Add voltage and current test points\n - MCU: use PA11/PA12 for USB DFU interface\n - MCU: add NRST reset switch\n - Slew: increase portamento cap\n - VCO: invert trim pots\n - VCF: let resonance kick in earlier\n - VCF: invert pots\n - VCA: invert trim pot\n - EG: full redesign, properly referencing VGND now\n - LFO: R61 = 51K\n - ModMatrix: add EG attenuverters\n - IO: invert pots\n - IO: limit output gain for 1W speaker\n - IO: connect BTN_SHIFT in gap free order to SR\n - Power: Build ververse polarity protection using P-Mosfet and Zener Diode\n     - (https://www.youtube.com/watch?v=Ltx4vovY5Z4 - 1:28)\n - Power: Build adjustable buck regulator for 8-9V stable voltage source\n - PCB: Add location for order number (\"JLCJLCJLCJLC\")\n - General: Add Tooling Holes for PCB assembly\n - PCB: check frontend component layout for symmetry\n - VCF: fix sound issues\n - PCB: Add SloBlo icon\n - PCB: Add switch labels to front side\n - EG: test new design\n - MCU: Add some debug pins"
+  (text "Todos:\n\nPCB:\n - \nSchematic:\n - \n\nDone:\n - Power: Add voltage and current test points\n - MCU: use PA11/PA12 for USB DFU interface\n - MCU: add NRST reset switch\n - Slew: increase portamento cap\n - VCO: invert trim pots\n - VCF: let resonance kick in earlier\n - VCF: invert pots\n - VCA: invert trim pot\n - EG: full redesign, properly referencing VGND now\n - LFO: R61 = 51K\n - ModMatrix: add EG attenuverters\n - IO: invert pots\n - IO: limit output gain for 1W speaker\n - IO: connect BTN_SHIFT in gap free order to SR\n - Power: Build ververse polarity protection using P-Mosfet and Zener Diode\n     - (https://www.youtube.com/watch?v=Ltx4vovY5Z4 - 1:28)\n - Power: Build adjustable buck regulator for 8-9V stable voltage source\n - PCB: Add location for order number (\"JLCJLCJLCJLC\")\n - General: Add Tooling Holes for PCB assembly\n - PCB: check frontend component layout for symmetry\n - VCF: fix sound issues\n - PCB: Add SloBlo icon\n - PCB: Add switch labels to front side\n - EG: test new design\n - MCU: Add some debug pins\n - PCB: Use GND + 3.3V copper pours (\"power paddles\") around\n   voltage regulator section\n   (https://www.youtube.com/watch?v=aVUqaB0IMh4 1:29:30)\n   - Clearance 0.3, Minimum width 0.25"
     (at 212.09 99.695 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 8369b649-9f57-4556-ae55-956ffb497b7f)
@@ -1104,7 +1104,7 @@
       (reference "C39") (unit 1) (value "100n") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
     )
     (path "/9b71f1c4-49e8-4b79-9df9-1d6c393fba92/1fbb261a-fa29-467e-9429-2a5861057524"
-      (reference "C40") (unit 1) (value "1u") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
+      (reference "C40") (unit 1) (value "1u") (footprint "Capacitor_THT:C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/0156eb88-117a-4faf-a1df-a63c12c3548c"
       (reference "C41") (unit 1) (value "100n") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
@@ -1170,7 +1170,7 @@
       (reference "C207") (unit 1) (value "22u") (footprint "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/bd2b7833-3c88-4421-ae0e-a9a4b29f10e8"
-      (reference "C208") (unit 1) (value "100n") (footprint "Capacitor_THT:C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
+      (reference "C208") (unit 1) (value "100n") (footprint "Capacitor_SMD:C_0402_1005Metric_Pad0.74x0.62mm_HandSolder")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/679d45a9-4fdd-4e96-9e76-e0eac0c82126"
       (reference "C209") (unit 1) (value "1u") (footprint "Capacitor_THT:C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2")
@@ -1575,7 +1575,7 @@
       (reference "R70") (unit 1) (value "100K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/5aaacbb9-88fb-43a3-831a-2f23f0fa8f62"
-      (reference "R71") (unit 1) (value "100") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R71") (unit 1) (value "${VCF_Rsmall_Value}") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/7424e654-f944-437f-a698-e5c80517338a/baff0e71-7627-4382-9811-c3cb28e77f6f"
       (reference "R72") (unit 1) (value "100K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
@@ -1590,7 +1590,7 @@
       (reference "R75") (unit 1) (value "2K2") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/cfff1b88-065a-4ed6-bc82-13879cd02210"
-      (reference "R76") (unit 1) (value "100") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R76") (unit 1) (value "${VCF_Rsmall_Value}") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/38e5e28b-df11-4878-9e47-3fa58f23e72e"
       (reference "R77") (unit 1) (value "10K") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
@@ -1626,7 +1626,7 @@
       (reference "R87") (unit 1) (value "4K7") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/83b4dcb1-a701-49ab-826f-3fda44becbd6"
-      (reference "R88") (unit 1) (value "100") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R88") (unit 1) (value "${VCF_Rsmall_Value}") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/fc3be260-52f8-420b-b665-46ae48299b5f"
       (reference "R89") (unit 1) (value "4k7") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
@@ -1635,7 +1635,7 @@
       (reference "R90") (unit 1) (value "2K7") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/5d649fb5-ecd1-44ac-be03-312121ece057"
-      (reference "R91") (unit 1) (value "100") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
+      (reference "R91") (unit 1) (value "${VCF_Rsmall_Value}") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
     )
     (path "/2b2b077d-6195-4e26-8c81-d35bbd189e15/8d1ac0c1-61b0-4707-abfd-c1a9b9bf36c9"
       (reference "R92") (unit 1) (value "2K7") (footprint "Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal")
