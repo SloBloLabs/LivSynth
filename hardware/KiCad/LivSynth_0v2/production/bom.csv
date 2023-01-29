@@ -1,98 +1,97 @@
 Designator,Footprint,Quantity,Value,LCSC Part #
 BT1,BatteryHolder_Eagle_12BH611-GR,1,9V,
-"C10, C12, C14, C15, C18, C24, C25, C28, C29, C3, C301, C38, C39, C4, C41, C42, C5, C52, C53, C54, C9",C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,21,100n,
-C11,CP_Radial_D8.0mm_P3.50mm,1,33u,
-"C13, C16",C_Disc_D3.0mm_W1.6mm_P2.50mm,2,1p,
-"C17, C27",C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,2,1n,
-C19,C_Disc_D3.0mm_W1.6mm_P2.50mm,1,47p,
-"C2, C209, C210, C23, C34, C35, C40, C49",C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,8,1u,
-"C20, C501, C51, C8",CP_Radial_D8.0mm_P3.50mm,4,10u,
-"C201, C202",C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,2,10u, C109040
-"C203, C204",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,2,10u, C96446
-"C205, C206, C207",C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,3,22u,C415296
-C208,C_0402_1005Metric_Pad0.74x0.62mm_HandSolder,1,100n, C1523
-"C21, C6, C7",C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,3,270n,
-C22,CP_Radial_D8.0mm_P3.50mm,1,470u,
-"C30, C37",C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,2,10n,
-C31,CP_Radial_D8.0mm_P3.50mm,1,22u,
-"C32, C43",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,2,2.2u,C268016
-"C33, C36, C44, C45, C46, C47",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,6,100n,C282518
-"C48, C50",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,2,26p,C519484
-"D10, D2, D3, D4, D6, D9",LED_D5.0mm,6,LED,
-"D11, D7, D8",D_DO-35_SOD27_P7.62mm_Horizontal,3,1N4148,
-D201,D_SOD-123,1,8V2, C438308
-D202,D_SMC_Handsoldering,1,SS310,
-D5,LED_D5.0mm-4_RGB,1,LED_RKGB,
+"C1, C19, C2, C25, C32, C33, C41, C9",C_Rect_L7.2mm_W5.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,8,1u,
+C10,CP_Radial_D8.0mm_P3.50mm,1,33u,
+"C11, C8",C_Disc_D3.0mm_W1.6mm_P2.50mm,2,1p,
+"C12, C13, C16, C17, C18, C26, C27, C3, C30, C31, C34, C35, C37, C4, C43, C58, C59, C6, C61, C62, C7",C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,21,100n,
+"C14, C23, C24",C_Rect_L7.2mm_W4.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,3,270n,
+"C15, C22, C45, C49",CP_Radial_D8.0mm_P3.50mm,4,10u,
+"C20, C5",C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,2,1n,
+"C21, C36",C_Rect_L7.2mm_W2.5mm_P5.00mm_FKS2_FKP2_MKS2_MKP2,2,10n,
+C28,C_Disc_D3.0mm_W1.6mm_P2.50mm,1,47p,
+C29,CP_Radial_D8.0mm_P3.50mm,1,470u,
+"C38, C40, C42, C48, C50, C51",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,6,100n,C282518
+"C39, C46",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,2,2.2u,C268016
+"C44, C47",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,2,26p,C519484
+C52,CP_Radial_D8.0mm_P3.50mm,1,22u,
+"C53, C54, C55",C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,3,22u,C415296
+"C56, C60",C_0603_1608Metric_Pad1.08x0.95mm_HandSolder,2,10u, C96446
+C57,C_0402_1005Metric_Pad0.74x0.62mm_HandSolder,1,100n, C1523
+"C63, C64",C_0805_2012Metric_Pad1.18x1.45mm_HandSolder,2,10u, C109040
+"D1, D10, D2, D5, D8, D9",LED_D5.0mm,6,LED,
+"D11, D6, D7",D_DO-35_SOD27_P7.62mm_Horizontal,3,1N4148,
+D12,D_SMC_Handsoldering,1,SS310,
+D3,LED_D5.0mm-4_RGB,1,LED_RKGB,
+D4,D_SOD-123,1,8V2, C438308
 FB1,L_0603_1608Metric,1,120R@100MHz,
-"H1, H2, H3, H4",MountingHole_3.2mm_M3,4,MountingHole,
+"H1, H2, H5, H6",MountingHole_3.2mm_M3,4,MountingHole,
 "J1, J2, J3",Thonkiconn_PJ398SM,3,PJ398SM,
-"J10, J11, J12, J13, J14, J15, J17, J18, J6, J7, J8, J9",PinHeader_1x02_P2.54mm_Vertical,12,Jumper,
-J16,USB_Micro-B_Wuerth_629105150521,1,USB_B_Micro,
-J19,PinHeader_1x06_P2.54mm_Vertical,1,SWD,
-J201,PinHeader_1x02_P2.54mm_Vertical,1,9V,
-J202,PinHeader_1x02_P2.54mm_Vertical,1,VGND,
-J203,PinHeader_1x06_P2.54mm_Vertical,1,Test Points,
-J204,PinHeader_1x02_P2.54mm_Vertical,1,3V3,
-J301,PinHeader_1x02_P2.54mm_Vertical,1,Debug,
-J302,PinHeader_2x05_P1.27mm_Vertical,1,JTAG,
+"J10, J11, J13, J14, J15, J16, J17, J18, J19, J22, J8, J9",PinHeader_1x02_P2.54mm_Vertical,12,Jumper,
+J12,PinHeader_1x02_P2.54mm_Vertical,1,VGND,
+J201,PinHeader_1x06_P2.54mm_Vertical,1,Test Points,
+J21,USB_Micro-B_Wuerth_629105150521,1,USB_B_Micro,
+J23,PinHeader_1x02_P2.54mm_Vertical,1,Debug,
+J24,PinHeader_1x02_P2.54mm_Vertical,1,3V3,
+J25,PinHeader_1x02_P2.54mm_Vertical,1,9V,
 J4,PinHeader_1x02_P2.54mm_Vertical,1,IDC,
-J5,BarrelJack_CUI_PJ-102AH_Horizontal,1,Barrel_Jack_Switch,
-L201,L_Sunlord_SWPA5020S,1,1u5,C279945
+J5,PinHeader_1x06_P2.54mm_Vertical,1,SWD,
+J6,PinHeader_2x05_P1.27mm_Vertical,1,JTAG,
+J7,BarrelJack_CUI_PJ-102AH_Horizontal,1,Barrel_Jack_Switch,
+L1,L_Sunlord_SWPA5020S,1,1u5,C279945
 LS1,LSM-50M NO-B,1,LSM-50M/NO-B 8R (<32R) 1W,
-"NT1, NT2, NT3, NT4, NT5",NetTie-2_SMD_Pad0.5mm,5,NetTie_2,
-"Q1, Q12, Q13, Q14, Q15, Q16, Q2, Q3, Q4, Q5, Q501, Q502, Q6, Q7",TO-92_Inline,14,2N3904,
-"Q10, Q9",TO-92_Inline,2,2N3906,
-Q201,SOT-23,1,AO3401A,C347476
-"R10, R101, R102, R106, R107, R110, R113, R115, R118, R121, R122, R124, R126, R127, R79, R80, R95, R96, R99",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,19,220R,
-"R100, R103, R104, R105, R108, R109, R14, R16, R30, R301, R74, R77, R82, R93, R94, R97, R98",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,17,10K,
-"R111, R112, R37, R44, R87, R89",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,6,4K7,
-"R114, R116, R117, R119, R120, R123, R125, R128, R81",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,9,470R,
-"R13, R15, R35, R54, R65, R67, R8, R9",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,8,1K,
-"R17, R20, R53",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,3,20K,
-"R19, R29, R32, R40, R48, R52",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,6,2K,
-"R201, R206, R207, R23, R24, R26, R27, R3, R31, R33, R39, R4, R43, R50, R51, R55, R60, R62, R64, R66, R69, R7, R70, R701, R702, R703, R704, R72, R83, R84, R86",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,31,100K,
-R202,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,10K, C25804
-R203,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,402K, C844562
-R204,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,100K,
-R205,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,39K, C163424
-R22,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,100R,
-"R25, R28, R58",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,3,47K,
-R34,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,6K2,
-"R38, R78",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,390,
-"R41, R68",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,1M,
-"R45, R73",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,82K,
-R47,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,8K2,
-R49,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,470K,
+"Q1, Q10, Q11, Q12, Q13, Q14, Q15, Q16, Q17, Q2, Q4, Q5, Q6, Q7",TO-92_Inline,14,2N3904,
+Q3,SOT-23,1,AO3401A,C347476
+"Q8, Q9",TO-92_Inline,2,2N3906,
+"R1, R10, R11, R12, R13, R19, R2, R21, R22, R26, R3, R32, R37, R38, R39, R4, R40, R44, R47, R51, R56, R64, R66, R72, R78, R79, R80, R81, R82, R83, R87",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,31,100K,
+"R100, R101, R102, R103, R104, R117, R119, R121, R123, R125, R127, R129, R131, R14, R88, R91, R97, R98, R99",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,19,220R,
+"R105, R106, R107, R108, R109, R110, R111, R112, R113, R114, R29, R30, R34, R68, R69, R73, R89",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,17,10K,
+R115,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,10K, C25804
+"R116, R118, R120, R122, R124, R126, R128, R130, R90",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,9,470R,
+"R15, R16, R25, R27, R35, R45, R46, R48",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,8,1K,
+"R17, R18, R59",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,3,47K,
+"R20, R60",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,82K,
+"R23, R7, R9",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,3,20K,
+"R24, R31, R33, R36, R42, R54",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,6,2K,
+"R28, R52, R74, R77, R92, R93",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,6,4K7,
+R41,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,6K2,
+R43,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,470K,
+R49,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,820K,
 "R5, R6",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,360,
-R501,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,820K,
-R57,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,150K,
-R59,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,10R,
-R61,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,51K,
-R63,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,24K,
-"R71, R76, R88, R91",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,4,100,
-R75,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,2K2,
-R85,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,330K,
-"R90, R92",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,2K7,
+R50,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,100R,
+R53,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,8K2,
+R55,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,2K2,
+R57,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,24K,
+R58,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,150K,
+R61,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,10R,
+"R62, R63",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,1M,
+"R65, R8",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,390,
+"R67, R70, R75, R76",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,4,100,
+R71,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,51K,
+R84,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,330K,
+"R85, R86",R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,2,2K7,
+R94,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,402K, C844562
+R95,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,39K, C163424
+R96,R_0603_1608Metric_Pad0.98x0.95mm_HandSolder,1,100K,
 "RGB_Pot1, RGB_Pot2, RGB_Pot3, RGB_Pot4, RGB_Pot5, RGB_Pot6, RGB_Pot7, RGB_Pot8, RGB_Pot9",TC002-N11AS2XT-RGB,9,TC002-N11AS2XT-RGB,
-"RV1, RV7",RV141F-40-20BL,2,10K,
-RV1001,Potentiometer_Bourns_3296W_Vertical,1,1K,
-"RV11, RV14, RV15, RV18, RV19, RV20, RV21, RV6",Alpha_RD901F,8,100K,
-"RV12, RV16, RV17",Potentiometer_Bourns_3296W_Vertical,3,100K,
-"RV13, RV2",Potentiometer_Bourns_3296W_Vertical,2,100,
-RV22,Alpha_RD901F,1,10K,
-"RV3, RV4, RV5, RV8, RV9",RV141F-40-20BL,5,100K,
+RV1,Potentiometer_Bourns_3296W_Vertical,1,1K,
+"RV10, RV11, RV5, RV6, RV7",RV141F-40-20BL,5,100K,
+"RV12, RV2",Potentiometer_Bourns_3296W_Vertical,2,100,
+"RV13, RV14, RV18, RV19, RV20, RV22, RV3, RV8",Alpha_RD901F,8,100K,
+"RV15, RV16, RV17",Potentiometer_Bourns_3296W_Vertical,3,100K,
+RV21,Alpha_RD901F,1,10K,
+"RV4, RV9",RV141F-40-20BL,2,10K,
 "SW1, SW3, SW4",SW_Toggle_MS500C,3,SW_SPDT,
 SW2,SW_Toggle_MS500C,1,SW_SPST,
-SW5,E-Switch_TL1105SP,1,SW_Push,
-"SW6, SW7",SW_E-Switch_EG1224_SPDT_Angled,2,SW_SPDT,
-SW8,SW_SPST_EVQQ2,1,SW_Push,
+SW5,SW_SPST_EVQQ2,1,SW_Push,
+SW6,E-Switch_TL1105SP,1,SW_Push,
+"SW7, SW8",SW_E-Switch_EG1224_SPDT_Angled,2,SW_SPDT,
 TH1,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal,1,2K 3300ppm LT16S202F33,
-"U1, U3, U4, U6, U8",SOIC-14_3.9x8.7mm_P1.27mm,5,TL074,C2057504
-"U10, U13",SOIC-16_3.9x9.9mm_P1.27mm,2,74HC165,C7334
-"U11, U12",TSSOP-28_4.4x9.7mm_P0.65mm,2,PCA9685PW,C2678753
-U2,DIP-8_W7.62mm_Socket,1,LM386,
-U201,TPS63070x,1,TPS63070,C109322
-U5,SOT-223-3_TabPin2,1,LM1117-3.3,C126027
+"U1, U2, U4, U5, U6",SOIC-14_3.9x8.7mm_P1.27mm,5,TL074,C2057504
+"U10, U11",TSSOP-28_4.4x9.7mm_P0.65mm,2,PCA9685PW,C2678753
+U12,TPS63070x,1,TPS63070,C109322
+"U13, U14",SOIC-16_3.9x9.9mm_P1.27mm,2,74HC165,C7334
+U3,DIP-8_W7.62mm_Socket,1,LM386,
 U7,SOP-16_3.9x9.9mm_P1.27mm,1,LM13700,C4370932
+U8,SOT-223-3_TabPin2,1,LM1117-3.3,C126027
 U9,LQFP-64_10x10mm_P0.5mm,1,STM32F405RGT6,C15742
 Y1,Crystal_SMD_3225-4Pin_3.2x2.5mm_HandSoldering,1,ABM8-16.000MHZ-D1X-T,C1985300

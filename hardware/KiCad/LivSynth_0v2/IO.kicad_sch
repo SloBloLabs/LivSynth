@@ -5862,7 +5862,7 @@
   )
 
   (symbol (lib_id "Connector:Conn_01x02_Female") (at 373.38 66.675 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board no)
+    (in_bom no) (on_board no)
     (uuid a120fd43-e4fa-457b-8799-55698c0147da)
     (property "Reference" "J20" (id 0) (at 375.92 60.325 0))
     (property "Value" "IDC" (id 1) (at 375.92 62.865 0))

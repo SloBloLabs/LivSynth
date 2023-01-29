@@ -1304,9 +1304,6 @@
     (path "/5bba0015-9baa-48b8-b961-e7169713a149/a120fd43-e4fa-457b-8799-55698c0147da"
       (reference "J20") (unit 1) (value "IDC") (footprint "")
     )
-    (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/a9ad92c0-d9ac-444c-960f-48f43af16aee"
-      (reference "J20") (unit 1) (value "Test Points") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
-    )
     (path "/7456ffcb-9944-4baa-8068-78bd7ea392dc/7f7760d5-f20b-4b68-a54d-0dd196a13fdf"
       (reference "J21") (unit 1) (value "USB_B_Micro") (footprint "Connector_USB:USB_Micro-B_Wuerth_629105150521")
     )
@@ -1321,6 +1318,9 @@
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/d48a1e73-f42a-4011-afb2-4107b6678657"
       (reference "J25") (unit 1) (value "9V") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x02_P2.54mm_Vertical")
+    )
+    (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/a9ad92c0-d9ac-444c-960f-48f43af16aee"
+      (reference "J201") (unit 1) (value "Test Points") (footprint "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Vertical")
     )
     (path "/429bbaa1-cd91-4d0a-bb36-7b198f9f0350/a7fe1d31-873f-4c17-b330-04ee00fbee5d"
       (reference "L1") (unit 1) (value "1u5") (footprint "Inductor_SMD:L_Sunlord_SWPA5020S")
