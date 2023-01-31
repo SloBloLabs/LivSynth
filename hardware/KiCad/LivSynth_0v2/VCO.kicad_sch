@@ -1808,7 +1808,7 @@
     (uuid c0d69619-c042-4019-93d6-b267b3fa2519)
     (property "Reference" "SW1" (id 0) (at 241.3 118.11 0))
     (property "Value" "SW_SPDT" (id 1) (at 241.3 120.65 0))
-    (property "Footprint" "SloBlo:SW_Toggle_MS500" (id 2) (at 241.3 125.73 0)
+    (property "Footprint" "SloBlo:SW_Toggle_MS500C" (id 2) (at 241.3 125.73 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (id 3) (at 241.3 125.73 0)
