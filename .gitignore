@@ -11,3 +11,4 @@ Release
 *.launch
 *.obj
 *.app
+fp-info-cache
