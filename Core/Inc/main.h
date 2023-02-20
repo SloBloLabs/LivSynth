@@ -74,12 +74,16 @@ void Error_Handler(void);
 /* Private defines -----------------------------------------------------------*/
 #define SR_SHLDN_Pin LL_GPIO_PIN_3
 #define SR_SHLDN_GPIO_Port GPIOC
+#define ADC_IN1_Pin LL_GPIO_PIN_0
+#define ADC_IN1_GPIO_Port GPIOA
 #define GATE_OUT_Pin LL_GPIO_PIN_7
 #define GATE_OUT_GPIO_Port GPIOA
 #define CLOCK_OUT_Pin LL_GPIO_PIN_4
 #define CLOCK_OUT_GPIO_Port GPIOC
 #define RESET_OUT_Pin LL_GPIO_PIN_5
 #define RESET_OUT_GPIO_Port GPIOC
+#define ADC_IN2_Pin LL_GPIO_PIN_1
+#define ADC_IN2_GPIO_Port GPIOB
 #define LED_OEN_Pin LL_GPIO_PIN_12
 #define LED_OEN_GPIO_Port GPIOB
 #define DBG1_Pin LL_GPIO_PIN_14

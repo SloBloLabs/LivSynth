@@ -13,8 +13,9 @@
 #include "Model.h"
 #include "Engine.h"
 #include "UiController.h"
+#include <cmath>
 
-#define RUN_TEST 0
+#define RUN_TEST 1
 
 #define CCMRAM_BSS __attribute__((section(".ccmram")))
 
@@ -52,7 +53,7 @@ void appMain() {
            , updateMillis = 0
            , engineMillis = 0;
     
-    bool debug = false;
+    bool debug = true;
     
     while(true) {
 
@@ -116,7 +117,7 @@ void appADCCompleteRequest() {
 #######################################*/
 void testMain() {
     System::init();
-    //clockTimer.init();
+    clockTimer.init();
     dio.init();
     adc.init();
     dac.init();
@@ -144,12 +145,14 @@ void testMain() {
             uint16_t tempo = adc.channel(1);
 
             dac.setValue(tune);
-
-            uint8_t numButtons = tune / 4095. * 9;
+            
+            float delta = 4095.0 / 10;
+            uint8_t k = floor(tune / delta + .5f);
+            
             float H = tempo / 4095. * 360;
 
-            for(uint8_t button = 0; button < 8; ++button) {
-                ledDriver.setColourHSV(button, H, 1.f, button < numButtons ? 1. : 0.);
+            for(uint8_t button = 0; button < 10; ++button) {
+                ledDriver.setColourHSV(button, H, 1.f, button < k ? 1. : 0.);
             }
             
             static float hue = 0.f;
@@ -160,15 +163,16 @@ void testMain() {
             while(buttonMatrix.nextEvent(event)) {
                 bool isDown = event.action() == ButtonMatrix::Event::KeyDown;
 
+                DBG("action=%d, value=%d", event.action(), event.value());
                 _keyState[event.value()] = isDown;
                 Key key(event.value(), _keyState);
                 float value = isDown ? 1. : 0.;
                 if(key.isStep()) {
-                    ledDriver.setColourHSV(event.value(), hue, 1.f, value);
+                    ledDriver.setColourHSV(event.value() + 1, hue, 1.f, value);
                 } else if(key.isPlay()) {
-                    ledDriver.setColourHSV(8, hue, 1.f, value);
-                } else if(key.isShift()) {
                     ledDriver.setColourHSV(9, hue, 1.f, value);
+                } else if(key.isShift()) {
+                    ledDriver.setColourHSV(10, hue, 1.f, value);
                     dio.setGate(isDown);
                 }
             }
