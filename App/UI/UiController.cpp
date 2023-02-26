@@ -2,6 +2,8 @@
 #include "System.h"
 #include "NoteTrackEngine.h"
 #include "swvPrint.h"
+#include "Utils.h"
+#include <cmath>
 
 extern AdcInternal  adc;
 extern ButtonMatrix buttonMatrix;
@@ -14,7 +16,7 @@ void UiController::init() {
     for(size_t i = 0; i < CONFIG_NUM_POTS; ++i) {
         _cvValue[i] = 0.f;
     }
-    _hue = 0.f;
+    _pulse = 0.f;
 }
 
 /*void UiController::update() {
@@ -61,50 +63,52 @@ void UiController::renderUI() {
     NoteSequence &sequence = _model.project().noteSequence(pattern);
     uint8_t firstStep = sequence.firstStep();
     uint8_t lastStep = sequence.lastStep();
+    _pulse += .02f;
+    if(_pulse >= 1.f) _pulse -= 1.f;
 
     bool     gate;
     uint32_t note;
 
+    // Set tune and play colours
     if(_engine.clockRunning()) {
         gate = sequence.step(currentStep).gate();
         note = sequence.step(currentStep).note();
-        ledDriver.setColourHSV(Key::Code::Play, hueFromNote(note), gate ? 1.f : 0.f, gate ? 1.f : .1f);
+        ledDriver.setColourHSV(RGBLed::Code::Play, hueFromNote(note), gate ? 1.f : .1f, gate ? valueFromOctave(note) : .1f);
         if(_engine.selectedStep() >= 0) {
             note = sequence.step(_engine.selectedStep()).note();
         }
-        ledDriver.setColourHSV(9, hueFromNote(note), 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
     } else {
-        // run button
-        _hue += 5.f;
-        if(_hue >= 360.f) _hue -= 360.f;
-        ledDriver.setColourHSV(Key::Code::Play, _hue, 1.f, 1.f); // red play button
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f); // red play button
 
-        // tune pot
         if(_engine.selectedStep() >= 0) {
             note = sequence.step(_engine.selectedStep()).note();
-            ledDriver.setColourHSV(9, hueFromNote(note), 1.f, 1.f);
+            ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
         } else {
-            ledDriver.setColourHSV(9, 1.f, 0.f, 0.f); // off
+            ledDriver.setColourHSV(RGBLed::Code::Tune, 1.f, 0.f, 0.f); // off
         }
     }
 
+    float pulseFrq = 2.f;
+    // Set sequence button colours
     for(uint8_t step = firstStep; step <= lastStep; ++step) {
         gate = sequence.step(step).gate();
         note = sequence.step(step).note();
 
         if(gate || _keyState[step]) {
-            // 68 per half step note
-            // 5 octaves -> 5 * 12 * 68 = 4080
-            // 4095 max
-            // 360° ^= 12 * 68 = 816
-            // Color: red         yellow       green         lightblue     darkblue      magenta       red
-            // Hue  : 0° -------- 60° -------- 120° -------- 180° -------- 240° -------- 300° -------- 0°
-            // Note : C           D            E             F#            G#            A#            C
-            // 12bit: 0           136          272           408           544           680           816
-            // 12bit value = octave [0-4] * 816 + hue * 816 / 360
-            ledDriver.setColourHSV(step, hueFromNote(note), 1.f, step == currentStep || step == _engine.selectedStep() ? 1.f : .1f);
+            float hue = hueFromNote(note);
+            float saturation = 1.f;
+            float value = valueFromOctave(note);
+            if(step == currentStep) {
+                value += .2f;
+            } else if(step == _engine.selectedStep() && !_engine.clockRunning()) {
+                // render triangle from pulse
+                value = 2 * fabsf(pulseFrq * _pulse - floorf(pulseFrq * _pulse + .5f)) * value;
+            }
+            CONSTRAIN(value, 0.f, 1.f);
+            ledDriver.setColourHSV(fromKey(step), hue, saturation, value);
         } else if(step == currentStep) {
-            ledDriver.setColourHSV(step, 0.f, 0.f, .05f);
+            ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, .05f);
         }
     }
 }
@@ -118,8 +122,39 @@ void UiController::updateCV() {
 }
 
 float UiController::hueFromNote(uint32_t note) {
-    uint16_t partsPerOctave = 4095.f / (12 * 5 + 1) * 12;
-    return ((note % partsPerOctave) * 360.f) / partsPerOctave;
+    // Color: red         yellow       green         lightblue     darkblue      magenta       red
+    // Hue  : 0° -------- 60° -------- 120° -------- 180° -------- 240° -------- 300° -------- 0°
+    // Note : C           D            E             F#            G#            A#            C
+    float delta = 4096.f / 61; // 5 Octaves * 12 semitones + 1 last C
+    uint8_t k = floorf(note / delta);
+    float hue = (k % 12) * 30;
+    return hue;
+}
+
+float UiController::valueFromOctave(uint32_t note) {
+    float delta = 4096.f / (61 / 12.f);
+    uint8_t k = floorf(note / delta); // 0,...,5
+    float value = .05f + 0.6f * (k / 5.f);
+    return value;
+}
+
+RGBLed::Code UiController::fromKey(uint8_t keyCode) {
+    RGBLed::Code code = RGBLed::Code::None;
+    
+    switch(keyCode) {
+    case Key::Code::Step1: code = RGBLed::Code::Step1; break;
+    case Key::Code::Step2: code = RGBLed::Code::Step2; break;
+    case Key::Code::Step3: code = RGBLed::Code::Step3; break;
+    case Key::Code::Step4: code = RGBLed::Code::Step4; break;
+    case Key::Code::Step5: code = RGBLed::Code::Step5; break;
+    case Key::Code::Step6: code = RGBLed::Code::Step6; break;
+    case Key::Code::Step7: code = RGBLed::Code::Step7; break;
+    case Key::Code::Step8: code = RGBLed::Code::Step8; break;
+    case Key::Code::Play : code = RGBLed::Code::Play ; break;
+    default: break;
+    }
+
+    return code;
 }
 
 void UiController::handleEvent(KeyEvent event) {

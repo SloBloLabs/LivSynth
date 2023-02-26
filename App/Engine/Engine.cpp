@@ -3,6 +3,7 @@
 #include "System.h"
 #include "NoteTrackEngine.h"
 #include "swvPrint.h"
+#include <cmath>
 
 extern Dio dio;
 extern DacInternal dac;
@@ -72,6 +73,14 @@ void Engine::clockStart() {
 }
 
 void Engine::clockStop() {
+    // flush track engine
+    // may solve performer issue #345?
+    _trackEngine->tick(UINT32_MAX - 1);
+    _trackEngine->update(0.f);
+    updateTrackOutputs();
+    updateOverrides();
+    updatePeripherals();
+
     _clock.masterStop();
 }
 
@@ -92,42 +101,39 @@ void Engine::keyDown(KeyEvent &event) {
     //event.key().show();
 
     NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
-    if(event.count() > 1) {
-        if(event.key().isStep()) {
-            // Toggle gate
-            sequence.step(event.key().code()).toggleGate();
-        }
-    } else {
-        if(event.key().isStep()) {
+
+    if(event.key().isStep()) {
+        if(event.key().state(Key::Code::Shift)) {
+            if(event.count() > 1) {
+                sequence.step(event.key().code()).toggleGate();
+            }
+        } else {
             setGateOutputOverride(true);
-            setGateOutput(true);
             setCvOutputOverride(true);
+            setGateOutput(true);
             _selectedStep = event.key().code();
             setCvOutput(sequence.step(_selectedStep).note());
-        } else if(event.key().isPlay()) {
-            togglePlay();
-        } else if(event.key().isShift()) {
-            // TODO: implement shifted modes
         }
+    } else if(event.key().isPlay()) {
+        togglePlay();
+    } else if(event.key().isShift()) {
+        // TODO: implement shifted modes
+        
     }
+    
 }
 
 void Engine::keyUp(KeyEvent &event) {
-    DBG("Engine::keyUp   makekey=%d, count=%d", event.key().code(), event.count());
+    DBG("Engine::keyUp   key=%d, count=%d", event.key().code(), event.count());
     //event.key().show();
 
-    if(event.key().isStep() && event.key().none()) {
+    if(event.key().isStep()) {
         setGateOutput(false);
         updateOverrides();
         updatePeripherals();
+    } else if(event.key().none()) {
         setGateOutputOverride(false);
         setCvOutputOverride(false);
-        //_selectedStep = -1;
-    } else if(event.key().isPlay()) {
-        setGateOutputOverride(true);
-        setGateOutput(false);
-        updatePeripherals();
-        setGateOutputOverride(false);
     }
 }
 
@@ -136,7 +142,7 @@ void Engine::setCV(PotEvent &event) {
         // Pitch
         if(_selectedStep != -1) {
             NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
-            DBG("Set Pitch:%.2f", event.value());
+            //DBG("Set Pitch:%.2f", event.value());
             sequence.step(_selectedStep).setNote(event.value() * 0xFFF);
             
             if(gateOutputOverride()) {
@@ -154,7 +160,7 @@ void Engine::setCV(PotEvent &event) {
         f(x) = 280/4096 * x + 20
         */
         float bpm =  280.f * event.value() + 20.f;
-        DBG("New BPM:%.2f", bpm);
+        //DBG("New BPM:%.2f", bpm);
         _model.project().setTempo(bpm);
     }
 }
@@ -172,9 +178,10 @@ void Engine::updateTrackSetup() {
 }
 
 void Engine::updateTrackOutputs() {
-    float cvOutput = _trackEngine->cvOutput();
+    uint32_t cvOutput = _trackEngine->cvOutput();
     bool gateOutput = _trackEngine->gateOutput();
     //DBG("Ticks: %ld: Progress: %.2f, Gate: %d, CV: %.2f", _lastSystemTicks, _trackEngine->sequenceProgress(), gateOutput, cvOutput);
+    quantizeCV(cvOutput);
     dac.setValue(cvOutput);
     dio.setGate(gateOutput);
 }
@@ -184,6 +191,7 @@ void Engine::updateOverrides() {
         dio.setGate(_gateOverrideValue);
     }
     if(_cvOutputOverride) {
+        quantizeCV(_cvOverrideValue);
         dac.setValue(_cvOverrideValue);
     }
 }
@@ -191,6 +199,13 @@ void Engine::updateOverrides() {
 void Engine::updatePeripherals() {
     dac.update();
     dio.update();
+}
+
+void Engine::quantizeCV(uint32_t &cvValue) {
+    // semitones
+    float delta = 4096.f / 61; // 5 Octaves * 12 semitones + 1 last C
+    uint8_t k = floorf(cvValue / delta + .5f);
+    cvValue = k * delta;
 }
 
 void Engine::initClock() {

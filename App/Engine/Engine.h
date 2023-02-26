@@ -54,6 +54,7 @@ private:
     void updateTrackOutputs();
     void updateOverrides();
     void updatePeripherals();
+    void quantizeCV(uint32_t &cvValue);
 
     void initClock();
     
@@ -73,7 +74,7 @@ private:
 
     // cv output overrides
     bool _cvOutputOverride = false;
-    float _cvOverrideValue = 0;
+    uint32_t _cvOverrideValue = 0;
 
     int _selectedStep = 0;
 };

@@ -112,6 +112,7 @@ target_link_options(${EXECUTABLE} PRIVATE
     -Wl,--end-group
     -Wl,--gc-sections # garbage collector for sections so the linker can choose which sections to use after compilation (omits unused stuff, optimized code size)
     # -Wl,--print-gc-sections
+    -Wl,--no-warn-rwx-segments
     -Wl,--print-memory-usage) # print memory usage after linking
 
 # Disable overflow warnings from STM32Cube generated code of LL drivers
