@@ -11,3 +11,5 @@ Release
 *.launch
 *.obj
 *.app
+LivSynth_Faceplate-backups
+fp-info-cache
