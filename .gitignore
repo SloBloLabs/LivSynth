@@ -1,4 +1,4 @@
-LivSynth_Hardware-backups
+*-backups
 *bak
 .DS_Store
 \#auto*
@@ -11,5 +11,5 @@ Release
 *.launch
 *.obj
 *.app
-LivSynth_Faceplate-backups
 fp-info-cache
+symbols
