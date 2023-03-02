@@ -131,7 +131,10 @@ void Engine::keyUp(KeyEvent &event) {
         setGateOutput(false);
         updateOverrides();
         updatePeripherals();
-    } else if(event.key().none()) {
+    } else if(event.key().isShift()) {
+        // TODO: implement shifted modes
+    }
+    if(event.key().none()) {
         setGateOutputOverride(false);
         setCvOutputOverride(false);
     }
