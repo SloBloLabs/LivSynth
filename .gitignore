@@ -1,4 +1,4 @@
-LivSynth_Hardware-backups
+*-backups
 *bak
 .DS_Store
 \#auto*
@@ -12,3 +12,5 @@ Release
 *.obj
 *.app
 fp-info-cache
+symbols
+hardware/KiCad/LivSynth_0v2/Faceplate/IMG_5778.JPG

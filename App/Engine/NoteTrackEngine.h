@@ -19,7 +19,7 @@ public:
 
     virtual bool activity() const override { return _activity; }
     virtual bool gateOutput() const override { return _gateOutput; }
-    virtual float cvOutput() const override { return _cvOutput; }
+    virtual uint32_t cvOutput() const override { return _cvOutput; }
 
     virtual float sequenceProgress() const override {
         return _currentStep < 0 ? 0.f : float(_currentStep - _sequence->firstStep()) / (_sequence->lastStep() - _sequence->firstStep());
@@ -48,8 +48,8 @@ private:
 
     bool _activity;
     bool _gateOutput;
-    float _cvOutput;
-    float _cvOutputTarget;
+    uint32_t _cvOutput;
+    uint32_t _cvOutputTarget;
 
     struct Gate {
         uint32_t tick;

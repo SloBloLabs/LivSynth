@@ -4,7 +4,9 @@
 #include "swvPrint.h"
 #include "Utils.h"
 
-#define USE_DMA 1
+#define USE_DMA    1
+#define LED_I2C    I2C1
+#define DMA_STREAM LL_DMA_STREAM_6
 
 // http://stefanfrings.de/stm32/stm32f1.html#i2c
 // https://community.st.com/s/question/0D50X00009bLPuwSAG/busy-bus-after-i2c-reading
@@ -16,15 +18,15 @@ void LEDDriver::init() {
         //LL_I2C_EnableIT_EVT(LED_I2C);
         //LL_I2C_EnableIT_ERR(LED_I2C);
 
-        LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_7);
+        LL_DMA_DisableStream(DMA1, DMA_STREAM);
     }
 
     _chipAddressArray = {1, 2};
 
     _ledTypeArray[0] = {
-        COMMON_ANODE,
-        COMMON_ANODE,
-        COMMON_ANODE,
+        COMMON_CATHODE,
+        COMMON_CATHODE,
+        COMMON_CATHODE,
         COMMON_ANODE,
         COMMON_ANODE,
         COMMON_ANODE,
@@ -52,9 +54,9 @@ void LEDDriver::init() {
         COMMON_ANODE,
         COMMON_ANODE,
         COMMON_ANODE,
-        COMMON_CATHODE,
-        COMMON_CATHODE,
-        COMMON_CATHODE,
+        COMMON_ANODE,
+        COMMON_ANODE,
+        COMMON_ANODE,
         EMPTY};
     
     _transmissionBusy = 0;
@@ -132,7 +134,7 @@ void LEDDriver::process() {
 void LEDDriver::notifyTxComplete() {
     // DBG("LED Tx Complete!");
     stopTransfer();
-    LL_DMA_DisableStream(DMA1, LL_DMA_STREAM_7);
+    LL_DMA_DisableStream(DMA1, DMA_STREAM);
     if(++_curChip < NUM_PWM_LED_CHIPS) {
         writeRegistersDMA(_curChip, PCA9685_LED0, reinterpret_cast<uint8_t*>(_pwmLeds[_curChip]), 15 << 2);
     } else {
@@ -294,14 +296,14 @@ ErrorStatus LEDDriver::writeRegistersDMA(uint8_t chipNumber, uint8_t startRegist
 
         LL_DMA_ConfigAddresses(
             DMA1,
-            LL_DMA_STREAM_7,
+            DMA_STREAM,
             (uint32_t)&_pwmLeds[chipNumber],
             (uint32_t)LL_I2C_DMA_GetRegAddr(LED_I2C),
             LL_DMA_DIRECTION_MEMORY_TO_PERIPH);
-        LL_DMA_SetDataLength(DMA1, LL_DMA_STREAM_7, count);
-        LL_DMA_EnableIT_TC(DMA1, LL_DMA_STREAM_7);
-        LL_DMA_EnableIT_TE(DMA1, LL_DMA_STREAM_7);
-        LL_DMA_EnableStream(DMA1, LL_DMA_STREAM_7);
+        LL_DMA_SetDataLength(DMA1, DMA_STREAM, count);
+        LL_DMA_EnableIT_TC(DMA1, DMA_STREAM);
+        LL_DMA_EnableIT_TE(DMA1, DMA_STREAM);
+        LL_DMA_EnableStream(DMA1, DMA_STREAM);
 
         LL_I2C_EnableDMAReq_TX(LED_I2C);
 

@@ -12,7 +12,6 @@
 #define NUM_PWM_LED_CHIPS 2
 #define NUM_LEDS_PER_CHIP 16
 
-#define LED_I2C        I2C2
 #define LED_ON         0
 #define LED_OFF        1
 

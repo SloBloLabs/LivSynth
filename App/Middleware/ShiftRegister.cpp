@@ -1,7 +1,7 @@
 #include "ShiftRegister.h"
 #include "main.h"
 
-#define SR_SPI SPI1
+#define SR_SPI SPI3
 
 ShiftRegister::ShiftRegister() {
     _input = 0;

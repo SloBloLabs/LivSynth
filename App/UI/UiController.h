@@ -3,6 +3,7 @@
 #include "DacInternal.h"
 #include "ButtonMatrix.h"
 #include "LEDDriver.h"
+#include "RGBLed.h"
 #include "Event.h"
 #include "KeyPressEventTracker.h"
 #include "CVReader.h"
@@ -22,6 +23,8 @@ public:
 private:
     
     float hueFromNote(uint32_t note);
+    float valueFromOctave(uint32_t note);
+    RGBLed::Code fromKey(uint8_t keyCode);
     void handleEvent(KeyEvent event);
     void handleEvent(PotEvent event);
 
@@ -35,5 +38,5 @@ private:
 
     CVReader _cvReader;
     float _cvValue[CONFIG_NUM_POTS];
-    float _hue;
+    float _pulse;
 };

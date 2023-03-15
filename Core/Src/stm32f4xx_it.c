@@ -205,7 +205,12 @@ void SysTick_Handler(void)
 void DMA1_Stream6_IRQHandler(void)
 {
   /* USER CODE BEGIN DMA1_Stream6_IRQn 0 */
-
+  if(LL_DMA_IsActiveFlag_TC6(DMA1)) {
+    LL_DMA_ClearFlag_TC6(DMA1);
+    appLEDTxComplete();
+  } else if(LL_DMA_IsActiveFlag_TE6(DMA1)) {
+    appLEDTxError();
+  }
   /* USER CODE END DMA1_Stream6_IRQn 0 */
 
   /* USER CODE BEGIN DMA1_Stream6_IRQn 1 */

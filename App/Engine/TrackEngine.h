@@ -27,7 +27,7 @@ public:
     // track output
     virtual bool activity() const = 0;
     virtual bool gateOutput() const = 0;
-    virtual float cvOutput() const = 0;
+    virtual uint32_t cvOutput() const = 0;
 
     virtual float sequenceProgress() const { return -1.f; }
 
