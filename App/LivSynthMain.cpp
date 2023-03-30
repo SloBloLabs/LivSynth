@@ -74,7 +74,7 @@ void appMain() {
             updateMillis = curMillis;
 
             buttonMatrix.process();
-            uiController.handleControls();
+            uiController.handleControls(curMillis);
 
             if(!engine.clockRunning()) {
                 uiController.renderUI();

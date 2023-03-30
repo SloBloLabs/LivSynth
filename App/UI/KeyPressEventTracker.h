@@ -17,7 +17,7 @@ public:
         _lastCode = key.code();
         _lastTicks = currentTicks;
 
-        return KeyEvent(KeyEvent::Type::KeyDown, key, _count);
+        return KeyEvent(KeyEvent::Type::KeyDown, key, _count, 0);
     }
 
 private:

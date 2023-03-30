@@ -8,6 +8,7 @@
 #include "KeyPressEventTracker.h"
 #include "CVReader.h"
 
+typedef std::array<uint32_t, CONFIG_NUM_BUTTONS> KeyPressDurationTracker;
 class UiController {
 public:
     UiController(Model &model, Engine &engine) :
@@ -16,7 +17,7 @@ public:
     {}
 
     void init();
-    void handleControls();
+    void handleControls(uint32_t time);
     void renderUI();
     void updateCV();
 
@@ -33,6 +34,7 @@ private:
 
     KeyState _keyState;
     KeyPressEventTracker _keyPressEventTracker;
+    KeyPressDurationTracker _keyPressDurationTracker;
 
     uint32_t _lastControllerUpdateTicks;
 

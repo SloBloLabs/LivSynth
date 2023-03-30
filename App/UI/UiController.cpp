@@ -26,7 +26,7 @@ void UiController::init() {
     renderSequence();
 }*/
 
-void UiController::handleControls() {
+void UiController::handleControls(uint32_t time) {
     ButtonMatrix::Event event;
     while(buttonMatrix.nextEvent(event)) {
         bool isDown = event.action() == ButtonMatrix::Event::KeyDown;
@@ -34,10 +34,12 @@ void UiController::handleControls() {
         Key key(event.value(), _keyState);
         if(isDown) {
             KeyEvent keyPressEvent = _keyPressEventTracker.process(key);
+            _keyPressDurationTracker.at(event.value()) = time;
             //DBG("KeyPressEvent type=%d, key=%d, count=%d", keyPressEvent.type(), keyPressEvent.key().code(), keyPressEvent.count());
             handleEvent(keyPressEvent);
         } else {
-            KeyEvent keyEvent(KeyEvent::KeyUp, key, 1);
+            uint32_t duration = time - _keyPressDurationTracker.at(event.value());
+            KeyEvent keyEvent(KeyEvent::KeyUp, key, 1, duration);
             handleEvent(keyEvent);
         }
     }

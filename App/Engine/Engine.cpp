@@ -124,7 +124,7 @@ void Engine::keyDown(KeyEvent &event) {
 }
 
 void Engine::keyUp(KeyEvent &event) {
-    DBG("Engine::keyUp   key=%d, count=%d", event.key().code(), event.count());
+    DBG("Engine::keyUp   key=%d, count=%d, duration=%ld, isLong=%d", event.key().code(), event.count(), event.duration(), event.isLong());
     //event.key().show();
 
     if(event.key().isStep()) {
