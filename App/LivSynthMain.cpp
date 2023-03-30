@@ -61,7 +61,6 @@ void appMain() {
 
         if(curMillis - engineMillis > 1) {
             engineMillis = curMillis;
-            uiController.handleControls();
             bool updated = engine.update();
             if(updated) {
                 uiController.renderUI();
@@ -75,6 +74,7 @@ void appMain() {
             updateMillis = curMillis;
 
             buttonMatrix.process();
+            uiController.handleControls();
 
             if(!engine.clockRunning()) {
                 uiController.renderUI();

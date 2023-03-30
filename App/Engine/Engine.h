@@ -54,7 +54,7 @@ private:
     void updateTrackOutputs();
     void updateOverrides();
     void updatePeripherals();
-    void quantizeCV(uint32_t &cvValue);
+    uint32_t quantizeCV(uint32_t cvValue);
 
     void initClock();
     

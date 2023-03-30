@@ -184,8 +184,8 @@ void Engine::updateTrackOutputs() {
     uint32_t cvOutput = _trackEngine->cvOutput();
     bool gateOutput = _trackEngine->gateOutput();
     //DBG("Ticks: %ld: Progress: %.2f, Gate: %d, CV: %.2f", _lastSystemTicks, _trackEngine->sequenceProgress(), gateOutput, cvOutput);
-    quantizeCV(cvOutput);
-    dac.setValue(cvOutput);
+    uint32_t cvqOutput = quantizeCV(cvOutput);
+    dac.setValue(cvqOutput);
     dio.setGate(gateOutput);
 }
 
@@ -194,8 +194,8 @@ void Engine::updateOverrides() {
         dio.setGate(_gateOverrideValue);
     }
     if(_cvOutputOverride) {
-        quantizeCV(_cvOverrideValue);
-        dac.setValue(_cvOverrideValue);
+        uint32_t cvqOverrideValue = quantizeCV(_cvOverrideValue);
+        dac.setValue(cvqOverrideValue);
     }
 }
 
@@ -204,11 +204,13 @@ void Engine::updatePeripherals() {
     dio.update();
 }
 
-void Engine::quantizeCV(uint32_t &cvValue) {
+uint32_t Engine::quantizeCV(uint32_t cvValue) {
     // semitones
-    float delta = 4096.f / 61; // 5 Octaves * 12 semitones + 1 last C
-    uint8_t k = floorf(cvValue / delta + .5f);
-    cvValue = k * delta;
+    float delta = 4095.f / 61; // 5 Octaves * 12 semitones + 1 last C
+    uint8_t k = floorf(cvValue / delta);
+    uint32_t cvqValue = k * delta;
+    //DBG("CV_org: %ld, CV_q: %ld", cvValue, cvqValue);
+    return cvqValue;
 }
 
 void Engine::initClock() {

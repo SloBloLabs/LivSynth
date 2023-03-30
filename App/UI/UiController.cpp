@@ -127,7 +127,7 @@ float UiController::hueFromNote(uint32_t note) {
     // Note : C           D            E             F#            G#            A#            C
     float delta = 4096.f / 61; // 5 Octaves * 12 semitones + 1 last C
     uint8_t k = floorf(note / delta);
-    float hue = (k % 12) * 30;
+    float hue = (k % 12) * 30; // 12 * 30 = 360, one loop per octave
     return hue;
 }
 
