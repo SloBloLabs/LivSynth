@@ -42,18 +42,14 @@ public:
         return _trackEngine;
     }
 
-    // event handlers
-    void keyDown(KeyEvent &event);
-    void keyUp(KeyEvent &event);
-    void setCV(PotEvent &event);
+    void updateOverrides();
+    void updatePeripherals();
 
 private:
     virtual void onClockOutput(const IClockObserver::OutputState& state) override;
 
     void updateTrackSetup();
     void updateTrackOutputs();
-    void updateOverrides();
-    void updatePeripherals();
     uint32_t quantizeCV(uint32_t cvValue);
 
     void initClock();

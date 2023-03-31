@@ -17,6 +17,7 @@ void UiController::init() {
         _cvValue[i] = 0.f;
     }
     _pulse = 0.f;
+    _renderMode = Perform;
 }
 
 /*void UiController::update() {
@@ -163,10 +164,68 @@ void UiController::handleEvent(KeyEvent event) {
     //DBG("UiController::handleEvent type=%d, key=%d, count=%d", event.type(), event.key().code(), event.count());
     switch(event.type()) {
     case KeyEvent::KeyDown:
-        _engine.keyDown(event);
+    {
+        //_engine.keyDown(event);
+
+        DBG("Engine::keyDown key=%d, count=%d", event.key().code(), event.count());
+        //event.key().show();
+    
+        NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+    
+        if(event.key().isStep()) {
+            int selectedStep = event.key().code();
+            _engine.setSelectedStep(selectedStep);
+    
+            if(event.key().state(Key::Code::Shift)) {
+                if(event.count() > 1) {
+                    sequence.step(event.key().code()).toggleGate();
+                }
+            } else {
+                _engine.setGateOutputOverride(true);
+                _engine.setCvOutputOverride(true);
+                _engine.setGateOutput(true);
+                //_selectedStep = event.key().code();
+                _engine.setCvOutput(sequence.step(selectedStep).note());
+            }
+        } else if(event.key().isPlay()) {
+            _engine.togglePlay();
+        }
+    }
         break;
     case KeyEvent::KeyUp:
-        _engine.keyUp(event);
+    {
+        switch(_renderMode) {
+        case Perform:
+            if(event.key().isPlay() && event.key().state(Key::Code::Shift)) {
+                // enter track edit mode
+                _renderMode = Sequence;
+            } else if(event.key().isStep() && event.isLong()) {
+                _renderMode = Note;
+            } else {
+                //_engine.keyUp(event);
+                DBG("Engine::keyUp   key=%d, count=%d, duration=%ld, isLong=%d", event.key().code(), event.count(), event.duration(), event.isLong());
+                //event.key().show();
+            
+                if(event.key().isStep()) {
+                    _engine.setGateOutput(false);
+                    _engine.updateOverrides();
+                    _engine.updatePeripherals();
+                }
+            
+                if(event.key().none()) {
+                    _engine.setGateOutputOverride(false);
+                    _engine.setCvOutputOverride(false);
+                }
+            }
+            break;
+        case Sequence:
+            break;
+        case Note:
+            break;
+        default:
+            break;
+        }
+    }
         break;
     default:
         break;
@@ -174,11 +233,38 @@ void UiController::handleEvent(KeyEvent event) {
 }
 
 void UiController::handleEvent(PotEvent event) {
-    if(event.index() == 0) {
+
+    /*if(event.index() == 0) {
         // Pitch
         _engine.setCV(event);
     } else if(event.index() == 1) {
         // Tempo
         _engine.setCV(event);
+    }*/
+
+    if(event.index() == 0) {
+        // Pitch
+        if(_engine.selectedStep() != -1) {
+            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+            //DBG("Set Pitch:%.2f", event.value());
+            sequence.step(_engine.selectedStep()).setNote(event.value() * 0xFFF);
+            
+            if(_engine.gateOutputOverride()) {
+                _engine.setCvOutput(sequence.step(_engine.selectedStep()).note());
+            }
+        }
+    } else if(event.index() == 1) {
+        // Tempo
+        /*
+        0 - 4095 ^= 20 - 300 bpm
+        0    -> 20
+        4095 -> 300
+        f(x) = mx + b = dy/dx * x + b = (300 - 20) / 4095 * x + b
+        f(0) = 280/4095 * 0 + b = 20
+        f(x) = 280/4096 * x + 20
+        */
+        float bpm =  280.f * event.value() + 20.f;
+        //DBG("New BPM:%.2f", bpm);
+        _model.project().setTempo(bpm);
     }
 }

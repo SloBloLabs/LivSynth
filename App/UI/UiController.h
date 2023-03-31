@@ -16,6 +16,12 @@ public:
         _engine(engine)
     {}
 
+    enum RenderMode {
+        Perform,
+        Sequence,
+        Note
+    };
+
     void init();
     void handleControls(uint32_t time);
     void renderUI();
@@ -41,4 +47,6 @@ private:
     CVReader _cvReader;
     float _cvValue[CONFIG_NUM_POTS];
     float _pulse;
+
+    RenderMode _renderMode;
 };
