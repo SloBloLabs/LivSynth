@@ -3,6 +3,7 @@
 #include "System.h"
 #include "NoteTrackEngine.h"
 #include "swvPrint.h"
+#include "Math.h"
 #include <cmath>
 
 extern Dio dio;
@@ -134,9 +135,9 @@ void Engine::updatePeripherals() {
 
 uint32_t Engine::quantizeCV(uint32_t cvValue) {
     // semitones
-    float delta = 4095.f / 61; // 5 Octaves * 12 semitones + 1 last C
-    uint8_t k = floorf(cvValue / delta);
-    uint32_t cvqValue = k * delta;
+    //float delta = 4095.f / 61; // 5 Octaves * 12 semitones + 1 last C
+    //uint8_t k = floorf(cvValue / delta);
+    uint32_t cvqValue = quantize(cvValue, 4096.f, 61.f);// 5 Octaves * 12 semitones + 1 last C
     //DBG("CV_org: %ld, CV_q: %ld", cvValue, cvqValue);
     return cvqValue;
 }

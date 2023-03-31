@@ -226,9 +226,7 @@ void UiController::handleEvent(KeyEvent event) {
             if(event.key().isPlay() && event.key().state(Key::Code::Shift)) {
                 // enter track edit mode
                 _uiMode = Sequence;
-            } else if(event.key().isStep() && event.isLong()) {
-                _uiMode = Note;
-            } else {
+            } else if(event.key().isStep()) {
                 //_engine.keyUp(event);
                 DBG("Engine::keyUp   key=%d, count=%d, duration=%ld, isLong=%d", event.key().code(), event.count(), event.duration(), event.isLong());
                 //event.key().show();
@@ -243,6 +241,11 @@ void UiController::handleEvent(KeyEvent event) {
                     _engine.setGateOutputOverride(false);
                     _engine.setCvOutputOverride(false);
                 }
+                
+                if(event.isLong()) {
+                    _uiMode = Note;
+                }
+            } else {
             }
         }
             break;
