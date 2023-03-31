@@ -87,7 +87,7 @@ void UiController::renderUI() {
             }
             ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
         } else {
-            ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f); // red play button
+            ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
     
             if(_engine.selectedStep() >= 0) {
                 note = sequence.step(_engine.selectedStep()).note();
@@ -130,9 +130,14 @@ void UiController::renderUI() {
         break;
     case Note:
     {
-        for(uint8_t step = Key::Code::Step1; step <= Key::Code::Play; ++step) {
-            ledDriver.setColourHSV(fromKey(step), 0.f, 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+
+        NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+        int length = sequence.step(_engine.selectedStep()).length();
+        for(uint8_t step = Key::Code::Step1; step <= Key::Code::Step8; ++step) {
+            ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, step <= length ? 1.f : 0.f);
         }
+        ledDriver.setColourHSV(RGBLed::Code::Tune, 0.f, 0.f, length/ 8.f);
     }
         break;
     default:
@@ -198,12 +203,13 @@ void UiController::handleEvent(KeyEvent event) {
             DBG("Engine::keyDown key=%d, count=%d", event.key().code(), event.count());
             //event.key().show();
         
-            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
         
             if(event.key().isStep()) {
                 int selectedStep = event.key().code();
                 _engine.setSelectedStep(selectedStep);
         
+                NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+                
                 if(event.key().state(Key::Code::Shift)) {
                     if(event.count() > 1) {
                         sequence.step(event.key().code()).toggleGate();
@@ -259,7 +265,6 @@ void UiController::handleEvent(KeyEvent event) {
         switch(event.type()) {
         case KeyEvent::KeyDown:
         {
-    
         }
             break;
         case KeyEvent::KeyUp:
@@ -280,7 +285,12 @@ void UiController::handleEvent(KeyEvent event) {
         switch(event.type()) {
         case KeyEvent::KeyDown:
         {
-    
+            if(event.key().isStep()) {
+                NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+                int length = event.key().code();
+                DBG("KeyEvent: Length=%d", length);
+                sequence.step(_engine.selectedStep()).setLength(length);
+            }
         }
             break;
         case KeyEvent::KeyUp:
@@ -327,7 +337,11 @@ void UiController::handleEvent(PotEvent event) {
             break;
         case Note:
         {
-            
+            int length = quantize(event.value() * 8, 8.f, 8.f);
+            DBG("PotEvent: Length=%d", length);
+
+            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+            sequence.step(_engine.selectedStep()).setLength(length);
         }
             break;
         default:
