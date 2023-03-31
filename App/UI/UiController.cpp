@@ -17,7 +17,7 @@ void UiController::init() {
         _cvValue[i] = 0.f;
     }
     _pulse = 0.f;
-    _renderMode = Perform;
+    _uiMode = Perform;
 }
 
 /*void UiController::update() {
@@ -61,58 +61,82 @@ void UiController::handleControls(uint32_t time) {
 
 void UiController::renderUI() {
     ledDriver.clear();
-    uint8_t pattern = _engine.trackEngine()->pattern();
-    uint8_t currentStep = reinterpret_cast<NoteTrackEngine*>(_engine.trackEngine())->currentStep();
-    NoteSequence &sequence = _model.project().noteSequence(pattern);
-    uint8_t firstStep = sequence.firstStep();
-    uint8_t lastStep = sequence.lastStep();
+
     _pulse += .02f;
     if(_pulse >= 1.f) _pulse -= 1.f;
 
-    bool     gate;
-    uint32_t note;
-
-    // Set tune and play colours
-    if(_engine.clockRunning()) {
-        gate = sequence.step(currentStep).gate();
-        note = sequence.step(currentStep).note();
-        ledDriver.setColourHSV(RGBLed::Code::Play, hueFromNote(note), gate ? 1.f : .1f, gate ? valueFromOctave(note) : .1f);
-        if(_engine.selectedStep() >= 0) {
-            note = sequence.step(_engine.selectedStep()).note();
-        }
-        ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
-    } else {
-        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f); // red play button
-
-        if(_engine.selectedStep() >= 0) {
-            note = sequence.step(_engine.selectedStep()).note();
+    switch(_uiMode) {
+    case Perform:
+    {
+        uint8_t pattern = _engine.trackEngine()->pattern();
+        uint8_t currentStep = reinterpret_cast<NoteTrackEngine*>(_engine.trackEngine())->currentStep();
+        NoteSequence &sequence = _model.project().noteSequence(pattern);
+        uint8_t firstStep = sequence.firstStep();
+        uint8_t lastStep = sequence.lastStep();
+    
+        bool     gate;
+        uint32_t note;
+    
+        // Set tune and play colours
+        if(_engine.clockRunning()) {
+            gate = sequence.step(currentStep).gate();
+            note = sequence.step(currentStep).note();
+            ledDriver.setColourHSV(RGBLed::Code::Play, hueFromNote(note), gate ? 1.f : .1f, gate ? valueFromOctave(note) : .1f);
+            if(_engine.selectedStep() >= 0) {
+                note = sequence.step(_engine.selectedStep()).note();
+            }
             ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
         } else {
-            ledDriver.setColourHSV(RGBLed::Code::Tune, 1.f, 0.f, 0.f); // off
+            ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f); // red play button
+    
+            if(_engine.selectedStep() >= 0) {
+                note = sequence.step(_engine.selectedStep()).note();
+                ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
+            } else {
+                ledDriver.setColourHSV(RGBLed::Code::Tune, 1.f, 0.f, 0.f); // off
+            }
+        }
+    
+        float pulseFrq = 2.f;
+        // Set sequence button colours
+        for(uint8_t step = firstStep; step <= lastStep; ++step) {
+            gate = sequence.step(step).gate();
+            note = sequence.step(step).note();
+    
+            if(gate || _keyState[step]) {
+                float hue = hueFromNote(note);
+                float saturation = 1.f;
+                float value = valueFromOctave(note);
+                if(step == currentStep) {
+                    value += .2f;
+                } else if(step == _engine.selectedStep() && !_engine.clockRunning()) {
+                    // render triangle from pulse
+                    value = 2 * fabsf(pulseFrq * _pulse - floorf(pulseFrq * _pulse + .5f)) * value;
+                }
+                CONSTRAIN(value, 0.f, 1.f);
+                ledDriver.setColourHSV(fromKey(step), hue, saturation, value);
+            } else if(step == currentStep) {
+                ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, .05f);
+            }
         }
     }
-
-    float pulseFrq = 2.f;
-    // Set sequence button colours
-    for(uint8_t step = firstStep; step <= lastStep; ++step) {
-        gate = sequence.step(step).gate();
-        note = sequence.step(step).note();
-
-        if(gate || _keyState[step]) {
-            float hue = hueFromNote(note);
-            float saturation = 1.f;
-            float value = valueFromOctave(note);
-            if(step == currentStep) {
-                value += .2f;
-            } else if(step == _engine.selectedStep() && !_engine.clockRunning()) {
-                // render triangle from pulse
-                value = 2 * fabsf(pulseFrq * _pulse - floorf(pulseFrq * _pulse + .5f)) * value;
-            }
-            CONSTRAIN(value, 0.f, 1.f);
-            ledDriver.setColourHSV(fromKey(step), hue, saturation, value);
-        } else if(step == currentStep) {
-            ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, .05f);
+        break;
+    case Sequence:
+    {
+        for(uint8_t step = Key::Code::Step1; step <= Key::Code::Play; ++step) {
+            ledDriver.setColourHSV(fromKey(step), 120.f, 1.f, 1.f);
         }
+    }
+        break;
+    case Note:
+    {
+        for(uint8_t step = Key::Code::Step1; step <= Key::Code::Play; ++step) {
+            ledDriver.setColourHSV(fromKey(step), 0.f, 1.f, 1.f);
+        }
+    }
+        break;
+    default:
+        break;
     }
 }
 
@@ -162,45 +186,48 @@ RGBLed::Code UiController::fromKey(uint8_t keyCode) {
 
 void UiController::handleEvent(KeyEvent event) {
     //DBG("UiController::handleEvent type=%d, key=%d, count=%d", event.type(), event.key().code(), event.count());
-    switch(event.type()) {
-    case KeyEvent::KeyDown:
+    
+    switch(_uiMode) {
+    case Perform:
     {
-        //_engine.keyDown(event);
-
-        DBG("Engine::keyDown key=%d, count=%d", event.key().code(), event.count());
-        //event.key().show();
+        switch(event.type()) {
+        case KeyEvent::KeyDown:
+        {
+            //_engine.keyDown(event);
     
-        NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
-    
-        if(event.key().isStep()) {
-            int selectedStep = event.key().code();
-            _engine.setSelectedStep(selectedStep);
-    
-            if(event.key().state(Key::Code::Shift)) {
-                if(event.count() > 1) {
-                    sequence.step(event.key().code()).toggleGate();
+            DBG("Engine::keyDown key=%d, count=%d", event.key().code(), event.count());
+            //event.key().show();
+        
+            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+        
+            if(event.key().isStep()) {
+                int selectedStep = event.key().code();
+                _engine.setSelectedStep(selectedStep);
+        
+                if(event.key().state(Key::Code::Shift)) {
+                    if(event.count() > 1) {
+                        sequence.step(event.key().code()).toggleGate();
+                    }
+                } else {
+                    _engine.setGateOutputOverride(true);
+                    _engine.setCvOutputOverride(true);
+                    _engine.setGateOutput(true);
+                    //_selectedStep = event.key().code();
+                    _engine.setCvOutput(sequence.step(selectedStep).note());
                 }
-            } else {
-                _engine.setGateOutputOverride(true);
-                _engine.setCvOutputOverride(true);
-                _engine.setGateOutput(true);
-                //_selectedStep = event.key().code();
-                _engine.setCvOutput(sequence.step(selectedStep).note());
+            } else if(event.key().isPlay() && !event.key().state(Key::Code::Shift)) {
+                _engine.togglePlay();
             }
-        } else if(event.key().isPlay()) {
-            _engine.togglePlay();
+    
         }
-    }
-        break;
-    case KeyEvent::KeyUp:
-    {
-        switch(_renderMode) {
-        case Perform:
+            break;
+        case KeyEvent::KeyUp:
+        {
             if(event.key().isPlay() && event.key().state(Key::Code::Shift)) {
                 // enter track edit mode
-                _renderMode = Sequence;
+                _uiMode = Sequence;
             } else if(event.key().isStep() && event.isLong()) {
-                _renderMode = Note;
+                _uiMode = Note;
             } else {
                 //_engine.keyUp(event);
                 DBG("Engine::keyUp   key=%d, count=%d, duration=%ld, isLong=%d", event.key().code(), event.count(), event.duration(), event.isLong());
@@ -217,13 +244,52 @@ void UiController::handleEvent(KeyEvent event) {
                     _engine.setCvOutputOverride(false);
                 }
             }
-            break;
-        case Sequence:
-            break;
-        case Note:
+        }
             break;
         default:
             break;
+        }
+    }
+        break;
+    case Sequence:
+    {
+        switch(event.type()) {
+        case KeyEvent::KeyDown:
+        {
+    
+        }
+            break;
+        case KeyEvent::KeyUp:
+        {
+            if(event.key().isPlay()) {
+                _uiMode = Perform;
+            }
+        }
+            break;
+        default:
+            break;
+    
+        }
+    }
+        break;
+    case Note:
+    {
+        switch(event.type()) {
+        case KeyEvent::KeyDown:
+        {
+    
+        }
+            break;
+        case KeyEvent::KeyUp:
+        {
+            if(event.key().isPlay()) {
+                _uiMode = Perform;
+            }
+        }
+            break;
+        default:
+            break;
+    
         }
     }
         break;
@@ -233,25 +299,36 @@ void UiController::handleEvent(KeyEvent event) {
 }
 
 void UiController::handleEvent(PotEvent event) {
-
-    /*if(event.index() == 0) {
-        // Pitch
-        _engine.setCV(event);
-    } else if(event.index() == 1) {
-        // Tempo
-        _engine.setCV(event);
-    }*/
-
+    
     if(event.index() == 0) {
-        // Pitch
-        if(_engine.selectedStep() != -1) {
-            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
-            //DBG("Set Pitch:%.2f", event.value());
-            sequence.step(_engine.selectedStep()).setNote(event.value() * 0xFFF);
-            
-            if(_engine.gateOutputOverride()) {
-                _engine.setCvOutput(sequence.step(_engine.selectedStep()).note());
+
+        switch(_uiMode) {
+        case Perform:
+        {
+            // Pitch
+            if(_engine.selectedStep() != -1) {
+                NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+                //DBG("Set Pitch:%.2f", event.value());
+                sequence.step(_engine.selectedStep()).setNote(event.value() * 0xFFF);
+                
+                if(_engine.gateOutputOverride()) {
+                    _engine.setCvOutput(sequence.step(_engine.selectedStep()).note());
+                }
             }
+        }
+            break;
+        case Sequence:
+        {
+            
+        }
+            break;
+        case Note:
+        {
+            
+        }
+            break;
+        default:
+            break;
         }
     } else if(event.index() == 1) {
         // Tempo

@@ -16,7 +16,7 @@ public:
         _engine(engine)
     {}
 
-    enum RenderMode {
+    enum UiMode {
         Perform,
         Sequence,
         Note
@@ -48,5 +48,5 @@ private:
     float _cvValue[CONFIG_NUM_POTS];
     float _pulse;
 
-    RenderMode _renderMode;
+    UiMode _uiMode;
 };
