@@ -18,8 +18,14 @@ public:
 
     enum UiMode {
         Perform,
+        Note,
         Sequence,
-        Note
+        Sequence_Pattern,
+        Sequence_Swing,
+        Sequence_FirstStep,
+        Sequence_LastStep,
+        Sequence_RunMode,
+        UiMode_Last
     };
 
     void init();
@@ -34,6 +40,9 @@ private:
     RGBLed::Code fromKey(uint8_t keyCode);
     void handleEvent(KeyEvent event);
     void handleEvent(PotEvent event);
+
+    float colourTable6[6] = {0.f, 60.f, 120.f, 180.f, 240.f, 300.f};
+    float colourTable8[8] = {0.f, 30.f, 60.f, 120.f, 180.f, 240.f, 270.f, 300.f};
 
     Model &_model;
     Engine &_engine;

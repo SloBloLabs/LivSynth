@@ -4,6 +4,7 @@
 #include "swvPrint.h"
 #include "Utils.h"
 #include <cmath>
+#include "Math.h"
 
 extern AdcInternal  adc;
 extern ButtonMatrix buttonMatrix;
@@ -121,13 +122,6 @@ void UiController::renderUI() {
         }
     }
         break;
-    case Sequence:
-    {
-        for(uint8_t step = Key::Code::Step1; step <= Key::Code::Play; ++step) {
-            ledDriver.setColourHSV(fromKey(step), 120.f, 1.f, 1.f);
-        }
-    }
-        break;
     case Note:
     {
         ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
@@ -137,7 +131,70 @@ void UiController::renderUI() {
         for(uint8_t step = Key::Code::Step1; step <= Key::Code::Step8; ++step) {
             ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, step <= length ? 1.f : 0.f);
         }
-        ledDriver.setColourHSV(RGBLed::Code::Tune, 0.f, 0.f, length/ 8.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, 0.f, 0.f, length / 8.f);
+    }
+        break;
+    case Sequence:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        /*
+        Sequence_Pattern, -> 1..8
+        Sequence_Swing, -> 50 ... 75
+        Sequence_FirstStep, 1..8
+        Sequence_LastStep, 1..8
+        Sequence_RunMode, 1..6
+        */
+        ledDriver.setColourHSV(fromKey(Key::Code::Step1), colourTable8[_engine.trackEngine()->pattern()], 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step2), 30.f, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step3), 120.f, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step4), 180.f, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step5), colourTable6[(uint8_t)static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode()], 1.f, 1.f);
+
+    }
+        break;
+    case Sequence_Pattern:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        uint8_t pattern = _engine.trackEngine()->pattern();
+        for(int i = 0; i < 8; ++i) {
+            ledDriver.setColourHSV(fromKey(i), colourTable8[i], 1.f, i == pattern ? 1.f : .05f);
+        }
+        ledDriver.setColourHSV(RGBLed::Code::Tune, colourTable8[pattern], 1.f, 1.f);
+    }
+        break;
+    case Sequence_Swing:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        uint32_t swingId = roundf(remap(static_cast<float>(_engine.trackEngine()->swing() - 50), 25.f, 7.f));
+        for(uint32_t i = 0; i < swingId; ++i) {
+            ledDriver.setColourHSV(fromKey(i), 30.f, 1.f, 1.f);
+        }
+        ledDriver.setColourHSV(fromKey(swingId), 30.f, 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, 30.f, 1.f, 1.f);
+    }
+        break;
+    case Sequence_FirstStep:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().firstStep()), 120.f, 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, 120.f, 1.f, 1.f);
+    }
+        break;
+    case Sequence_LastStep:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().lastStep()), 180.f, 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, 180.f, 1.f, 1.f);
+    }
+        break;
+    case Sequence_RunMode:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        uint8_t runMode = (uint8_t)static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode();
+        for(int i = 0; i < 6; ++i) {
+            ledDriver.setColourHSV(fromKey(i), colourTable6[i], 1.f, i == runMode ? 1.f : .05f);
+        }
+        ledDriver.setColourHSV(RGBLed::Code::Tune, colourTable6[runMode], 1.f, 1.f);
     }
         break;
     default:
@@ -198,11 +255,8 @@ void UiController::handleEvent(KeyEvent event) {
         switch(event.type()) {
         case KeyEvent::KeyDown:
         {
-            //_engine.keyDown(event);
-    
             DBG("Engine::keyDown key=%d, count=%d", event.key().code(), event.count());
             //event.key().show();
-        
         
             if(event.key().isStep()) {
                 int selectedStep = event.key().code();
@@ -211,28 +265,36 @@ void UiController::handleEvent(KeyEvent event) {
                 NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
                 
                 if(event.key().state(Key::Code::Shift)) {
-                    if(event.count() > 1) {
-                        sequence.step(event.key().code()).toggleGate();
+                    if(event.count() == 1) {
+                        sequence.step(selectedStep).toggleGate();
+                    } else if(event.count() == 2) {
+                        sequence.step(selectedStep).toggleGate(); // revert previous toggle :-)
+                        _uiMode = Note;
                     }
-                } else {
+                } else if(!_engine.clockRunning()) {
                     _engine.setGateOutputOverride(true);
                     _engine.setCvOutputOverride(true);
                     _engine.setGateOutput(true);
                     //_selectedStep = event.key().code();
                     _engine.setCvOutput(sequence.step(selectedStep).note());
                 }
-            } else if(event.key().isPlay() && !event.key().state(Key::Code::Shift)) {
-                _engine.togglePlay();
+            } else if(event.key().isPlay()) {
+                if(event.key().state(Key::Code::Shift)) {
+                    // enter track edit mode
+                    _uiMode = Sequence;
+                } else {
+                    _engine.togglePlay();
+                    if(!_engine.clockRunning()) {
+                        // TODO: Store model
+                    }
+                }
             }
     
         }
             break;
         case KeyEvent::KeyUp:
         {
-            if(event.key().isPlay() && event.key().state(Key::Code::Shift)) {
-                // enter track edit mode
-                _uiMode = Sequence;
-            } else if(event.key().isStep()) {
+            if(event.key().isStep()) {
                 //_engine.keyUp(event);
                 DBG("Engine::keyUp   key=%d, count=%d, duration=%ld, isLong=%d", event.key().code(), event.count(), event.duration(), event.isLong());
                 //event.key().show();
@@ -248,61 +310,121 @@ void UiController::handleEvent(KeyEvent event) {
                     _engine.setCvOutputOverride(false);
                 }
                 
-                if(event.isLong()) {
-                    _uiMode = Note;
-                }
-            } else {
+                //if(event.isLong()) {
+                //    _uiMode = Note;
+                //}
             }
         }
             break;
         default:
             break;
-        }
-    }
-        break;
-    case Sequence:
-    {
-        switch(event.type()) {
-        case KeyEvent::KeyDown:
-        {
-        }
-            break;
-        case KeyEvent::KeyUp:
-        {
-            if(event.key().isPlay()) {
-                _uiMode = Perform;
-            }
-        }
-            break;
-        default:
-            break;
-    
         }
     }
         break;
     case Note:
     {
-        switch(event.type()) {
-        case KeyEvent::KeyDown:
-        {
+        if(event.type() == KeyEvent::KeyDown) {
             if(event.key().isStep()) {
                 NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
                 int length = event.key().code();
                 DBG("KeyEvent: Length=%d", length);
                 sequence.step(_engine.selectedStep()).setLength(length);
-            }
-        }
-            break;
-        case KeyEvent::KeyUp:
-        {
-            if(event.key().isPlay()) {
+            } else if(event.key().isPlay()) {
                 _uiMode = Perform;
             }
         }
-            break;
-        default:
-            break;
-    
+    }
+        break;
+    case Sequence:
+    {
+        /*
+        _engine.trackEngine()->pattern();
+        _engine.trackEngine()->changePattern();
+        _engine.trackEngine()->swing();
+        static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+        static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().firstStep();
+        static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().lastStep();
+        static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode();
+        static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().divisor();
+        */
+        
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep()) {
+                if(event.key().code() == Key::Code::Step1) {
+                    _uiMode = Sequence_Pattern;
+                } else if(event.key().code() == Key::Code::Step2) {
+                    _uiMode = Sequence_Swing;
+                } else if(event.key().code() == Key::Code::Step3) {
+                    _uiMode = Sequence_FirstStep;
+                } else if(event.key().code() == Key::Code::Step4) {
+                    _uiMode = Sequence_LastStep;
+                } else if(event.key().code() == Key::Code::Step5) {
+                    _uiMode = Sequence_RunMode;
+                }
+            } else if(event.key().isPlay()) {
+                _uiMode = Perform;
+            }
+        }
+    }
+        break;
+    case Sequence_Pattern:
+    {
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep()) {
+                int newPattern = event.key().code();
+                _engine.trackEngine()->setPattern(newPattern);
+                _engine.trackEngine()->changePattern();
+            } else if(event.key().isPlay()) {
+                _uiMode = Sequence;
+            }
+        }
+    }
+        break;
+    case Sequence_Swing:
+    {
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep()) {
+                float swing = roundf(remap(event.key().code(), 7, 25) + 50);
+                _model.project().setSwing(swing);
+            } else if(event.key().isPlay()) {
+                _uiMode = Sequence;
+            }
+        }
+    }
+        break;
+    case Sequence_FirstStep:
+    {
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep()) {
+                int firstStep = event.key().code();
+                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setFirstStep(firstStep);
+            } else if(event.key().isPlay()) {
+                _uiMode = Sequence;
+            }
+        }
+    }
+        break;
+    case Sequence_LastStep:
+    {
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep()) {
+                int lastStep = event.key().code();
+                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setLastStep(lastStep);
+            } else if(event.key().isPlay()) {
+                _uiMode = Sequence;
+            }
+        }
+    }
+        break;
+    case Sequence_RunMode:
+    {
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep() && event.key().code() < 6) {
+                Types::RunMode runMode = static_cast<Types::RunMode>(event.key().code());
+                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setRunMode(runMode);
+            } else if(event.key().isPlay()) {
+                _uiMode = Sequence;
+            }
         }
     }
         break;
@@ -319,15 +441,21 @@ void UiController::handleEvent(PotEvent event) {
         case Perform:
         {
             // Pitch
-            if(_engine.selectedStep() != -1) {
-                NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
-                //DBG("Set Pitch:%.2f", event.value());
-                sequence.step(_engine.selectedStep()).setNote(event.value() * 0xFFF);
-                
-                if(_engine.gateOutputOverride()) {
-                    _engine.setCvOutput(sequence.step(_engine.selectedStep()).note());
-                }
+            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+            //DBG("Set Pitch:%.2f", event.value());
+            sequence.step(_engine.selectedStep()).setNote(event.value() * 0xFFF);
+            
+            if(_engine.gateOutputOverride()) {
+                _engine.setCvOutput(sequence.step(_engine.selectedStep()).note());
             }
+        }
+            break;
+        case Note:
+        {
+            int length = quantize(event.value() * 8, 8.f, 8.f);
+            //DBG("PotEvent: Length=%d", length);
+            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
+            sequence.step(_engine.selectedStep()).setLength(length);
         }
             break;
         case Sequence:
@@ -335,13 +463,31 @@ void UiController::handleEvent(PotEvent event) {
             
         }
             break;
-        case Note:
+        case Sequence_Pattern:
         {
-            int length = quantize(event.value() * 8, 8.f, 8.f);
-            DBG("PotEvent: Length=%d", length);
-
-            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence();
-            sequence.step(_engine.selectedStep()).setLength(length);
+            _engine.trackEngine()->setPattern(event.value() * 8);
+        }
+            break;
+        case Sequence_Swing:
+        {
+            uint32_t swing = roundf(remap(static_cast<int>(event.value() * 8), 7, 25) + 50);
+            _model.project().setSwing(swing);
+        }
+            break;
+        case Sequence_FirstStep:
+        {
+                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setFirstStep(event.value() * 8);
+        }
+            break;
+        case Sequence_LastStep:
+        {
+                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setLastStep(event.value() * 8);
+        }
+            break;
+        case Sequence_RunMode:
+        {
+            Types::RunMode runMode = static_cast<Types::RunMode>(event.value() * 6.f);
+            static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setRunMode(runMode);
         }
             break;
         default:

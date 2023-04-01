@@ -16,3 +16,8 @@ static T quantize(T value, float inputRange, float outputRange) {
     T qValue = k * delta;
     return qValue;
 }
+
+template<typename T>
+static T remap(T value, T range, T newRange) {
+    return (value * newRange) / range;
+}
