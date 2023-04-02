@@ -45,6 +45,8 @@
         "new": "cpp",
         "numbers": "cpp",
         "stdexcept": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "sstream": "cpp",
+        "istream": "cpp"
     }
 }

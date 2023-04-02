@@ -19,6 +19,7 @@ void UiController::init() {
     }
     _pulse = 0.f;
     _uiMode = Perform;
+    _storage.read(_model);
 }
 
 /*void UiController::update() {
@@ -149,6 +150,7 @@ void UiController::renderUI() {
         ledDriver.setColourHSV(fromKey(Key::Code::Step3), 120.f, 1.f, 1.f);
         ledDriver.setColourHSV(fromKey(Key::Code::Step4), 180.f, 1.f, 1.f);
         ledDriver.setColourHSV(fromKey(Key::Code::Step5), colourTable6[(uint8_t)static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode()], 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step8), 0.f, 1.f, 1.f); // reset model
 
     }
         break;
@@ -208,6 +210,16 @@ void UiController::updateCV() {
         value = adc.channel(i);
         _cvReader.push(i, value); 
     }
+}
+
+void UiController::initializeFlash() {
+    DBG("*********************************");
+    DBG("** INITIALIZING MODEL IN FLASH **");
+    DBG("*********************************");
+    _model.init();
+    _storage.write(_model);
+    //uint32_t v[83];
+    //_storage.read(v);
 }
 
 float UiController::hueFromNote(uint32_t note) {
@@ -285,7 +297,7 @@ void UiController::handleEvent(KeyEvent event) {
                 } else {
                     _engine.togglePlay();
                     if(!_engine.clockRunning()) {
-                        // TODO: Store model
+                        _storage.write(_model);
                     }
                 }
             }
@@ -309,10 +321,6 @@ void UiController::handleEvent(KeyEvent event) {
                     _engine.setGateOutputOverride(false);
                     _engine.setCvOutputOverride(false);
                 }
-                
-                //if(event.isLong()) {
-                //    _uiMode = Note;
-                //}
             }
         }
             break;
@@ -363,6 +371,12 @@ void UiController::handleEvent(KeyEvent event) {
                 }
             } else if(event.key().isPlay()) {
                 _uiMode = Perform;
+            }
+        } else if(event.type() == KeyEvent::KeyUp) {
+            if(event.key().isStep()) {
+                if(event.key().code() == Key::Code::Step8 && event.isLong()) {
+                    initializeFlash();
+                }
             }
         }
     }

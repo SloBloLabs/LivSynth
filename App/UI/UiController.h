@@ -7,6 +7,7 @@
 #include "Event.h"
 #include "KeyPressEventTracker.h"
 #include "CVReader.h"
+#include "FlashStorage.h"
 
 typedef std::array<uint32_t, CONFIG_NUM_BUTTONS> KeyPressDurationTracker;
 class UiController {
@@ -35,6 +36,7 @@ public:
 
 private:
     
+    void initializeFlash();
     float hueFromNote(uint32_t note);
     float valueFromOctave(uint32_t note);
     RGBLed::Code fromKey(uint8_t keyCode);
@@ -58,4 +60,6 @@ private:
     float _pulse;
 
     UiMode _uiMode;
+
+    FlashStorage<11> _storage;
 };
