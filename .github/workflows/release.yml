@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        gcc: ['12.2.1', 'latest']
+        gcc: ['12.2.Rel1', 'latest']
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
