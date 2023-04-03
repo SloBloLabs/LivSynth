@@ -489,12 +489,12 @@ void UiController::handleEvent(PotEvent event) {
             break;
         case Sequence_FirstStep:
         {
-                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setFirstStep(event.value() * 8);
+            static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setFirstStep(event.value() * 8);
         }
             break;
         case Sequence_LastStep:
         {
-                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setLastStep(event.value() * 8);
+            static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setLastStep(event.value() * 8);
         }
             break;
         case Sequence_RunMode:

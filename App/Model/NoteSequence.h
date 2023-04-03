@@ -3,6 +3,7 @@
 #include "Bitfield.h"
 #include "Types.h"
 #include "ModelUtils.h"
+#include "Utils.h"
 
 #include <cstdint>
 #include <array>
@@ -79,11 +80,13 @@ public:
 
     inline uint8_t firstStep() const { return _firstStep; }
     inline void setFirstStep(uint8_t firstStep) {
+        CONSTRAIN(firstStep, 0, _lastStep);
         _firstStep = firstStep;
     }
 
     inline uint8_t lastStep() const { return _lastStep; }
     inline void setLastStep(uint8_t lastStep) {
+        CONSTRAIN(lastStep, _firstStep, CONFIG_STEP_COUNT - 1);
         _lastStep = lastStep;
     }
 

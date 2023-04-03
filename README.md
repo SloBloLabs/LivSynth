@@ -62,3 +62,9 @@ Update github access token
  - git remote remove origin
  - git remote add origin https://oauth2:<<new oauth token>>@github.com/<<username>>/<<reponame>>.git
  - git remote -v
+
+--
+
+Bake a new release on Github:
+git tag <tagname> // e.g. v0.2.1
+git push origin <tagname>
