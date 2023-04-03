@@ -3,6 +3,7 @@
 #include "System.h"
 #include "NoteTrackEngine.h"
 #include "swvPrint.h"
+#include "Math.h"
 #include <cmath>
 
 extern Dio dio;
@@ -96,78 +97,6 @@ uint32_t Engine::measureDivisor() const {
     return _project.timeSignature().measureDivisor();
 }
 
-void Engine::keyDown(KeyEvent &event) {
-    DBG("Engine::keyDown key=%d, count=%d", event.key().code(), event.count());
-    //event.key().show();
-
-    NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
-
-    if(event.key().isStep()) {
-        if(event.key().state(Key::Code::Shift)) {
-            if(event.count() > 1) {
-                sequence.step(event.key().code()).toggleGate();
-            }
-        } else {
-            setGateOutputOverride(true);
-            setCvOutputOverride(true);
-            setGateOutput(true);
-            _selectedStep = event.key().code();
-            setCvOutput(sequence.step(_selectedStep).note());
-        }
-    } else if(event.key().isPlay()) {
-        togglePlay();
-    } else if(event.key().isShift()) {
-        // TODO: implement shifted modes
-        
-    }
-    
-}
-
-void Engine::keyUp(KeyEvent &event) {
-    DBG("Engine::keyUp   key=%d, count=%d, duration=%ld, isLong=%d", event.key().code(), event.count(), event.duration(), event.isLong());
-    //event.key().show();
-
-    if(event.key().isStep()) {
-        setGateOutput(false);
-        updateOverrides();
-        updatePeripherals();
-    } else if(event.key().isShift()) {
-        // TODO: implement shifted modes
-    }
-    if(event.key().none()) {
-        setGateOutputOverride(false);
-        setCvOutputOverride(false);
-    }
-}
-
-void Engine::setCV(PotEvent &event) {
-    if(event.index() == 0) {
-        // Pitch
-        if(_selectedStep != -1) {
-            NoteSequence &sequence = static_cast<NoteTrackEngine*>(_trackEngine)->sequence();
-            //DBG("Set Pitch:%.2f", event.value());
-            sequence.step(_selectedStep).setNote(event.value() * 0xFFF);
-            
-            if(gateOutputOverride()) {
-                setCvOutput(sequence.step(_selectedStep).note());
-            }
-        }
-    } else if(event.index() == 1) {
-        // Tempo
-        /*
-        0 - 4095 ^= 20 - 300 bpm
-        0    -> 20
-        4095 -> 300
-        f(x) = mx + b = dy/dx * x + b = (300 - 20) / 4095 * x + b
-        f(0) = 280/4095 * 0 + b = 20
-        f(x) = 280/4096 * x + 20
-        */
-        float bpm =  280.f * event.value() + 20.f;
-        //DBG("New BPM:%.2f", bpm);
-        _model.project().setTempo(bpm);
-    }
-}
-
 // called by Clock::notifyObservers
 void Engine::onClockOutput(const IClockObserver::OutputState& state) {
     dio.setClock(state.clock);
@@ -206,9 +135,9 @@ void Engine::updatePeripherals() {
 
 uint32_t Engine::quantizeCV(uint32_t cvValue) {
     // semitones
-    float delta = 4095.f / 61; // 5 Octaves * 12 semitones + 1 last C
-    uint8_t k = floorf(cvValue / delta);
-    uint32_t cvqValue = k * delta;
+    //float delta = 4095.f / 61; // 5 Octaves * 12 semitones + 1 last C
+    //uint8_t k = floorf(cvValue / delta);
+    uint32_t cvqValue = quantize(cvValue, 4096.f, 61.f);// 5 Octaves * 12 semitones + 1 last C
     //DBG("CV_org: %ld, CV_q: %ld", cvValue, cvqValue);
     return cvqValue;
 }

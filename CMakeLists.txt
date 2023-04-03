@@ -94,6 +94,7 @@ target_compile_options(${EXECUTABLE} PRIVATE
         -Wno-volatile # 
         #-Wold-style-cast # Deactivated, because there are lots of useless casts in LL lib
         #-Wuseless-cast # Deactivated, because there are lots of useless casts in LL lib
+        -Wno-deprecated-enum-enum-conversion
         -Wsuggest-override> # 
     $<$<CONFIG:Debug>:-Og -g3 -ggdb> # optimize debugging experience, produce debugging information on level 3 for gdb
     $<$<CONFIG:Release>:-O2>) # optimize debug experience (TODO: change that!), no debug information
