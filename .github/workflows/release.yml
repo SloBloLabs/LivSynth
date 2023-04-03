@@ -22,12 +22,6 @@ jobs:
         with:
           release: ${{ matrix.gcc }}
       - run: arm-none-eabi-gcc --version
-
-      #steps:
-      #- name: Install Arm GNU Toolchain (arm-none-eabi-gcc)
-      #  uses: carlosperate/arm-none-eabi-gcc-action@v1
-      #  with:
-      #    release: '12.2.Rel1' # <-- The compiler release to use
       
       - name: Build ARM executable
         run: make
@@ -42,29 +36,6 @@ jobs:
             ./build/LivSynth.hex
             ./build/LivSynth.map
             ./build/LivSynth.bin
-
-
-
-      #  uses: actions/create-release@v1.1.4
-      #  id: create_release
-      #  with:
-      #    draft: false
-      #    prerelease: false
-      #    release_name: ${{ steps.version.outputs.version }}
-      #    tag_name: ${{ github.ref }}
-      #    body_path: CHANGELOG.md
-      #  env:
-      #    GITHUB_TOKEN: ${{ github.token }}
-      #
-      #- name: Upload ARM executable
-      #  uses: actions/upload-release-asset@v1.0.2
-      #  env:
-      #    GITHUB_TOKEN: ${{ github.token }}
-      #  with:
-      #    upload_url: ${{ steps.create_release.outputs.upload_url }}
-      #    asset_path: ./build/LivSynth.elf
-      #    asset_name: LivSynth.elf
-      #    asset_content_type: application/octet-stream
       
       #- name: Release
       #  if: startsWith(github.ref, 'refs/tags/')
