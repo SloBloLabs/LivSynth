@@ -9,6 +9,15 @@
 #include "CVReader.h"
 #include "FlashStorage.h"
 
+#define red         0.f
+#define orange     30.f
+#define yellow     60.f
+#define green     120.f
+#define lightblue 180.f
+#define blue      240.f
+#define violet    270.f
+#define magenta   300.f
+
 typedef std::array<uint32_t, CONFIG_NUM_BUTTONS> KeyPressDurationTracker;
 class UiController {
 public:
@@ -43,8 +52,8 @@ private:
     void handleEvent(KeyEvent event);
     void handleEvent(PotEvent event);
 
-    float colourTable6[6] = {0.f, 60.f, 120.f, 180.f, 240.f, 300.f};
-    float colourTable8[8] = {0.f, 30.f, 60.f, 120.f, 180.f, 240.f, 270.f, 300.f};
+    float colourTable6[6] = {red,         yellow, green, lightblue, blue,         magenta};
+    float colourTable8[8] = {red, orange, yellow, green, lightblue, blue, violet, magenta};
 
     Model &_model;
     Engine &_engine;
@@ -61,5 +70,5 @@ private:
 
     UiMode _uiMode;
 
-    FlashStorage<11> _storage;
+    FlashStorage<3> _storage;
 };

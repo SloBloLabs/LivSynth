@@ -22,13 +22,6 @@ void UiController::init() {
     _storage.read(_model);
 }
 
-/*void UiController::update() {
-    handleKeys();
-
-    _leds.clear();
-    renderSequence();
-}*/
-
 void UiController::handleControls(uint32_t time) {
     ButtonMatrix::Event event;
     while(buttonMatrix.nextEvent(event)) {
@@ -146,11 +139,11 @@ void UiController::renderUI() {
         Sequence_RunMode, 1..6
         */
         ledDriver.setColourHSV(fromKey(Key::Code::Step1), colourTable8[_engine.trackEngine()->pattern()], 1.f, 1.f);
-        ledDriver.setColourHSV(fromKey(Key::Code::Step2), 30.f, 1.f, 1.f);
-        ledDriver.setColourHSV(fromKey(Key::Code::Step3), 120.f, 1.f, 1.f);
-        ledDriver.setColourHSV(fromKey(Key::Code::Step4), 180.f, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step2), orange, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step3), green, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step4), lightblue, 1.f, 1.f);
         ledDriver.setColourHSV(fromKey(Key::Code::Step5), colourTable6[(uint8_t)static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode()], 1.f, 1.f);
-        ledDriver.setColourHSV(fromKey(Key::Code::Step8), 0.f, 1.f, 1.f); // reset model
+        ledDriver.setColourHSV(fromKey(Key::Code::Step8), red, 1.f, 1.f); // reset model
 
     }
         break;
@@ -169,24 +162,30 @@ void UiController::renderUI() {
         ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
         uint32_t swingId = roundf(remap(static_cast<float>(_engine.trackEngine()->swing() - 50), 25.f, 7.f));
         for(uint32_t i = 0; i < swingId; ++i) {
-            ledDriver.setColourHSV(fromKey(i), 30.f, 1.f, 1.f);
+            ledDriver.setColourHSV(fromKey(i), orange, 1.f, 1.f);
         }
-        ledDriver.setColourHSV(fromKey(swingId), 30.f, 1.f, 1.f);
-        ledDriver.setColourHSV(RGBLed::Code::Tune, 30.f, 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(swingId), orange, 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, orange, 1.f, 1.f);
     }
         break;
     case Sequence_FirstStep:
     {
         ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
-        ledDriver.setColourHSV(fromKey(static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().firstStep()), 120.f, 1.f, 1.f);
-        ledDriver.setColourHSV(RGBLed::Code::Tune, 120.f, 1.f, 1.f);
+        uint8_t firstStep = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().firstStep();
+        for(uint8_t i = firstStep; i < 8; ++i) {
+            ledDriver.setColourHSV(fromKey(i), green, 1.f, i == firstStep ? 1.f : .05f);
+        }
+        ledDriver.setColourHSV(RGBLed::Code::Tune, green, 1.f, 1.f);
     }
         break;
     case Sequence_LastStep:
     {
         ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
-        ledDriver.setColourHSV(fromKey(static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().lastStep()), 180.f, 1.f, 1.f);
-        ledDriver.setColourHSV(RGBLed::Code::Tune, 180.f, 1.f, 1.f);
+        uint8_t lastStep = static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().lastStep();
+        for(uint8_t i = 0; i <= lastStep; ++i) {
+            ledDriver.setColourHSV(fromKey(i), lightblue, 1.f, i == lastStep ? 1.f : .05f);
+        }
+        ledDriver.setColourHSV(RGBLed::Code::Tune, lightblue, 1.f, 1.f);
     }
         break;
     case Sequence_RunMode:
