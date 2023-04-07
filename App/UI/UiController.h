@@ -8,6 +8,7 @@
 #include "KeyPressEventTracker.h"
 #include "CVReader.h"
 #include "FlashStorage.h"
+#include "KnownDivisor.h"
 
 #define red         0.f
 #define orange     30.f
@@ -35,6 +36,8 @@ public:
         Sequence_FirstStep,
         Sequence_LastStep,
         Sequence_RunMode,
+        Sequence_Divisor,
+        Clock_OutputDivisor,
         UiMode_Last
     };
 
@@ -52,8 +55,21 @@ private:
     void handleEvent(KeyEvent event);
     void handleEvent(PotEvent event);
 
-    float colourTable6[6] = {red,         yellow, green, lightblue, blue,         magenta};
-    float colourTable8[8] = {red, orange, yellow, green, lightblue, blue, violet, magenta};
+    float _colourTable6[6] = {red,         yellow, green, lightblue, blue,         magenta};
+    float _colourTable8[8] = {red, orange, yellow, green, lightblue, blue, violet, magenta};
+
+    KnownDivisor _divisorSelection[8] = {
+        knownDivisors[3],  // 1/32
+        knownDivisors[4],  // 1/16T
+        knownDivisors[5],  // 1/32.
+        knownDivisors[6],  // 1/16
+        knownDivisors[7],  // 1/8T
+        knownDivisors[8],  // 1/4T
+        knownDivisors[9],  // 1/8.
+        knownDivisors[10]  // 1/4
+    };
+
+    uint8_t findDivisorIndex(uint8_t divisor);
 
     Model &_model;
     Engine &_engine;
@@ -70,5 +86,5 @@ private:
 
     UiMode _uiMode;
 
-    FlashStorage<3> _storage;
+    FlashStorage<4> _storage;
 };

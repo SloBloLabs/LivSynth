@@ -19,7 +19,7 @@ public:
         mode = ModelUtils::clampedEnum(mode);
         if(mode != _mode) {
             _mode = mode;
-            _dirty = true;
+            setDirty();
         }
     }
 
@@ -28,7 +28,7 @@ public:
         clockOutputDivisor = clamp(clockOutputDivisor, uint8_t(2), uint8_t(192));
         if(clockOutputDivisor != _clockOutputDivisor) {
             _clockOutputDivisor = clockOutputDivisor;
-            _dirty = true;
+            setDirty();
         }
     }
 
@@ -36,7 +36,7 @@ public:
     void setClockOutputSwing(bool clockOutputSwing) {
         if(clockOutputSwing != _clockOutputSwing) {
             _clockOutputSwing = clockOutputSwing;
-            _dirty = true;
+            setDirty();
         }
     }
 
@@ -45,13 +45,14 @@ public:
         clockOutputPulse = clamp(clockOutputPulse, uint8_t(1), uint8_t(20));
         if(clockOutputPulse != _clockOutputPulse) {
             _clockOutputPulse = clockOutputPulse;
-            _dirty = true;
+            setDirty();
         }
     }
 
     void clear();
 
     bool isDirty() const { return _dirty; }
+    void setDirty() { _dirty = true; }
     void clearDirty() { _dirty = false; }
 
 private:

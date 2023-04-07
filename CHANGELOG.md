@@ -1,1 +1,13 @@
- * Add Github CI/CD automation
+v0.2.1
+- ensure first step and last step won't commute
+- move FlashStorage to segment 4 (FW size grown too big)
+- Make sequence and clock pulse measure divisors editable. Supportet Measures are:
+  - 1/32
+  - 1/16T
+  - 1/32.
+  - 1/16 (default)
+  - 1/8T
+  - 1/4T
+  - 1/8.
+  - 1/4
+- Pulse selected step also if gate not enabled
