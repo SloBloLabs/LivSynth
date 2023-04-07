@@ -20,6 +20,8 @@ void UiController::init() {
     _pulse = 0.f;
     _uiMode = Perform;
     _storage.read(_model);
+    // this is required to initialize clock setup properly
+    _model.project().clockSetup().setDirty();
 }
 
 void UiController::handleControls(uint32_t time) {
@@ -110,6 +112,8 @@ void UiController::renderUI() {
                 }
                 CONSTRAIN(value, 0.f, 1.f);
                 ledDriver.setColourHSV(fromKey(step), hue, saturation, value);
+            } else if(step == _engine.selectedStep()) {
+                ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, fabsf(pulseFrq * _pulse - floorf(pulseFrq * _pulse + .5f)));
             } else if(step == currentStep) {
                 ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, .05f);
             }
@@ -138,13 +142,16 @@ void UiController::renderUI() {
         Sequence_LastStep, 1..8
         Sequence_RunMode, 1..6
         */
-        ledDriver.setColourHSV(fromKey(Key::Code::Step1), colourTable8[_engine.trackEngine()->pattern()], 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step1), _colourTable8[_engine.trackEngine()->pattern()], 1.f, 1.f);
         ledDriver.setColourHSV(fromKey(Key::Code::Step2), orange, 1.f, 1.f);
         ledDriver.setColourHSV(fromKey(Key::Code::Step3), green, 1.f, 1.f);
         ledDriver.setColourHSV(fromKey(Key::Code::Step4), lightblue, 1.f, 1.f);
-        ledDriver.setColourHSV(fromKey(Key::Code::Step5), colourTable6[(uint8_t)static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode()], 1.f, 1.f);
+        ledDriver.setColourHSV(fromKey(Key::Code::Step5), _colourTable6[(uint8_t)static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode()], 1.f, 1.f);
+        int divisorIndex = findDivisorIndex(static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().divisor());
+        ledDriver.setColourHSV(fromKey(Key::Code::Step6), _colourTable8[divisorIndex], 1.f, 1.f);
+        divisorIndex = findDivisorIndex(_model.project().clockSetup().clockOutputDivisor());
+        ledDriver.setColourHSV(fromKey(Key::Code::Step7), _colourTable8[divisorIndex], 1.f, 1.f);
         ledDriver.setColourHSV(fromKey(Key::Code::Step8), red, 1.f, 1.f); // reset model
-
     }
         break;
     case Sequence_Pattern:
@@ -152,9 +159,9 @@ void UiController::renderUI() {
         ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
         uint8_t pattern = _engine.trackEngine()->pattern();
         for(int i = 0; i < 8; ++i) {
-            ledDriver.setColourHSV(fromKey(i), colourTable8[i], 1.f, i == pattern ? 1.f : .05f);
+            ledDriver.setColourHSV(fromKey(i), _colourTable8[i], 1.f, i == pattern ? 1.f : .05f);
         }
-        ledDriver.setColourHSV(RGBLed::Code::Tune, colourTable8[pattern], 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, _colourTable8[pattern], 1.f, 1.f);
     }
         break;
     case Sequence_Swing:
@@ -193,9 +200,29 @@ void UiController::renderUI() {
         ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
         uint8_t runMode = (uint8_t)static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().runMode();
         for(int i = 0; i < 6; ++i) {
-            ledDriver.setColourHSV(fromKey(i), colourTable6[i], 1.f, i == runMode ? 1.f : .05f);
+            ledDriver.setColourHSV(fromKey(i), _colourTable6[i], 1.f, i == runMode ? 1.f : .05f);
         }
-        ledDriver.setColourHSV(RGBLed::Code::Tune, colourTable6[runMode], 1.f, 1.f);
+        ledDriver.setColourHSV(RGBLed::Code::Tune, _colourTable6[runMode], 1.f, 1.f);
+    }
+        break;
+    case Sequence_Divisor:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        int divisorIndex = findDivisorIndex(static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().divisor());
+        for(int i = 0; i < 8; ++i) {
+            ledDriver.setColourHSV(fromKey(i), _colourTable8[i], 1.f, i == divisorIndex ? 1.f : .05f);
+        }
+        ledDriver.setColourHSV(RGBLed::Code::Tune, _colourTable8[divisorIndex], 1.f, 1.f);
+    }
+        break;
+    case Clock_OutputDivisor:
+    {
+        ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
+        int divisorIndex = findDivisorIndex(_model.project().clockSetup().clockOutputDivisor());
+        for(int i = 0; i < 8; ++i) {
+            ledDriver.setColourHSV(fromKey(i), _colourTable8[i], 1.f, i == divisorIndex ? 1.f : .05f);
+        }
+        ledDriver.setColourHSV(RGBLed::Code::Tune, _colourTable8[divisorIndex], 1.f, 1.f);
     }
         break;
     default:
@@ -367,6 +394,10 @@ void UiController::handleEvent(KeyEvent event) {
                     _uiMode = Sequence_LastStep;
                 } else if(event.key().code() == Key::Code::Step5) {
                     _uiMode = Sequence_RunMode;
+                } else if(event.key().code() == Key::Code::Step6) {
+                    _uiMode = Sequence_Divisor;
+                } else if(event.key().code() == Key::Code::Step7) {
+                    _uiMode = Clock_OutputDivisor;
                 }
             } else if(event.key().isPlay()) {
                 _uiMode = Perform;
@@ -441,6 +472,30 @@ void UiController::handleEvent(KeyEvent event) {
         }
     }
         break;
+    case Sequence_Divisor:
+    {
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep()) {
+                KnownDivisor divisor = _divisorSelection[event.key().code()];
+                static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setDivisor(divisor.divisor);
+            } else if(event.key().isPlay()) {
+                _uiMode = Sequence;
+            }
+        }
+    }
+        break;
+    case Clock_OutputDivisor:
+    {
+        if(event.type() == KeyEvent::KeyDown) {
+            if(event.key().isStep()) {
+                KnownDivisor divisor = _divisorSelection[event.key().code()];
+                _model.project().clockSetup().setClockOutputDivisor(divisor.divisor);
+            } else if(event.key().isPlay()) {
+                _uiMode = Sequence;
+            }
+        }
+    }
+        break;
     default:
         break;
     }
@@ -503,6 +558,18 @@ void UiController::handleEvent(PotEvent event) {
             static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setRunMode(runMode);
         }
             break;
+        case Sequence_Divisor:
+        {
+            KnownDivisor divisor = _divisorSelection[static_cast<int>(roundf(event.value() * 7))];
+            static_cast<NoteTrackEngine*>(_engine.trackEngine())->sequence().setDivisor(divisor.divisor);
+        }
+            break;
+        case Clock_OutputDivisor:
+        {
+            KnownDivisor divisor = _divisorSelection[static_cast<int>(roundf(event.value() * 7))];
+            _model.project().clockSetup().setClockOutputDivisor(divisor.divisor);
+        }
+            break;
         default:
             break;
         }
@@ -520,4 +587,16 @@ void UiController::handleEvent(PotEvent event) {
         //DBG("New BPM:%.2f", bpm);
         _model.project().setTempo(bpm);
     }
+}
+
+uint8_t UiController::findDivisorIndex(uint8_t divisor) {
+    int index = -1;
+    const int numDivisors = sizeof(_divisorSelection) / sizeof(KnownDivisor);
+    while(index < numDivisors) {
+        ++index;
+        if(_divisorSelection[index].divisor == divisor) {
+            break;
+        }
+    }
+    return index;
 }

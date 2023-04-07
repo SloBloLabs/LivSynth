@@ -42,7 +42,7 @@ public:
         const uint32_t *src = reinterpret_cast<const uint32_t *>(&data);
         uint32_t address = FLASH_STORAGE_BASE;
         while(size) {
-            DBG("writing data 0x%.8lx from %p to address %p", *src, (void *)src, (void *)address);
+            //DBG("writing data 0x%.8lx from %p to address %p", *src, (void *)src, (void *)address);
             Flash::program(address, *src);
             address += 4;
             size -= 4;
@@ -60,7 +60,7 @@ public:
         uint32_t *target = reinterpret_cast<uint32_t *>(&data);
         uint32_t address = FLASH_STORAGE_BASE;
         while(size) {
-            DBG("Reading data 0x%.8lx from %p to address %p", *(uint32_t*)address, (void *)address, (void *)target);
+            //DBG("Reading data 0x%.8lx from %p to address %p", *(uint32_t*)address, (void *)address, (void *)target);
             *target = *(uint32_t*)address;
             address += 4;
             size -= 4;
