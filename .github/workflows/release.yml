@@ -1,8 +1,8 @@
 on:
   push:
     #branches: [ "main" ]
-    branches-ignore:
-      - 'dev*'
+    #branches-ignore:
+    #  - 'dev*'
     tags:
       - 'v*'
 
