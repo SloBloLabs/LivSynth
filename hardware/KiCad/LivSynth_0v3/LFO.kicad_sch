@@ -1141,7 +1141,7 @@
     (property "Reference" "RV11" (at 104.775 72.3899 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
-    (property "Value" "100k" (at 104.775 74.9299 0)
+    (property "Value" "100K" (at 104.775 74.9299 0)
       (effects (font (size 1.27 1.27)) (justify right))
     )
     (property "Footprint" "SloBlo:RV141F-40-20BL" (at 107.315 73.66 0)
