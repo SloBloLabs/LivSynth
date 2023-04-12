@@ -1,0 +1,4 @@
+(fp_lib_table
+  (version 7)
+  (lib (name "LivSynth_Faceplate")(type "KiCad")(uri "${GITHUB_FOLDER}/LivSynth/hardware/Faceplate")(options "")(descr ""))
+)
