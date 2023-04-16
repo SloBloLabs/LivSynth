@@ -72,7 +72,8 @@ class RenderSpeakerGrill(ActionPlugin):
         pad.SetDrillSize(VECTOR2I(wxSizeMM(drillSize, drillSize)))
         pad.SetShape(PAD_SHAPE_CIRCLE)
         pad.SetAttribute(PAD_ATTRIB_PTH)
-        pad.SetLayerSet(pad.PTHMask())
+        # remove mask to darken backside
+        pad.SetLayerSet(pad.PTHMask().RemoveLayer(B_Mask))
         pad.SetPosition(VECTOR2I(wxPointMM(0, 0)))
         #pcb_pad.SetNetCode(net.GetNetCode())
         module.Add(pad)
