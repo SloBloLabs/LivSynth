@@ -68,3 +68,47 @@ Update github access token
 Bake a new release on Github:
 git tag <tagname> // e.g. v0.2.1
 git push origin <tagname>
+
+--
+
+# Build Instructions
+
+Use the ibom tool inside the hardware section of the repository to track your work!
+## Power
+ - Place USB Micro Connector J21
+ - Place all components from power section
+   - U8
+   - D12
+   - FB1
+   - U1
+   - J24, J24, J12, J7
+   - C49, C52, C32, C33, C1, C2, C3, C7
+   - R1, R2, R11
+   - SW7
+ - Check voltages at J201, do proceed if everything is ok!
+
+## Assembly of backside
+ - assemble all components (except 5mm LEDs!) on the backside of the mainboard, preferably using the following order:
+   - SMD components
+   - resistors
+   - diodes
+   - DIP socket and DIP components
+   - transistors
+   - tempco resistor
+   - pin headers
+   - capacitors
+
+## Assemply of frontside
+ - assemble potentiometers and switches of the mainboard
+ - assemple the 5mm LEDs on the backside
+
+## Assmeply of speaker
+ - First screws from backside, hex nuts on the front side
+ - solder the hex nuts to the pads
+ - remove screws and mount the speaker to the frontside using the screws
+ - if using the battery holder you may need to shorten one of the screws to make it fit
+
+
+
+
+
