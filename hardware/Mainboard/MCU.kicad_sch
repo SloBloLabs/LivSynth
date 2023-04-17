@@ -3324,7 +3324,7 @@
   )
 
   (symbol (lib_id "Switch:SW_Push") (at 73.66 64.77 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom no) (on_board yes) (dnp no)
     (uuid e0f7e91f-299e-4b0a-8dc6-5eb2bc872a58)
     (property "Reference" "SW5" (at 66.675 63.5 90)
       (effects (font (size 1.27 1.27)) (justify right))
