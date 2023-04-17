@@ -2292,7 +2292,7 @@
   )
 
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 200.66 140.335 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 049d0aa8-7a48-4fa2-9247-8fe3e96f92c6)
     (property "Reference" "J23" (at 201.93 140.3349 0)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2394,7 +2394,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 104.14 50.165 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 29d8a53f-5834-4614-9143-634905b91066)
     (property "Reference" "C40" (at 107.315 48.9012 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2474,7 +2474,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 110.49 77.47 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom no) (on_board yes) (dnp no)
     (uuid 3184a7df-2045-482b-a13a-30458c1e2956)
     (property "Reference" "C39" (at 111.125 75.565 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2752,7 +2752,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 128.27 50.165 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 6a27d4d2-c30b-4d3f-bb91-026bb07040ac)
     (property "Reference" "C38" (at 131.445 48.9012 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -2806,7 +2806,7 @@
   )
 
   (symbol (lib_id "Connector:Conn_01x06_Male") (at 80.01 170.18 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 7ae3139e-b630-4940-ab7e-64a9e8c3e7f7)
     (property "Reference" "J5" (at 81.28 170.1799 0)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -2866,7 +2866,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 92.075 50.165 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 8571ad5f-badd-41d0-b6cd-4d98c81b3862)
     (property "Reference" "C50" (at 95.25 48.9012 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -3021,7 +3021,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 98.425 104.14 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid a3708aba-e02d-4d7a-93cc-9e27a6e07c83)
     (property "Reference" "C44" (at 101.6 102.8762 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -3050,7 +3050,7 @@
   )
 
   (symbol (lib_id "Connector_Generic:Conn_02x05_Odd_Even") (at 108.585 172.72 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid aa20ae3a-d7f5-4b84-b0e5-a4feeb6a6fe4)
     (property "Reference" "J6" (at 109.855 161.29 0)
       (effects (font (size 1.27 1.27)))
@@ -3210,7 +3210,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 79.375 50.165 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d20c06ee-fb10-442d-8bf8-236388379711)
     (property "Reference" "C48" (at 82.55 48.9012 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -3266,7 +3266,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 116.205 50.165 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid d86b14f3-2db0-4c50-83a5-4ec9a8c4065a)
     (property "Reference" "C51" (at 119.38 48.9012 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -3295,7 +3295,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 79.375 64.77 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid de67405d-88ac-45a2-8d67-2561d6cf073d)
     (property "Reference" "C42" (at 82.55 63.5062 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -3375,7 +3375,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 83.185 104.14 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (in_bom no) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid e21e828c-6ff3-42b7-9a03-ab7fa8fd4a18)
     (property "Reference" "C47" (at 86.36 102.8762 0)
       (effects (font (size 1.27 1.27)) (justify left))
@@ -3480,7 +3480,7 @@
   )
 
   (symbol (lib_id "Device:C_Small") (at 118.11 77.47 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom no) (on_board yes) (dnp no)
     (uuid f95484ad-c972-458b-95b7-c0b3d25b3f0a)
     (property "Reference" "C46" (at 118.745 75.565 0)
       (effects (font (size 1.27 1.27)) (justify left))
