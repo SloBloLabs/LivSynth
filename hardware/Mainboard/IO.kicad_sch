@@ -5528,7 +5528,7 @@
   )
 
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 338.455 80.645 90) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom no) (on_board yes) (dnp no)
     (uuid 690645cc-ceed-495c-b456-6eef204f3560)
     (property "Reference" "J14" (at 342.265 80.01 90)
       (effects (font (size 1.27 1.27)) (justify right))
@@ -8249,7 +8249,7 @@
   )
 
   (symbol (lib_id "Connector:Conn_01x02_Male") (at 370.84 66.675 0) (mirror y) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no)
+    (in_bom no) (on_board yes) (dnp no)
     (uuid fe84b53b-c90e-45d4-812e-ffd80b163984)
     (property "Reference" "J4" (at 365.76 60.325 0)
       (effects (font (size 1.27 1.27)) (justify right))

@@ -93,13 +93,13 @@ Use the ibom tool inside the hardware section of the repository to track your wo
    - resistors
    - diodes
    - DIP socket and DIP components
-   - transistors
+   - transistors (Q8/Q9 and Q11/Q12 must be matched)
    - tempco resistor
    - pin headers
    - capacitors
 
 ## Assemply of frontside
- - assemble potentiometers and switches of the mainboard
+ - assemble potentiometers, trimmers and switches of the mainboard
  - assemple the 5mm LEDs on the backside
 
 ## Assmeply of speaker
