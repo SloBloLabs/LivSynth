@@ -93,20 +93,35 @@ Use the ibom tool inside the hardware section of the repository to track your wo
    - resistors
    - diodes
    - DIP socket and DIP components
-   - transistors (Q8/Q9 and Q11/Q12 must be matched)
+   - transistors (Q4/Q5, Q8/Q9 and Q11/Q12 must be matched)
    - tempco resistor
    - pin headers
    - capacitors
 
 ## Assemply of frontside
- - assemble potentiometers, trimmers and switches of the mainboard
- - assemple the 5mm LEDs on the backside
+ - assemble potentiometers, trimmers, spacers and switches of the mainboard, DO NOT SOLDER THEM YET!
+ - put the faceplate on top and make sure all components incl. trimmers fit into the wholes
+ - fasten the M2.5 screws in the corners
+ - turn the set around and solder everthing
+ - remove the faceplate again
 
-## Assmeply of speaker
- - First screws from backside, hex nuts on the front side
- - solder the hex nuts to the pads
- - remove screws and mount the speaker to the frontside using the screws
+## Assmebly of speaker
+ - First put screws from backside, hex nuts on the front side and tighten them
+ - solder the hex nuts to the solder pads
+ - apply two pieces of bell wire of about 5cm in lenght to the speakers solder pads
+ - remove screws and mount the speaker to the frontside using the screws the other way around
  - if using the battery holder you may need to shorten one of the screws to make it fit
+ - connect the loose ends of speaker wires to J4
+
+## LEDs
+ - assemble the 5mm LEDs on the backside
+ - bend their heads in a 180° U-turn into the holes behind the transparent potentiometers, so they can emit as much light as possible into their shafts
+
+## Test & Calibration
+ - connect a 9V center negative power supply to the barrel jack
+ - switch on the device and wait a moment. Turn it off again if you see anything suspicious. ("smoke test")
+ - At least the keyboard LEDs should light up in white colour and the LFO LEDs are blinking
+ - 
 
 
 
