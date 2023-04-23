@@ -534,6 +534,7 @@ void UiController::handleEvent(PotEvent event) {
         case Sequence_Pattern:
         {
             _engine.trackEngine()->setPattern(event.value() * 8);
+            _engine.trackEngine()->changePattern();
         }
             break;
         case Sequence_Swing:
