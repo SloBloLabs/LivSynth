@@ -20,6 +20,9 @@ build: cmake
 flash: all
 	$(MAKE) -C ${BUILD_DIR} flash
 
+dfu: all
+	dfu-util -a 0 -s 0x08000000 -D build/LivSynth.bin
+
 SRCS := $(shell find . -name '*.[ch]' -or -name '*.[ch]pp')
 format: $(addsuffix .format,${SRCS})
 
