@@ -70,6 +70,32 @@ git tag <tagname> // e.g. v0.2.1
 git push origin <tagname>
 
 --
+# STM32 USB Composite device
+
+Composite USB interface:
+
+1 configuration
+3 interfaces (2*CDC + 1*MIDI)
+6 endpoints
+
+CDC:
+ - 2 interfaces
+   - 0: communications control
+     - 1 endpoint 0x82
+   - 1: communications data
+     - 2 endpoints 0x01 + 0x81 (BULK)
+ - 4 endpoints overall
+   - EP0
+   - EP1
+   - EP3 (in only: 0x83)
+
+MIDI:
+ - 1 interface
+   - 0: Audio/Streaming
+     - 2 endpoints 0x02 + 0x83 (BULK)
+ - 3 endpoints overall
+   - EP0
+   - EP2
 
 # Build Instructions
 

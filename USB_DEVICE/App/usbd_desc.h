@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -29,7 +29,7 @@
 #include "usbd_def.h"
 
 /* USER CODE BEGIN INCLUDE */
-
+#include "usbd_composite_builder.h"
 /* USER CODE END INCLUDE */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -46,8 +46,8 @@
   * @{
   */
 #define         DEVICE_ID1          (UID_BASE)
-#define         DEVICE_ID2          (UID_BASE + 0x4)
-#define         DEVICE_ID3          (UID_BASE + 0x8)
+#define         DEVICE_ID2          (UID_BASE + 0x4U)
+#define         DEVICE_ID3          (UID_BASE + 0x8U)
 
 #define  USB_SIZ_STRING_SERIAL       0x1A
 

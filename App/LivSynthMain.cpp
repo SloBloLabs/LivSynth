@@ -14,6 +14,7 @@
 #include "Engine.h"
 #include "UiController.h"
 #include <cmath>
+#include "MidiHandler.h"
 
 #define RUN_TEST 0
 
@@ -32,6 +33,7 @@ static CCMRAM_BSS ShiftRegister shiftRegister;
 static            Model         model;
 static CCMRAM_BSS Engine        engine(model, clockTimer);
 static CCMRAM_BSS UiController  uiController(model, engine);
+static CCMRAM_BSS MidiHandler   midiHandler;
 
 void appMain() {
 
@@ -47,6 +49,7 @@ void appMain() {
     ledDriver.init();
     engine.init();
     uiController.init();
+    midiHandler.init();
 
     uint32_t curMillis
            , logMillis    = 0
@@ -68,6 +71,12 @@ void appMain() {
                 //DBG("Update LEDs");
             }
         }
+        
+        MidiMessage msg;
+        while(midiHandler.dequeueIncoming(&msg)) {
+            DBG("New MidiMessage:");
+            MidiMessage::dump(msg);
+        };
         
         // update sequencer input and state
         if(curMillis - updateMillis > 49) {
@@ -109,6 +118,22 @@ void appLEDTxError() {
 
 void appADCCompleteRequest() {
     uiController.updateCV();
+}
+
+
+extern "C" {
+
+void enqueueIncomingMidi(uint8_t *data) {
+    MidiUSBMessage umsg(data);
+    MidiMessage msg;
+    umsg.getMidiMessage(msg);
+    midiHandler.enqueueIncoming(msg);
+}
+
+void midiTrxSentCallback() {
+    midiHandler.setBusy(false);
+}
+
 }
 
 /*#######################################

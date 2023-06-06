@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -48,6 +48,23 @@
   * @{
   */
 
+/* Activate the IAD option */
+#define USBD_COMPOSITE_USE_IAD                             1U
+
+/* Activate the composite builder */
+#define USE_USBD_COMPOSITE
+
+/* Activate Printer and CDC classes in composite builder */
+#define USBD_CMPSIT_ACTIVATE_CDC                           1U
+#define USBD_CMPSIT_ACTIVATE_AUDIO                         1U
+
+/* The definition of endpoint numbers must respect the order of classes instantiation  */
+#define CDC_CMP_OUT_EP                              0x01U  /* EP1 for CDC data OUT */
+#define CDC_CMP_IN_EP                               0x81U  /* EP1 for CDC data IN */
+#define CDC_CMP_CMD_EP                              0x83U  /* EP2 for CDC commands */
+#define MIDI_CMP_OUT_EP                             0x02U  /* EP2 for MIDI data OUT */
+#define MIDI_CMP_IN_EP                              0x82U  /* EP3 for MIDI data IN */
+
 /** @defgroup USBD_CONF_Exported_Variables USBD_CONF_Exported_Variables
   * @brief Public variables.
   * @{
@@ -63,13 +80,13 @@
   */
 
 /*---------- -----------*/
-#define USBD_MAX_NUM_INTERFACES     1U
+#define USBD_MAX_NUM_INTERFACES     4U
 /*---------- -----------*/
 #define USBD_MAX_NUM_CONFIGURATION     1U
 /*---------- -----------*/
 #define USBD_MAX_STR_DESC_SIZ     512U
 /*---------- -----------*/
-#define USBD_SUPPORT_USER_STRING_DESC     1U
+#define USBD_SUPPORT_USER_STRING_DESC     0U
 /*---------- -----------*/
 #define USBD_DEBUG_LEVEL     0U
 /*---------- -----------*/
