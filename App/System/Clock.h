@@ -42,6 +42,8 @@ public:
     inline float masterBpm() const { return _masterBpm; }
     void setMasterBpm(float bpm);
 
+    void slaveHandleMidi(uint8_t msg);
+
     uint32_t tick() const { return _tick; }
     inline float tickDuration() const { return 60.f / (bpm() * _ppqn); }
 

@@ -8,10 +8,11 @@
 #include "Dio.h"
 #include "TrackEngine.h"
 #include "Event.h"
+#include "MidiHandler.h"
 
 class Engine : private IClockObserver {
 public:
-    Engine(Model &model, ClockTimer& clockTimer);
+    Engine(Model &model, ClockTimer& clockTimer, MidiHandler &midiHandler);
     void init();
     bool update();
 
@@ -52,12 +53,16 @@ private:
     void updateTrackOutputs();
     uint32_t quantizeCV(uint32_t cvValue);
 
+    void receiveMidi();
+    //void receiveMidi(MidiPort port, uint8_t cable, const MidiMessage &message);
+
     void initClock();
     
     Model &_model;
     Project &_project;
     
     Clock _clock;
+    MidiHandler &_midiHandler;
 
     TrackEngine* _trackEngine;
 

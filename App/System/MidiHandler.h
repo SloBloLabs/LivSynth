@@ -5,12 +5,16 @@
 #include "MidiUSBMessage.h"
 #include "usbd_midi_if.h"
 
+#include <functional>
+
 #define MAX_ATTEMPTS      10
 
 extern USBD_MIDI_ItfTypeDef USBD_MIDI_fops_FS;
 
 class MidiHandler {
 public:
+    typedef std::function<bool(MidiMessage&)> RealtimeHandler;
+
     MidiHandler() = default;
     ~MidiHandler() = default;
 
@@ -19,6 +23,7 @@ public:
         _outgoing.init();
         _cableNumber = 0;
         _busy = 0;
+        _rtHandler = nullptr;
         memset(_sendBuffer, 0, USB_FS_MAX_PACKET_SIZE);
     }
 
@@ -43,6 +48,9 @@ public:
     }
 
     inline void enqueueIncoming(MidiMessage &msg) {
+        if(_rtHandler && msg.isRealTimeMessage()) {
+            _rtHandler(msg);
+        }
         _incoming.write(msg);
     }
 
@@ -110,6 +118,10 @@ public:
         _busy = busy;
     }
 
+    void setRealtimeHandler(RealtimeHandler rtHandler) {
+        _rtHandler = rtHandler;
+    }
+
 private:
     RingBuffer<MidiMessage, USB_FS_MAX_PACKET_SIZE << 1> _incoming;
     RingBuffer<MidiMessage, USB_FS_MAX_PACKET_SIZE << 1> _outgoing;
@@ -118,5 +130,7 @@ private:
     volatile bool _busy;
 
     uint8_t _sendBuffer[USB_FS_MAX_PACKET_SIZE];
+
+    RealtimeHandler _rtHandler;
 
 };

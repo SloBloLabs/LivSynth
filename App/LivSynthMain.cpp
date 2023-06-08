@@ -31,9 +31,9 @@ static CCMRAM_BSS ShiftRegister shiftRegister;
        CCMRAM_BSS ButtonMatrix  buttonMatrix(shiftRegister);
                   LEDDriver     ledDriver;
 static            Model         model;
-static CCMRAM_BSS Engine        engine(model, clockTimer);
-static CCMRAM_BSS UiController  uiController(model, engine);
 static CCMRAM_BSS MidiHandler   midiHandler;
+static CCMRAM_BSS Engine        engine(model, clockTimer, midiHandler);
+static CCMRAM_BSS UiController  uiController(model, engine);
 
 void appMain() {
 
@@ -47,9 +47,9 @@ void appMain() {
     shiftRegister.init();
     buttonMatrix.init();
     ledDriver.init();
+    midiHandler.init();
     engine.init();
     uiController.init();
-    midiHandler.init();
 
     uint32_t curMillis
            , logMillis    = 0
@@ -71,12 +71,6 @@ void appMain() {
                 //DBG("Update LEDs");
             }
         }
-        
-        MidiMessage msg;
-        while(midiHandler.dequeueIncoming(&msg)) {
-            DBG("New MidiMessage:");
-            MidiMessage::dump(msg);
-        };
         
         // update sequencer input and state
         if(curMillis - updateMillis > 49) {
@@ -119,7 +113,6 @@ void appLEDTxError() {
 void appADCCompleteRequest() {
     uiController.updateCV();
 }
-
 
 extern "C" {
 

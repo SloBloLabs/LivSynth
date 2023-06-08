@@ -9,10 +9,11 @@
 extern Dio dio;
 extern DacInternal dac;
 
-Engine::Engine(Model &model, ClockTimer& clockTimer) :
+Engine::Engine(Model &model, ClockTimer& clockTimer, MidiHandler &midiHandler) :
     _model(model),
     _project(model.project()),
-    _clock(clockTimer)
+    _clock(clockTimer),
+    _midiHandler(midiHandler)
 {
     _trackEngine = nullptr;
 }
@@ -32,6 +33,9 @@ bool Engine::update() {
     _clock.setMasterBpm(_project.tempo());
 
     updateClockSetup();
+
+    // consume midi events
+    receiveMidi();
 
     uint32_t tick;
     bool outputUpdated = false;
@@ -142,8 +146,26 @@ uint32_t Engine::quantizeCV(uint32_t cvValue) {
     return cvqValue;
 }
 
+void Engine::receiveMidi() {
+    MidiMessage msg;
+    while(_midiHandler.dequeueIncoming(&msg)) {
+        if(MidiMessage::isChannelMessage(msg.status())) {
+            USBDBG("Channel Message\n");
+            // TODO: play note etc.
+        }
+    }
+}
+
 void Engine::initClock() {
     _clock.attach(this);
+
+    _midiHandler.setRealtimeHandler([this] (MidiMessage &msg) {
+        if(msg.isClockMessage()) {
+            _clock.slaveHandleMidi(msg.status());
+            return true;
+        }
+        return false;
+    });
 }
 
 void Engine::updateClockSetup() {

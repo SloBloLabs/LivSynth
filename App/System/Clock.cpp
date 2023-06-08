@@ -2,6 +2,8 @@
 #include "main.h"
 #include "Groove.h"
 #include <cmath>
+#include "MidiMessage.h"
+#include "swvPrint.h"
 
 Clock::Clock(ClockTimer &timer) :
     _timer(timer)
@@ -40,6 +42,30 @@ void Clock::resetTicks() {
 void Clock::setMasterBpm(float bpm) {
     _masterBpm = bpm;
     setupMasterTimer();
+}
+
+void Clock::slaveHandleMidi(uint8_t msg) {
+    switch (MidiMessage::realTimeMessage(msg)) {
+    case MidiMessage::Tick:
+        //slaveTick(slave);
+        break;
+    case MidiMessage::Start:
+        USBDBG("MIDI Start\n");
+        //slaveStart(slave);
+        masterStart();
+        break;
+    case MidiMessage::Stop:
+        USBDBG("MIDI Stop\n");
+        //slaveStop(slave);
+        masterStop();
+        break;
+    case MidiMessage::Continue:
+        USBDBG("MIDI Continue\n");
+        //slaveContinue(slave);
+        break;
+    default:
+        break;
+    }
 }
 
 // outputDivisor * (_clock.ppqn() / SEQUENCE_PPQN), outputPulse

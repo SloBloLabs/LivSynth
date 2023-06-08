@@ -198,7 +198,9 @@ static int8_t MIDI_Receive_FS(uint8_t* Buf, uint32_t Len)
   //UNUSED(b);
   //printf("MIDI_Receive_FS: chan = 0x%02x, msgtype = 0x%02x, b1 = 0x%02x, b2 = 0x%02x\n", chan, msgtype, b1, b2);
 
-  enqueueIncomingMidi(Buf);
+  for(uint8_t n = 0; n < Len; n += 4) {
+    enqueueIncomingMidi( (Buf + n) );
+  }
 
   return (USBD_OK);
   /* USER CODE END 6 */
