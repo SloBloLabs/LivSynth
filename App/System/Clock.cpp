@@ -105,6 +105,10 @@ void Clock::slaveStop() {
         return;
     }
 
+    for(auto observer : _observerList) {
+        observer->onStop();
+    }
+
     setRunState(RunState::Idle);
 
     _timer.disable();

@@ -107,6 +107,10 @@ void Engine::onClockOutput(const IClockObserver::OutputState& state) {
     dio.setReset(state.reset);
 }
 
+void Engine::onStop() {
+    clockStop();
+}
+
 void Engine::updateTrackSetup() {
     if(!_trackEngine) {
         _trackEngine = new NoteTrackEngine(*this, _model, _project.track());

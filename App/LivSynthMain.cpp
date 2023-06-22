@@ -20,9 +20,6 @@
 
 #define CCMRAM_BSS __attribute__((section(".ccmram")))
 
-//static volatile float    _bpm;
-//static volatile float    _pitch;
-
 static CCMRAM_BSS ClockTimer    clockTimer;
                   AdcInternal   adc;
        CCMRAM_BSS DacInternal   dac;
@@ -56,7 +53,7 @@ void appMain() {
            , updateMillis = 0
            , engineMillis = 0;
     
-    bool debug = true;
+    bool debug = false;
     
     while(true) {
 

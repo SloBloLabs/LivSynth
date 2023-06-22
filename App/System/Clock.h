@@ -14,6 +14,7 @@ public:
     };
     virtual ~IClockObserver() {}
     virtual void onClockOutput(const OutputState &state) = 0;
+    virtual void onStop() = 0;
     // virtual void onClockMidi(uint8_t) = 0;
 };
 

@@ -52,6 +52,7 @@ public:
 
 private:
     virtual void onClockOutput(const IClockObserver::OutputState& state) override;
+    virtual void onStop() override;
 
     void updateTrackSetup();
     void updateTrackOutputs();
