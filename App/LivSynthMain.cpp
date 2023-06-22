@@ -20,8 +20,8 @@
 
 #define CCMRAM_BSS __attribute__((section(".ccmram")))
 
-static volatile float    _bpm;
-static volatile float    _pitch;
+//static volatile float    _bpm;
+//static volatile float    _pitch;
 
 static CCMRAM_BSS ClockTimer    clockTimer;
                   AdcInternal   adc;
@@ -56,7 +56,7 @@ void appMain() {
            , updateMillis = 0
            , engineMillis = 0;
     
-    bool debug = false;
+    bool debug = true;
     
     while(true) {
 
@@ -88,7 +88,8 @@ void appMain() {
         // render debug log output
         if(debug && curMillis - logMillis > 999) {
             logMillis = curMillis;
-            DBG("ADC0=%d, ADC1=%d, bpm=%.2f, pitch=%.2f, buttons=0x%02X", adc.channel(0), adc.channel(1), _bpm, _pitch, shiftRegister.read());
+            USBDBG("Tempo = %.2f, RunState = %d\n", engine.tempo(), engine.runState());
+            //DBG("ADC0=%d, ADC1=%d, bpm=%.2f, pitch=%.2f, buttons=0x%02X", adc.channel(0), adc.channel(1), _bpm, _pitch, shiftRegister.read());
         }
     }
 }

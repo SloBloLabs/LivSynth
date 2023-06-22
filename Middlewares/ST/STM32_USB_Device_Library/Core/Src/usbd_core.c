@@ -513,11 +513,9 @@ USBD_StatusTypeDef USBD_ClrClassConfig(USBD_HandleTypeDef *pdev, uint8_t cfgidx)
   }
 #else
   /* Clear configuration  and De-initialize the Class process */
-  if(pdev->pClass[0] != NULL) {
-    if (pdev->pClass[0]->DeInit(pdev, cfgidx) != 0U)
-    {
-      ret = USBD_FAIL;
-    }
+  if (pdev->pClass[0]->DeInit(pdev, cfgidx) != 0U)
+  {
+    ret = USBD_FAIL;
   }
 #endif /* USE_USBD_COMPOSITE */
 
@@ -864,11 +862,7 @@ USBD_StatusTypeDef USBD_LL_SetSpeed(USBD_HandleTypeDef *pdev,
 
 USBD_StatusTypeDef USBD_LL_Suspend(USBD_HandleTypeDef *pdev)
 {
-  if (pdev->dev_state != USBD_STATE_SUSPENDED)
-  {
-    pdev->dev_old_state = pdev->dev_state;
-  }
-
+  pdev->dev_old_state = pdev->dev_state;
   pdev->dev_state = USBD_STATE_SUSPENDED;
 
   return USBD_OK;

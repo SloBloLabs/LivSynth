@@ -47,6 +47,7 @@ public:
         return true;
     }
 
+    // called by USB ISR
     inline void enqueueIncoming(MidiMessage &msg) {
         if(_rtHandler && msg.isRealTimeMessage()) {
             _rtHandler(msg);

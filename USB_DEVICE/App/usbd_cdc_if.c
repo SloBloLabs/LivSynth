@@ -87,9 +87,6 @@
   */
 /* Create buffer for reception and transmission           */
 /* It's up to user to redefine and/or remove those define */
-
-// TODO: see I-CUBE-USBD-Composite for ringbuffer implementation
-
 /** Received data over USB are stored in this buffer      */
 uint8_t UserRxBufferFS[APP_RX_DATA_SIZE];
 

@@ -189,6 +189,7 @@ extern "C" {
   * @}
   */
 
+
 /** @defgroup USBD_DEF_Exported_TypesDefinitions
   * @{
   */

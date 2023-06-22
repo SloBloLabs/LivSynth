@@ -22,6 +22,10 @@ public:
     bool clockRunning();
     void updateClockSetup();
 
+    // tempo
+    float tempo() const { return _clock.bpm(); }
+    Clock::RunState runState() const { return _clock.runState(); }
+
     inline uint32_t tick() const { return _tick; }
     uint32_t noteDivisor() const;
     uint32_t measureDivisor() const;
