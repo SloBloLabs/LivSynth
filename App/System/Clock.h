@@ -27,12 +27,6 @@ public:
 
 class Clock : public IClockTimerObserver, public IClock  {
 public:
-    enum class Mode {
-        Auto,
-        Master,
-        Slave
-    };
-
     enum class RunState {
         Idle,
         MasterRunning,
@@ -42,11 +36,6 @@ public:
     Clock(ClockTimer &timer);
 
     void init();
-
-    Mode mode() const { return _mode; }
-    void setMode(Mode mode);
-
-    Mode activeMode() const;
 
     inline RunState runState() const { return _runState; }
     inline bool isIdle() const { return _runState == RunState::Idle; }
@@ -119,8 +108,6 @@ private:
     static constexpr uint32_t SlaveTimerPeriod = 100; // us -> 3125 bpm
 
     ClockTimer &_timer;
-    // TODO: we can remove the concept of mode setting
-    Mode _mode;
     RunState _runState;
     IClockObserver::OutputState _outputState;
 

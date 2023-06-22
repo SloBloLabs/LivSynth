@@ -11,7 +11,6 @@ Clock::Clock(ClockTimer &timer) :
     resetTicks();
     _ppqn = CONFIG_PPQN;
     _masterBpm = 120.f;
-    _mode = Mode::Auto;
     _runState = RunState::Idle;
     _slaveDivisor = CONFIG_PPQN / 24; // -> 8
     _timer.attach(this);
@@ -19,18 +18,6 @@ Clock::Clock(ClockTimer &timer) :
 
 void Clock::init() {
     _timer.disable();
-}
-
-void Clock::setMode(Mode mode) {
-    if(mode != _mode) {
-        if(mode == Mode::Master && _runState == RunState::SlaveRunning) {
-            slaveStop();
-        }
-        if(mode == Mode::Slave && _runState == RunState::MasterRunning) {
-            masterStop();
-        }
-        _mode = mode;
-    }
 }
 
 void Clock::masterStart() {
@@ -100,7 +87,7 @@ void Clock::slaveTick() {
 }
 
 void Clock::slaveStart() {
-    if(_runState == RunState::MasterRunning || _mode == Mode::Master) {
+    if(_runState == RunState::MasterRunning) {
         return;
     }
 
@@ -114,7 +101,7 @@ void Clock::slaveStart() {
 }
 
 void Clock::slaveStop() {
-    if(_runState != RunState::SlaveRunning || _mode == Mode::Master) {
+    if(_runState != RunState::SlaveRunning) {
         return;
     }
 
@@ -124,7 +111,7 @@ void Clock::slaveStop() {
 }
 
 void Clock::slaveContinue() {
-    if(_runState != RunState::Idle || _mode == Mode::Master) {
+    if(_runState != RunState::Idle) {
         return;
     }
 
@@ -135,7 +122,7 @@ void Clock::slaveContinue() {
 }
 
 void Clock::slaveReset() {
-    if(_runState == RunState::MasterRunning || _mode == Mode::Master) {
+    if(_runState == RunState::MasterRunning) {
         return;
     }
 
@@ -236,7 +223,7 @@ void Clock::onClockTimerTick() {
             _nextSlaveSubTickUs += _slaveSubTickPeriodUs;
         }
 
-        if(_mode == Mode::Auto && (_elapsedUs - _lastSlaveTickUs) > 500000) {
+        if((_elapsedUs - _lastSlaveTickUs) > 500000) {
             USBDBG("Auto Slave Reset\n");
             slaveReset();
         }

@@ -7,21 +7,6 @@
 
 class ClockSetup {
 public:
-    enum class Mode : uint8_t {
-        Auto = 0,
-        Master,
-        Slave,
-        Last
-    };
-
-    Mode mode() const { return _mode; }
-    void setMode(Mode mode) {
-        mode = ModelUtils::clampedEnum(mode);
-        if(mode != _mode) {
-            _mode = mode;
-            setDirty();
-        }
-    }
 
     uint8_t clockOutputDivisor() const { return _clockOutputDivisor; }
     void setClockOutputDivisor(uint8_t clockOutputDivisor) {
@@ -56,7 +41,6 @@ public:
     void clearDirty() { _dirty = false; }
 
 private:
-    Mode _mode;
     uint8_t _clockOutputDivisor;
     bool _clockOutputSwing;
     uint8_t _clockOutputPulse;

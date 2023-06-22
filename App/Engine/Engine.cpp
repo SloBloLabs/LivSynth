@@ -177,21 +177,6 @@ void Engine::updateClockSetup() {
     if(!clockSetup.isDirty()) {
         return;
     }
-
-    // Configue clock mode
-    switch(clockSetup.mode()) {
-    case ClockSetup::Mode::Auto:
-        _clock.setMode(Clock::Mode::Auto);
-        break;
-    case ClockSetup::Mode::Master:
-        _clock.setMode(Clock::Mode::Master);
-        break;
-    case ClockSetup::Mode::Slave:
-        _clock.setMode(Clock::Mode::Slave);
-        break;
-    case ClockSetup::Mode::Last:
-        break;
-    }
     
     _clock.outputConfigure(clockSetup.clockOutputDivisor() * (CONFIG_PPQN / CONFIG_SEQUENCE_PPQN), clockSetup.clockOutputPulse());
 
