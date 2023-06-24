@@ -9,10 +9,11 @@
 extern Dio dio;
 extern DacInternal dac;
 
-Engine::Engine(Model &model, ClockTimer& clockTimer) :
+Engine::Engine(Model &model, ClockTimer& clockTimer, MidiHandler &midiHandler) :
     _model(model),
     _project(model.project()),
-    _clock(clockTimer)
+    _clock(clockTimer),
+    _midiHandler(midiHandler)
 {
     _trackEngine = nullptr;
 }
@@ -32,6 +33,9 @@ bool Engine::update() {
     _clock.setMasterBpm(_project.tempo());
 
     updateClockSetup();
+
+    // consume midi events
+    receiveMidi();
 
     uint32_t tick;
     bool outputUpdated = false;
@@ -57,6 +61,8 @@ bool Engine::update() {
         updatePeripherals();
     }
 
+    _midiHandler.processOutgoing();
+
     return outputUpdated || static_cast<NoteTrackEngine*>(_trackEngine)->stepTriggered();
 }
 
@@ -70,6 +76,7 @@ void Engine::togglePlay() {
 
 void Engine::clockStart() {
     updateClockSetup();
+    onStart();
     _clock.masterStart();
 }
 
@@ -103,6 +110,14 @@ void Engine::onClockOutput(const IClockObserver::OutputState& state) {
     dio.setReset(state.reset);
 }
 
+void Engine::onStart() {
+    _midiHandler.setBusy(false);
+}
+
+void Engine::onStop() {
+    clockStop();
+}
+
 void Engine::updateTrackSetup() {
     if(!_trackEngine) {
         _trackEngine = new NoteTrackEngine(*this, _model, _project.track());
@@ -114,6 +129,19 @@ void Engine::updateTrackOutputs() {
     bool gateOutput = _trackEngine->gateOutput();
     //DBG("Ticks: %ld: Progress: %.2f, Gate: %d, CV: %.2f", _lastSystemTicks, _trackEngine->sequenceProgress(), gateOutput, cvOutput);
     uint32_t cvqOutput = quantizeCV(cvOutput);
+    if(!dio.gate() && gateOutput) {
+        // generate note on
+        //UDBG("NoteOn\n");
+        uint8_t midiNote = static_cast<uint8_t>(floorf(61.f/4096.f * cvOutput)) + 36; // 3 octaves up
+        MidiMessage msg = MidiMessage::makeNoteOn(0, midiNote);
+        _midiHandler.enqueueOutgoing(msg);
+    } else if(dio.gate() && !gateOutput) {
+        // generate note off
+        //UDBG("NoteOff\n");
+        uint8_t midiNote = static_cast<uint8_t>(floorf(61.f/4096.f * cvOutput)) + 36; // 3 octaves up
+        MidiMessage msg = MidiMessage::makeNoteOff(0, midiNote);
+        _midiHandler.enqueueOutgoing(msg);
+    }
     dac.setValue(cvqOutput);
     dio.setGate(gateOutput);
 }
@@ -142,8 +170,27 @@ uint32_t Engine::quantizeCV(uint32_t cvValue) {
     return cvqValue;
 }
 
+void Engine::receiveMidi() {
+    MidiMessage msg;
+    while(_midiHandler.dequeueIncoming(&msg)) {
+        if(MidiMessage::isChannelMessage(msg.status())) {
+            UDBG("Channel Message\n");
+            // TODO: play note etc.
+        }
+    }
+}
+
 void Engine::initClock() {
     _clock.attach(this);
+
+    // called by USB ISR
+    _midiHandler.setRealtimeHandler([this] (MidiMessage &msg) {
+        if(msg.isClockMessage()) {
+            _clock.slaveHandleMidi(msg.status());
+            return true;
+        }
+        return false;
+    });
 }
 
 void Engine::updateClockSetup() {

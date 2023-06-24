@@ -55,6 +55,13 @@ public:
         return value;
     }
 
+    inline void read(T &data) {
+        size_t read = _readPtr;
+        //memcpy(&data, &_buffer[read], sizeof(T));
+        data = _buffer[read];
+        _readPtr = (read + 1) % Size;
+    }
+
     inline void read(T *data, size_t length) {
         while (length--) {
             read(*data++);
