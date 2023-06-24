@@ -47,6 +47,20 @@
         "stdexcept": "cpp",
         "typeinfo": "cpp",
         "sstream": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "chrono": "cpp",
+        "ctime": "cpp",
+        "optional": "cpp",
+        "ratio": "cpp",
+        "variant": "cpp",
+        "__bits": "cpp",
+        "__config": "cpp",
+        "__debug": "cpp",
+        "__verbose_abort": "cpp",
+        "usbd_ioreq.h": "c",
+        "usbd_core.h": "c",
+        "usbd_def.h": "c",
+        "usbd_conf.h": "c",
+        "main.h": "c"
     }
 }

@@ -14,13 +14,11 @@
 #include "Engine.h"
 #include "UiController.h"
 #include <cmath>
+#include "MidiHandler.h"
 
 #define RUN_TEST 0
 
 #define CCMRAM_BSS __attribute__((section(".ccmram")))
-
-static volatile float    _bpm;
-static volatile float    _pitch;
 
 static CCMRAM_BSS ClockTimer    clockTimer;
                   AdcInternal   adc;
@@ -30,7 +28,8 @@ static CCMRAM_BSS ShiftRegister shiftRegister;
        CCMRAM_BSS ButtonMatrix  buttonMatrix(shiftRegister);
                   LEDDriver     ledDriver;
 static            Model         model;
-static CCMRAM_BSS Engine        engine(model, clockTimer);
+static CCMRAM_BSS MidiHandler   midiHandler;
+static CCMRAM_BSS Engine        engine(model, clockTimer, midiHandler);
 static CCMRAM_BSS UiController  uiController(model, engine);
 
 void appMain() {
@@ -45,6 +44,7 @@ void appMain() {
     shiftRegister.init();
     buttonMatrix.init();
     ledDriver.init();
+    midiHandler.init();
     engine.init();
     uiController.init();
 
@@ -65,7 +65,6 @@ void appMain() {
             if(updated) {
                 uiController.renderUI();
                 ledDriver.process();
-                //DBG("Update LEDs");
             }
         }
         
@@ -85,7 +84,8 @@ void appMain() {
         // render debug log output
         if(debug && curMillis - logMillis > 999) {
             logMillis = curMillis;
-            DBG("ADC0=%d, ADC1=%d, bpm=%.2f, pitch=%.2f, buttons=0x%02X", adc.channel(0), adc.channel(1), _bpm, _pitch, shiftRegister.read());
+            UDBG("Tempo = %.2f, RunState = %d\n", engine.tempo(), engine.runState());
+            //DBG("ADC0=%d, ADC1=%d, bpm=%.2f, pitch=%.2f, buttons=0x%02X", adc.channel(0), adc.channel(1), _bpm, _pitch, shiftRegister.read());
         }
     }
 }
@@ -109,6 +109,21 @@ void appLEDTxError() {
 
 void appADCCompleteRequest() {
     uiController.updateCV();
+}
+
+extern "C" {
+
+void enqueueIncomingMidi(uint8_t *data) {
+    MidiUSBMessage umsg(data);
+    MidiMessage msg;
+    umsg.getMidiMessage(msg);
+    midiHandler.enqueueIncoming(msg);
+}
+
+void midiTrxSentCallback() {
+    midiHandler.setBusy(false);
+}
+
 }
 
 /*#######################################

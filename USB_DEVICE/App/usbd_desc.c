@@ -7,7 +7,7 @@
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -62,15 +62,19 @@
   * @{
   */
 
-#define USBD_VID     1155
-#define USBD_LANGID_STRING     1033
-#define USBD_MANUFACTURER_STRING     "STMicroelectronics"
-#define USBD_PID_FS     57105
-#define USBD_PRODUCT_STRING_FS     "STM32 DownLoad Firmware Update"
-#define USBD_CONFIGURATION_STRING_FS     "DFU Config"
-#define USBD_INTERFACE_STRING_FS     "DFU Interface"
+#define USBD_VID                     1155
+#define USBD_LANGID_STRING           1033
+#define USBD_MANUFACTURER_STRING     "SloBlo Labs"
+#if (USBD_CMPSIT_ACTIVATE_DFU == 1)
+#define USBD_PID_FS                  57105 // TODO: for DFU PID must be 57105, ST proprietary modification
+#else
+#define USBD_PID_FS                  21156
+#endif
+#define USBD_PRODUCT_STRING_FS       "S54 (Liv's Synth))"
+#define USBD_CONFIGURATION_STRING_FS "S54 Config"
+#define USBD_INTERFACE_STRING_FS     "S54 Interface"
 
-#define USB_SIZ_BOS_DESC            0x0C
+#define USB_SIZ_BOS_DESC             0x0C
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
 

@@ -8,10 +8,11 @@
 #include "Dio.h"
 #include "TrackEngine.h"
 #include "Event.h"
+#include "MidiHandler.h"
 
 class Engine : private IClockObserver {
 public:
-    Engine(Model &model, ClockTimer& clockTimer);
+    Engine(Model &model, ClockTimer& clockTimer, MidiHandler &midiHandler);
     void init();
     bool update();
 
@@ -20,6 +21,10 @@ public:
     void clockStop();
     bool clockRunning();
     void updateClockSetup();
+
+    // tempo
+    float tempo() const { return _clock.bpm(); }
+    Clock::RunState runState() const { return _clock.runState(); }
 
     inline uint32_t tick() const { return _tick; }
     uint32_t noteDivisor() const;
@@ -47,10 +52,15 @@ public:
 
 private:
     virtual void onClockOutput(const IClockObserver::OutputState& state) override;
+    virtual void onStart() override;
+    virtual void onStop() override;
 
     void updateTrackSetup();
     void updateTrackOutputs();
     uint32_t quantizeCV(uint32_t cvValue);
+
+    void receiveMidi();
+    //void receiveMidi(MidiPort port, uint8_t cable, const MidiMessage &message);
 
     void initClock();
     
@@ -58,6 +68,7 @@ private:
     Project &_project;
     
     Clock _clock;
+    MidiHandler &_midiHandler;
 
     TrackEngine* _trackEngine;
 

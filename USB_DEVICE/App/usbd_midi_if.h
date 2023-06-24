@@ -1,12 +1,13 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file           : usbd_dfu_if.h
-  * @brief          : Header for usbd_dfu_if.c file.
+  * @file           : usbd_midi_if.h
+  * @version        : v1.0_Cube
+  * @brief          : Header for usbd_midi_if.c file.
   ******************************************************************************
   * @attention
   *
-  * Copyright (c) 2022 STMicroelectronics.
+  * Copyright (c) 2023 STMicroelectronics.
   * All rights reserved.
   *
   * This software is licensed under terms that can be found in the LICENSE file
@@ -16,33 +17,33 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USBD_DFU_IF_H__
-#define __USBD_DFU_IF_H__
+#ifndef __USBD_MIDI_IF_H__
+#define __USBD_MIDI_IF_H__
 
 #ifdef __cplusplus
  extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "usbd_dfu.h"
+#include "usbd_midi.h"
+#include "swvPrint.h"
 
 /* USER CODE BEGIN INCLUDE */
 
 /* USER CODE END INCLUDE */
 
-/** @addtogroup STM32_USB_DEVICE_LIBRARY
+/** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
   * @brief For Usb device.
   * @{
   */
 
-/** @defgroup USBD_MEDIA USBD_MEDIA
-  * @brief Header file for the usbd_dfu_if.c file.
+/** @defgroup USBD_MIDI_IF USBD_MIDI_IF
+  * @brief Usb midi interface device module.
   * @{
   */
 
-/** @defgroup USBD_MEDIA_Exported_Defines USBD_MEDIA_Exported_Defines
+/** @defgroup USBD_MIDI_IF_Exported_Defines USBD_MIDI_IF_Exported_Defines
   * @brief Defines.
   * @{
   */
@@ -55,7 +56,7 @@
   * @}
   */
 
-/** @defgroup USBD_MEDIA_Exported_Types USBD_MEDIA_Exported_Types
+/** @defgroup USBD_MIDI_IF_Exported_Types USBD_MIDI_IF_Exported_Types
   * @brief Types.
   * @{
   */
@@ -68,7 +69,7 @@
   * @}
   */
 
-/** @defgroup USBD_MEDIA_Exported_Macros USBD_MEDIA_Exported_Macros
+/** @defgroup USBD_MIDI_IF_Exported_Macros USBD_MIDI_IF_Exported_Macros
   * @brief Aliases.
   * @{
   */
@@ -81,14 +82,14 @@
   * @}
   */
 
-/** @defgroup USBD_MEDIA_Exported_Variables USBD_MEDIA_Exported_Variables
+/** @defgroup USBD_MIDI_IF_Exported_Variables USBD_MIDI_IF_Exported_Variables
   * @brief Public variables.
   * @{
   */
 
-/** MEDIA Interface callback. */
-extern USBD_DFU_MediaTypeDef USBD_DFU_fops_FS;
-
+/** MIDI_IF Interface callback. */
+extern USBD_HandleTypeDef hUsbDeviceFS;
+extern USBD_MIDI_ItfTypeDef USBD_MIDI_fops_FS;
 /* USER CODE BEGIN EXPORTED_VARIABLES */
 
 /* USER CODE END EXPORTED_VARIABLES */
@@ -97,7 +98,7 @@ extern USBD_DFU_MediaTypeDef USBD_DFU_fops_FS;
   * @}
   */
 
-/** @defgroup USBD_MEDIA_Exported_FunctionsPrototype USBD_MEDIA_Exported_FunctionsPrototype
+/** @defgroup USBD_MIDI_IF_Exported_FunctionsPrototype USBD_MIDI_IF_Exported_FunctionsPrototype
   * @brief Public functions declaration.
   * @{
   */
@@ -122,5 +123,4 @@ extern USBD_DFU_MediaTypeDef USBD_DFU_fops_FS;
 }
 #endif
 
-#endif /* __USBD_DFU_IF_H__ */
-
+#endif /* __USBD_MIDI_IF_H__ */
