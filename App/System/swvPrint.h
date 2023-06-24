@@ -10,7 +10,7 @@ extern "C" {
 // TODO: add global debug enabling/disabling option
 #define DBG(_fmt_, ...) printf(_fmt_ "\n", ##__VA_ARGS__)
 
-void USBDBG(const char* fmt, ...);
+void UDBG(const char* fmt, ...);
 
 int __io_putchar(int ch);
 

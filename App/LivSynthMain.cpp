@@ -65,7 +65,6 @@ void appMain() {
             if(updated) {
                 uiController.renderUI();
                 ledDriver.process();
-                //DBG("Update LEDs");
             }
         }
         
@@ -85,7 +84,7 @@ void appMain() {
         // render debug log output
         if(debug && curMillis - logMillis > 999) {
             logMillis = curMillis;
-            USBDBG("Tempo = %.2f, RunState = %d\n", engine.tempo(), engine.runState());
+            UDBG("Tempo = %.2f, RunState = %d\n", engine.tempo(), engine.runState());
             //DBG("ADC0=%d, ADC1=%d, bpm=%.2f, pitch=%.2f, buttons=0x%02X", adc.channel(0), adc.channel(1), _bpm, _pitch, shiftRegister.read());
         }
     }

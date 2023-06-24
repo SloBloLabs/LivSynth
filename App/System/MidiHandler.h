@@ -22,7 +22,7 @@ public:
         _incoming.init();
         _outgoing.init();
         _cableNumber = 0;
-        _busy = 0;
+        _busy = false;
         _rtHandler = nullptr;
         memset(_sendBuffer, 0, USB_FS_MAX_PACKET_SIZE);
     }
@@ -83,7 +83,7 @@ public:
         uint8_t ret; // USBD_StatusTypeDef
 
         // collect messages into send buffer
-        while(dequeueOutgoing(&msg) && n < USB_FS_MAX_PACKET_SIZE) {
+        while( (n < USB_FS_MAX_PACKET_SIZE) && dequeueOutgoing(&msg)) {
             MidiUSBMessage umsg(_cableNumber, msg);
             //MidiUSBMessage::dump(umsg);
 

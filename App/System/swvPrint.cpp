@@ -4,7 +4,7 @@
 
 static char printBuffer[SWV_PRINTBUFFER_SIZE];
 
-void USBDBG(const char* fmt, ...) {
+void UDBG(const char* fmt, ...) {
     
     va_list va;
     va_start (va, fmt);

@@ -79,7 +79,7 @@ void Clock::slaveTick() {
             _slaveBpmFiltered = .9f * _slaveBpmFiltered + .1f * bpm;
             _slaveBpmAvg.push(_slaveBpmFiltered);
             _slaveBpm = _slaveBpmAvg();
-            //USBDBG("E:%ld, L:%ld, B:%.2f, S: %.2f\n", _elapsedUs, _lastSlaveTickUs, bpm, _slaveBpm);
+            //UDBG("E:%ld, L:%ld, B:%.2f, S: %.2f\n", _elapsedUs, _lastSlaveTickUs, bpm, _slaveBpm);
         }
 
         _lastSlaveTickUs = _elapsedUs;
@@ -97,6 +97,11 @@ void Clock::slaveStart() {
 
     _timer.disable();
     setupSlaveTimer();
+
+    for(auto observer : _observerList) {
+        observer->onStart();
+    }
+
     _timer.enable();
 }
 
@@ -228,7 +233,7 @@ void Clock::onClockTimerTick() {
         }
 
         if((_elapsedUs - _lastSlaveTickUs) > 500000) {
-            USBDBG("Auto Slave Reset\n");
+            UDBG("Auto Slave Reset\n");
             slaveReset();
         }
         break;

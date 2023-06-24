@@ -56,6 +56,11 @@
         "__bits": "cpp",
         "__config": "cpp",
         "__debug": "cpp",
-        "__verbose_abort": "cpp"
+        "__verbose_abort": "cpp",
+        "usbd_ioreq.h": "c",
+        "usbd_core.h": "c",
+        "usbd_def.h": "c",
+        "usbd_conf.h": "c",
+        "main.h": "c"
     }
 }
