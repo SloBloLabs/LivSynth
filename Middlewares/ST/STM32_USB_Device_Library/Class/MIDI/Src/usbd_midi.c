@@ -882,7 +882,7 @@ static uint8_t USBD_MIDI_DataOut(USBD_HandleTypeDef *pdev, uint8_t epnum)
       /* Pass data to Receive() */
       for(uint32_t i = 0; i < length; i += 4) {
           //((USBD_MIDI_ItfTypeDef *)pdev->pUserData)->Receive(rx_buffer + i, length);
-          fops->Receive((uint8_t*)(rx_buffer + i), length);
+          fops->Receive((uint8_t*)(rx_buffer + i), 4);
       }
     }
 
