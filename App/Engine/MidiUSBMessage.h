@@ -79,7 +79,7 @@ public:
         return _raw;
     }
 
-    static void dump(const MidiUSBMessage &msg);
+    static void dump(const uint32_t n, const MidiUSBMessage &msg);
 
 private:
     static ChannelIndexNumber getChannelIndexNumber(MidiMessage::ChannelMessage status);

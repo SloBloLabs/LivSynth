@@ -50,35 +50,30 @@ void appMain() {
 
     uint32_t curMillis
            , logMillis    = 0
-           , updateMillis = 0
            , engineMillis = 0;
     
     bool debug = false;
     
+    bool updated = false;
+
     while(true) {
 
         curMillis = System::ticks();
 
         if(curMillis - engineMillis > 1) {
+            //LL_GPIO_SetOutputPin(DBG1_GPIO_Port, DBG1_Pin);
             engineMillis = curMillis;
-            bool updated = engine.update();
-            if(updated) {
-                uiController.renderUI();
-                ledDriver.process();
-            }
-        }
-        
-        // update sequencer input and state
-        if(curMillis - updateMillis > 49) {
-            updateMillis = curMillis;
+            updated = engine.update() || updated;
 
             buttonMatrix.process();
             uiController.handleControls(curMillis);
 
-            if(!engine.clockRunning()) {
+            if(updated || !engine.clockRunning()) {
                 uiController.renderUI();
                 ledDriver.process();
+                updated = false;
             }
+        	//LL_GPIO_ResetOutputPin(DBG1_GPIO_Port, DBG1_Pin);
         }
         
         // render debug log output
@@ -114,10 +109,12 @@ void appADCCompleteRequest() {
 extern "C" {
 
 void enqueueIncomingMidi(uint8_t *data) {
+    //LL_GPIO_SetOutputPin(DBG2_GPIO_Port, DBG2_Pin);
     MidiUSBMessage umsg(data);
     MidiMessage msg;
     umsg.getMidiMessage(msg);
     midiHandler.enqueueIncoming(msg);
+    //LL_GPIO_ResetOutputPin(DBG2_GPIO_Port, DBG2_Pin);
 }
 
 void midiTrxSentCallback() {

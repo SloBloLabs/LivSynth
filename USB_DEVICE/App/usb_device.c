@@ -75,9 +75,6 @@ void MX_USB_DEVICE_Init(void)
     Error_Handler();
   }
 //  if (USBD_RegisterClass(&hUsbDeviceFS, &USBD_CMPSIT) != USBD_OK)
-//  {
-//    Error_Handler();
-//  }
 #if USBD_CMPSIT_ACTIVATE_CDC == 1
   if (USBD_RegisterClassComposite(&hUsbDeviceFS, &USBD_CDC, CLASS_TYPE_CDC, CDC_EpAdd) != USBD_OK)
   {
@@ -85,9 +82,6 @@ void MX_USB_DEVICE_Init(void)
   }
   
 //  if (USBD_RegisterClass(&hUsbDeviceFS, &USBD_CDC) != USBD_OK)
-//  {
-//    Error_Handler();
-//  }
 #endif
 #if USBD_CMPSIT_ACTIVATE_AUDIO == 1
   if (USBD_RegisterClassComposite(&hUsbDeviceFS, &USBD_MIDI, CLASS_TYPE_AUDIO, MIDI_EpAdd) != USBD_OK)

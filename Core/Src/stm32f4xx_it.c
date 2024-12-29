@@ -212,7 +212,6 @@ void DMA1_Stream6_IRQHandler(void)
     appLEDTxError();
   }
   /* USER CODE END DMA1_Stream6_IRQn 0 */
-
   /* USER CODE BEGIN DMA1_Stream6_IRQn 1 */
 
   /* USER CODE END DMA1_Stream6_IRQn 1 */
@@ -246,7 +245,6 @@ void DMA2_Stream0_IRQHandler(void)
     appADCCompleteRequest();
   }
   /* USER CODE END DMA2_Stream0_IRQn 0 */
-
   /* USER CODE BEGIN DMA2_Stream0_IRQn 1 */
 
   /* USER CODE END DMA2_Stream0_IRQn 1 */

@@ -36,7 +36,7 @@ public:
         Flash::eraseSector(sectorIndex);
 
         size_t size = std::min((sizeof(T) + 3) & ~0x03, (unsigned int)FLASH_STORAGE_SIZE);
-        DBG("Write Model: Copy %d bytes from %p to %p", size, (void *)&data, (void *)FLASH_STORAGE_BASE);
+        //DBG("Write Model: Copy %d bytes from %p to %p", size, (void *)&data, (void *)FLASH_STORAGE_BASE);
 
         //const uint32_t *src = (const uint32_t *)(&data);
         const uint32_t *src = reinterpret_cast<const uint32_t *>(&data);
