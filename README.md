@@ -1,3 +1,18 @@
+# Youtube
+
+Watch the related [Demo Video] on Youtube for a workout in musical context.
+
+[![S54 (Liv's Synth - A Demo)](https://img.youtube.com/vi/09B7NOryfzA/0.jpg)](https://youtu.be/09B7NOryfzA)
+
+Watch the corresponding [Video Manual] on Youtube for a detailed feature explanation.
+
+[![S54 (Liv's Synth - A Demo)](https://img.youtube.com/vi/lYTFUqn5oQk/0.jpg)](https://youtu.be/lYTFUqn5oQk)
+
+[Demo Video]: https://youtu.be/7tzhh7atj4o
+[Video Manual]: https://youtu.be/lYTFUqn5oQk
+
+# Build Instructions
+
 How to convert a CubeMX / CubeIDE project to GNU ARM Toolchain with CMake, openocd and VS Code
 
 Prerequisites

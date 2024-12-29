@@ -26,10 +26,6 @@ void Engine::init() {
 
 // called from main loop each ms
 bool Engine::update() {
-    uint32_t systemTicks = System::ticks();
-    float dt = (0.001f * (systemTicks - _lastSystemTicks));
-    _lastSystemTicks = systemTicks;
-
     _clock.setMasterBpm(_project.tempo());
 
     updateClockSetup();
@@ -44,7 +40,7 @@ bool Engine::update() {
 
         bool updated = _trackEngine->tick(tick);
         if(updated) {
-            _trackEngine->update(0.f);
+            _trackEngine->update();
             updateTrackOutputs();
             updateOverrides();
             outputUpdated = true;
@@ -52,7 +48,7 @@ bool Engine::update() {
     }
     
     if(outputUpdated) {
-        _trackEngine->update(dt);
+        _trackEngine->update();
         updateTrackOutputs();
         updateOverrides();
         updatePeripherals();
@@ -84,7 +80,7 @@ void Engine::clockStop() {
     // flush track engine
     // may solve performer issue #345?
     _trackEngine->tick(UINT32_MAX - 1);
-    _trackEngine->update(0.f);
+    _trackEngine->update();
     updateTrackOutputs();
     updateOverrides();
     updatePeripherals();
@@ -174,7 +170,7 @@ void Engine::receiveMidi() {
     MidiMessage msg;
     while(_midiHandler.dequeueIncoming(&msg)) {
         if(MidiMessage::isChannelMessage(msg.status())) {
-            UDBG("Channel Message\n");
+            //UDBG("Channel Message\n");
             // TODO: play note etc.
         }
     }
