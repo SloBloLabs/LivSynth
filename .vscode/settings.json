@@ -65,7 +65,8 @@
         "charconv": "cpp",
         "format": "cpp",
         "span": "cpp",
-        "text_encoding": "cpp"
+        "text_encoding": "cpp",
+        "usbd_composite_builder.h": "c"
     },
     "terminal.integrated.fontFamily": "MesloLGM Nerd Font"
 }
