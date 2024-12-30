@@ -73,7 +73,6 @@ private:
     TrackEngine* _trackEngine;
 
     uint32_t _tick = 0;
-    uint32_t _lastSystemTicks = 0;
 
     // gate output overrides
     bool _gateOutputOverride = false;

@@ -27,7 +27,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_midi.h"
-#include "swvPrint.h"
 
 /* USER CODE BEGIN INCLUDE */
 

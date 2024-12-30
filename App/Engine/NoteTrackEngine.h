@@ -14,7 +14,7 @@ public:
 
     virtual void reset() override;
     virtual bool tick(uint32_t tick) override;
-    virtual void update(float dt) override;
+    virtual void update() override;
     virtual void changePattern() override;
 
     virtual bool activity() const override { return _activity; }

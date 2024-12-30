@@ -4,6 +4,7 @@
 #include <cmath>
 #include "MidiMessage.h"
 #include "swvPrint.h"
+#include "System.h"
 
 Clock::Clock(ClockTimer &timer) :
     _timer(timer)
@@ -48,41 +49,53 @@ void Clock::setMasterBpm(float bpm) {
     }
 }
 
+// called with each MIDI RT Clock event (0xF8)
 void Clock::slaveTick() {
-    if(_runState == RunState::SlaveRunning) {
-        // protect against clock rate overload
-        _slaveSubTicksPending = std::min(_slaveSubTicksPending + _slaveDivisor, 2 * _slaveDivisor);
+
+    // there are 24 midi clocks per quarter note
+    // 12 clocks are a 8th note
+    // 6 clocks are a 16th note
+    // 120 bpm = 120 quarter notes per minute -> 1 clock every 20833,33 microseconds
+    // == 60000000 microseconds per minute / (24 * 120 beats)
+
+    if(_runState != RunState::SlaveRunning) return;
+
+    // protect against clock rate overload
+    _slaveSubTicksPending = std::min(_slaveSubTicksPending + _slaveDivisor, 2 * _slaveDivisor);
+    
+    // time elapsed since last tick
+    uint32_t periodUs = _elapsedUs - _lastSlaveTickUs;
+
+    _lastSlaveTickUs = _elapsedUs;
+
+    // default tick period to 120 bpm
+    if(_slaveTickPeriodUs == 0) {
+        _slaveTickPeriodUs = (60 * 1000000 * _slaveDivisor) / (120 * _ppqn);
+    }
+
+    // update tick period if we have a valid measurement
+    if(periodUs > 0 && _lastSlaveTickUs > 0) {
+        _slaveTickPeriodUs = periodUs;
+    }
+
+    _slaveSubTickPeriodUs = _slaveTickPeriodUs / _slaveSubTicksPending;
+    if(_elapsedUs - _nextSlaveSubTickUs > 1000) {
+        _nextSlaveSubTickUs = _elapsedUs;
+    } else {
+        _nextSlaveSubTickUs += _slaveSubTickPeriodUs;
+    }
+
+    // estimate slave bpm
+    if(periodUs > 0 && _lastSlaveTickUs > 0) {
+        float bpm = (60.f * 1000000 * _slaveDivisor) / (periodUs * _ppqn);
+        _slaveBpmFiltered = .9f * _slaveBpmFiltered + .1f * bpm;
+        _slaveBpmAvg.push(_slaveBpmFiltered);
+        _slaveBpm = _slaveBpmAvg();
         
-        // time elapsed since last tick
-        uint32_t periodUs = _elapsedUs - _lastSlaveTickUs;
-
-        // default tick period to 120 bpm
-        if(_slaveTickPeriodUs == 0) {
-            _slaveTickPeriodUs = (60 * 1000000 * _slaveDivisor) / (120 * _ppqn);
-        }
-
-        // update tick period if we have a valid measurement
-        if(periodUs > 0 && _lastSlaveTickUs > 0) {
-            _slaveTickPeriodUs = periodUs;
-        }
-
-        _slaveSubTickPeriodUs = _slaveTickPeriodUs / _slaveSubTicksPending;
-        if(_elapsedUs - _nextSlaveSubTickUs > 1000) {
-            _nextSlaveSubTickUs = _elapsedUs;
-        } else {
-            _nextSlaveSubTickUs += _slaveSubTickPeriodUs;
-        }
-
-        // estimate slave bpm
-        if(periodUs > 0 && _lastSlaveTickUs > 0) {
-            float bpm = (60.f * 1000000 * _slaveDivisor) / (periodUs * _ppqn);
-            _slaveBpmFiltered = .9f * _slaveBpmFiltered + .1f * bpm;
-            _slaveBpmAvg.push(_slaveBpmFiltered);
-            _slaveBpm = _slaveBpmAvg();
-            //UDBG("E:%ld, L:%ld, B:%.2f, S: %.2f\n", _elapsedUs, _lastSlaveTickUs, bpm, _slaveBpm);
-        }
-
-        _lastSlaveTickUs = _elapsedUs;
+        //ITM_SendChar(bpm, 1);
+        //ITM_SendChar(_slaveBpmFiltered, 2);
+        //ITM_SendChar(_slaveBpm, 3);
+        //UDBG("E:%ld, L:%ld, B:%.2f, S: %.2f\n", _elapsedUs, _lastSlaveTickUs, bpm, _slaveBpm);
     }
 }
 
@@ -114,9 +127,7 @@ void Clock::slaveStop() {
         observer->onStop();
     }
 
-    setRunState(RunState::Idle);
-
-    _timer.disable();
+    masterStop();
 }
 
 void Clock::slaveContinue() {
@@ -226,6 +237,7 @@ void Clock::onClockTimerTick() {
         _elapsedUs += _timer.period();
 
         if(_slaveSubTicksPending > 0 && _elapsedUs >= _nextSlaveSubTickUs) {
+            // process DIO pulse
             outputTick(_tick);
             ++_tick;
             --_slaveSubTicksPending;
@@ -233,9 +245,14 @@ void Clock::onClockTimerTick() {
         }
 
         if((_elapsedUs - _lastSlaveTickUs) > 500000) {
-            UDBG("Auto Slave Reset\n");
+            //UDBG("Auto Slave Reset\n");
             slaveReset();
         }
+
+        //ITM_SendChar(_elapsedUs, 4);
+        //ITM_SendChar(_slaveSubTicksPending, 5);
+        //ITM_SendChar(_nextSlaveSubTickUs, 6);
+        //ITM_SendChar(_tick, 7);
         break;
     }
     default:
@@ -247,6 +264,7 @@ void Clock::setupMasterTimer() {
     _elapsedUs = 0;
     // round() reduces errors in period calculation, especially for bpm > 120 where only 1 us can determine the tempo on the tenths place.
     // From 181 onwards the difference in period can be zero from one tenth bpm to the next.
+    // This is 8 times fast than midi clock.
     uint32_t us = std::round((60 * 1000000) / (_masterBpm * _ppqn));
     _timer.setPeriod(us);
 }
@@ -262,7 +280,10 @@ void Clock::setupSlaveTimer() {
 void Clock::outputTick(uint32_t tick) {
 
     auto applySwing = [this] (uint32_t tick) {
-        return _output.swing != 0 ? Groove::applySwing(tick, _output.swing) : tick;
+        if(_output.swing != 0) {
+            return Groove::applySwing(tick, _output.swing);
+        }
+        return tick;
     };
 
     if(tick == _output.nextTick) {
@@ -276,6 +297,7 @@ void Clock::outputTick(uint32_t tick) {
         _output.nextTick += divisor;
     }
 
+    // handle DIO output
     if(tick == _output.nextTickOn) {
         outputClock(true);
     }
@@ -285,6 +307,7 @@ void Clock::outputTick(uint32_t tick) {
     }
 }
 
+// DIO output
 void Clock::outputClock(bool clock) {
     if(clock != _outputState.clock) {
         _outputState.clock = clock;

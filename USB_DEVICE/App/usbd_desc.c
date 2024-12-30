@@ -70,7 +70,7 @@
 #else
 #define USBD_PID_FS                  21156
 #endif
-#define USBD_PRODUCT_STRING_FS       "S54 (Liv's Synth))"
+#define USBD_PRODUCT_STRING_FS       "S54 (Liv's Synth)"
 #define USBD_CONFIGURATION_STRING_FS "S54 Config"
 #define USBD_INTERFACE_STRING_FS     "S54 Interface"
 

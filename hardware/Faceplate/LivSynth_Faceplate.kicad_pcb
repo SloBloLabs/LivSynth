@@ -6,7 +6,7 @@
 
   (paper "A3")
   (title_block
-    (title "Liv Synth")
+    (title "Liv Synth Faceplate")
     (date "2023-01-23")
     (rev "${Version}")
     (company "SloBlo Labs")

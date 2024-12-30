@@ -62,6 +62,12 @@
         "usbd_core.h": "c",
         "usbd_def.h": "c",
         "usbd_conf.h": "c",
-        "main.h": "c"
-    }
+        "main.h": "c",
+        "charconv": "cpp",
+        "format": "cpp",
+        "span": "cpp",
+        "text_encoding": "cpp",
+        "usbd_composite_builder.h": "c"
+    },
+    "terminal.integrated.fontFamily": "MesloLGM Nerd Font"
 }

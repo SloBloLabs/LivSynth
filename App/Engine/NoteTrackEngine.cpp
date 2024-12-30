@@ -58,7 +58,7 @@ bool NoteTrackEngine::tick(uint32_t tick) {
     return updateResult;
 }
 
-void NoteTrackEngine::update(float dt) {
+void NoteTrackEngine::update() {
     _cvOutput = _cvOutputTarget;
 }
 
@@ -67,6 +67,7 @@ void NoteTrackEngine::changePattern() {
 }
 
 void NoteTrackEngine::triggerStep(uint32_t tick, uint32_t divisor) {
+    //DBG("NextStep");
     const auto &sequence = *_sequence;
     _currentStep = _sequenceState.step();
     

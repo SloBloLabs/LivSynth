@@ -44,7 +44,7 @@ ChannelIndexNumber MidiUSBMessage::getChannelIndexNumber(MidiMessage::ChannelMes
     return ret;
 }
 
-void MidiUSBMessage::dump(const MidiUSBMessage &msg) {
-    printf("DumpUSBMessage: data0: %02x, data1: %02x, data2: %02x, data3: %02x \n", msg._raw[0], msg._raw[1], msg._raw[2], msg._raw[3]);
-    UDBG("DumpUSBMessage: data0: %02x, data1: %02x, data2: %02x, data3: %02x \n", msg._raw[0], msg._raw[1], msg._raw[2], msg._raw[3]);
+void MidiUSBMessage::dump(const uint32_t n, const MidiUSBMessage &msg) {
+    DBG("USBMSG#%4ld: data0: %02x, data1: %02x, data2: %02x, data3: %02x", n, msg._raw[0], msg._raw[1], msg._raw[2], msg._raw[3]);
+    UDBG("USBMSG#%4ld: data0: %02x, data1: %02x, data2: %02x, data3: %02x \n", n, msg._raw[0], msg._raw[1], msg._raw[2], msg._raw[3]);
 }

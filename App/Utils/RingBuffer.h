@@ -2,12 +2,16 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <atomic>
 
 template<typename T, int32_t Size>
 class RingBuffer {
 public:
+    constexpr RingBuffer() : _readPtr(0), _writePtr(0) {}
+    
     inline void init() {
-        _readPtr = _writePtr = 0;
+        _readPtr.store(0, std::memory_order_relaxed);
+        _writePtr.store(0, std::memory_order_relaxed);
     }
 
     inline size_t size() const {
@@ -15,7 +19,7 @@ public:
     }
 
     inline bool empty() const {
-        return _readPtr == _writePtr;
+        return _readPtr.load(std::memory_order_acquire) == _writePtr.load(std::memory_order_acquire);
     }
 
     inline bool full() const {
@@ -23,7 +27,9 @@ public:
     }
 
     inline size_t entries() const {
-        int32_t size = (_writePtr - _readPtr) % Size;
+        int32_t readPtr = _readPtr.load(std::memory_order_acquire);
+        int32_t writePtr = _writePtr.load(std::memory_order_acquire);
+        int32_t size = (writePtr - readPtr) % Size;
         if(size < 0) size += Size;
         return static_cast<size_t>(size);
     }
@@ -70,6 +76,6 @@ public:
 
 private:
     T _buffer[Size];
-    volatile int32_t _readPtr = 0;
-    volatile int32_t _writePtr = 0;
+    std::atomic<int32_t> _readPtr;
+    std::atomic<int32_t> _writePtr;
 };

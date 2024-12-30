@@ -239,9 +239,9 @@ void UiController::updateCV() {
 }
 
 void UiController::initializeFlash() {
-    DBG("*********************************");
-    DBG("** INITIALIZING MODEL IN FLASH **");
-    DBG("*********************************");
+    //DBG("*********************************");
+    //DBG("** INITIALIZING MODEL IN FLASH **");
+    //DBG("*********************************");
     _model.init();
     _storage.write(_model);
     //uint32_t v[83];

@@ -745,6 +745,7 @@ uint8_t USBD_CDC_RegisterInterface(USBD_HandleTypeDef *pdev,
   return (uint8_t)USBD_OK;
 }
 
+
 /**
   * @brief  USBD_CDC_SetTxBuffer
   * @param  pdev: device instance
@@ -795,6 +796,7 @@ uint8_t USBD_CDC_SetRxBuffer(USBD_HandleTypeDef *pdev, uint8_t *pbuff)
 
   return (uint8_t)USBD_OK;
 }
+
 
 /**
   * @brief  USBD_CDC_TransmitPacket

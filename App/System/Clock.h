@@ -43,7 +43,7 @@ public:
     inline bool isIdle() const { return _runState == RunState::Idle; }
     inline bool isRunning() const { return _runState != RunState::Idle; }
     inline uint32_t ppqn() { return _ppqn; }
-    inline uint32_t bpm() const { return _runState == RunState::SlaveRunning ? slaveBpm() : masterBpm(); }
+    inline float bpm() const { return _runState == RunState::SlaveRunning ? slaveBpm() : masterBpm(); }
 
     // Master clock control
     void masterStart();
@@ -130,8 +130,9 @@ private:
     uint32_t _nextSlaveSubTickUs; // time of next slave sub tick
 
     float _slaveBpmFiltered = 0.f;
-    MovingAverage<float, 4> _slaveBpmAvg;
+    MovingAverage<float, 8> _slaveBpmAvg;
     float _slaveBpm = 0.f;
 
     std::list<IClockObserver*> _observerList;
+    
 };

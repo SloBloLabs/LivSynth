@@ -19,7 +19,121 @@
                 "interface/stlink.cfg",
                 "target/stm32f4x.cfg"
             ],
-            "svdFile": "./STM32F405.svd"
+            "svdFile": "./STM32F405.svd",
+            "swoConfig":{
+                "enabled":true,
+                "source":"probe",
+                "cpuFrequency": 168000000,
+                "swoFrequency": 1500000,
+                "decoders": [
+                    {
+                        "port": 0,
+                        "type": "console",
+                        "label": "SWO output",
+                        "encoding":"ascii",
+                        "showOnStartup": true,
+                        "timestamp": true,
+                        "logfile": "/Users/olly/Documents/Github/LivSynth/swo.log"
+                    },
+                    //{
+                    //    "type": "graph",
+                    //    "port": 1,
+                    //    "encoding": "unsigned",
+                    //    "graphId": "1", 
+                    //    "scale": 1
+                    //},
+                    //{
+                    //    "type": "graph",
+                    //    "port": 2,
+                    //    "encoding": "unsigned",
+                    //    "graphId": "2", 
+                    //    "scale": 1
+                    //},
+                    //{
+                    //    "type": "graph",
+                    //    "port": 3,
+                    //    "encoding": "unsigned",
+                    //    "graphId": "3", 
+                    //    "scale": 1
+                    //},
+                    //{
+                    //    "type": "graph",
+                    //    "port": 4,
+                    //    "encoding": "unsigned",
+                    //    "graphId": "4", 
+                    //    "scale": 1
+                    //},
+                    //{
+                    //    "type": "graph",
+                    //    "port": 5,
+                    //    "encoding": "unsigned",
+                    //    "graphId": "5", 
+                    //    "scale": 1
+                    //},
+                    //{
+                    //    "type": "graph",
+                    //    "port": 6,
+                    //    "encoding": "unsigned",
+                    //    "graphId": "6", 
+                    //    "scale": 1
+                    //},
+                    //{
+                    //    "type": "graph",
+                    //    "port": 7,
+                    //    "encoding": "unsigned",
+                    //    "graphId": "7", 
+                    //    "scale": 1
+                    //}
+                ]
+            },
+            // see https://github.com/Marus/cortex-debug/wiki/SWO-Output
+            //"graphConfig": [
+            //    {
+            //        "label": "Graph 1",
+            //        "timespan": 5,
+            //        "type": "realtime",
+            //        "annotate": false,
+            //        "maximum": 200,
+            //        "minimum": 40,
+            //        "plots": [
+            //            {
+            //                "graphId": "1", 
+            //                "label": "bpm",
+            //                "color": "#FF0000"
+            //            },
+            //            {
+            //                "graphId": "2", 
+            //                "label": "_slaveBpmFiltered",
+            //                "color": "#00FF00"
+            //            },
+            //            {
+            //                "graphId": "3", 
+            //                "label": "_slaveBpm",
+            //                "color": "#0000FF"
+            //            },
+            //            {
+            //                "graphId": "4", 
+            //                "label": "_elapsedUsq",
+            //                "color": "#53753c"
+            //            },
+            //            {
+            //                "graphId": "5", 
+            //                "label": "_slaveSubTicksPending",
+            //                "color": "#FFFF00"
+            //            },
+            //            {
+            //                "graphId": "6", 
+            //                "label": "_nextSlaveSubTickUs",
+            //                "color": "#00FF00"
+            //            },
+            //            {
+            //                "graphId": "7", 
+            //                "label": "_tick",
+            //                "color": "#0000FF"
+            //            }
+            //        ]
+            //    }
+            //]
         }
     ]
 }

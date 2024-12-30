@@ -21,7 +21,7 @@ public:
     // sequencer control
     virtual void reset() = 0;
     virtual bool tick(uint32_t tick) = 0;
-    virtual void update(float dt) = 0;
+    virtual void update() = 0;
     virtual void changePattern() {}
 
     // track output

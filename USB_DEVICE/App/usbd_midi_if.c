@@ -197,10 +197,10 @@ static int8_t MIDI_Receive_FS(uint8_t* Buf, uint32_t Len)
   //uint16_t b = ((b2 & 0x7f) << 7) | (b1 & 0x7f);
   //UNUSED(b);
   //printf("MIDI_Receive_FS: chan = 0x%02x, msgtype = 0x%02x, b1 = 0x%02x, b2 = 0x%02x\n", chan, msgtype, b1, b2);
-
-  for(uint8_t n = 0; n < Len; n += 4) {
-    enqueueIncomingMidi( (Buf + n) );
-  }
+  
+  //LL_GPIO_SetOutputPin(DBG1_GPIO_Port, DBG1_Pin);
+  enqueueIncomingMidi( Buf );
+  //LL_GPIO_ResetOutputPin(DBG1_GPIO_Port, DBG1_Pin);
 
   return (USBD_OK);
   /* USER CODE END 6 */

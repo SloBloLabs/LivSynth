@@ -17,3 +17,5 @@ int __io_putchar(int ch);
 #ifdef __cplusplus
 }
 #endif
+
+uint8_t ITM_SendChar(uint8_t ch, size_t const port);

@@ -3,12 +3,12 @@
 #include <cmath>
 
 inline void HSVtoRGB(float H, float S, float V, float &R, float &G, float &B) {
-    if(H > 360 || H < 0 || S > 1 || S < 0 || V > 1 || V < 0){
+    if(H > 360 || H < 0 || S > 1 || S < 0 || V > 1 || V < 0) {
         return;
     }
     
     float C = V * S;
-    float X = C * (1 - fabsf(fmodf(H / 60.0, 2) - 1));
+    float X = C * (1 - fabsf(fmodf(H / 60.f, 2.f) - 1));
     float m = V - C;
     float r, g, b;
 
