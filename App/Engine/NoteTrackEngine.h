@@ -6,8 +6,7 @@
 class NoteTrackEngine : public TrackEngine {
 public:
     NoteTrackEngine(Engine &engine, const Model &model, NoteTrack &track) :
-        TrackEngine(engine, model, track),
-        _noteTrack(track)
+        TrackEngine(engine, model, track)
     {
         reset();
     }
@@ -38,7 +37,6 @@ public:
 private:
     void triggerStep(uint32_t tick, uint32_t divisor);
 
-    NoteTrack &_noteTrack;
     NoteSequence *_sequence;
 
     uint32_t _freeRelativeTick;

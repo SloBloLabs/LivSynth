@@ -16,6 +16,7 @@ Engine::Engine(Model &model, ClockTimer& clockTimer, MidiHandler &midiHandler) :
     _midiHandler(midiHandler)
 {
     _trackEngine = nullptr;
+    _playtimeMidiNote = 0;
 }
 
 void Engine::init() {
@@ -71,6 +72,14 @@ void Engine::togglePlay() {
 }
 
 void Engine::clockStart() {
+
+    if(_playtimeMidiNote != 0) {
+        _playtimeMidiNote = 0;
+        setGateOutput(false);
+    }
+    setGateOutputOverride(false);
+    setCvOutputOverride(false);
+
     updateClockSetup();
     onStart();
     _clock.masterStart();
@@ -169,9 +178,32 @@ uint32_t Engine::quantizeCV(uint32_t cvValue) {
 void Engine::receiveMidi() {
     MidiMessage msg;
     while(_midiHandler.dequeueIncoming(&msg)) {
-        if(MidiMessage::isChannelMessage(msg.status())) {
-            //UDBG("Channel Message\n");
-            // TODO: play note etc.
+        if(MidiMessage::isChannelMessage(msg.status()) && msg.channel() == 0) {
+            if(_clock.runState() == Clock::RunState::Idle) {
+                if(msg.channel() == 0) {
+                    uint8_t midiNote = msg.data0();
+                    //uint8_t velocity = msg.data1();
+                    if(midiNote >= 36) {
+                        if(msg.isNoteOn()) {
+                            if(_playtimeMidiNote == 0) {
+                                _playtimeMidiNote = midiNote;
+                                setGateOutputOverride(true);
+                                setCvOutputOverride(true);
+                                // midiNote = (61 / 4096 * cv) + 36
+                                // cv = (midiNote - 36) * 4096 / 61
+                                setCvOutput((_playtimeMidiNote - 36) * 4096.f / 61.f);
+                                setGateOutput(true);
+                            }
+                        }
+                        else if(msg.isNoteOff()) {
+                            if(midiNote == _playtimeMidiNote) {
+                                _playtimeMidiNote = 0;
+                                setGateOutput(false);
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }

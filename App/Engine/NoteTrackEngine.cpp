@@ -63,7 +63,7 @@ void NoteTrackEngine::update() {
 }
 
 void NoteTrackEngine::changePattern() {
-    _sequence = &_noteTrack.sequence(pattern());
+    _sequence = &_track.sequence(pattern());
 }
 
 void NoteTrackEngine::triggerStep(uint32_t tick, uint32_t divisor) {

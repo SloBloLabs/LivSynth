@@ -71,6 +71,7 @@ private:
     MidiHandler &_midiHandler;
 
     TrackEngine* _trackEngine;
+    uint8_t _playtimeMidiNote;
 
     uint32_t _tick = 0;
 
