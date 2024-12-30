@@ -1,4 +1,5 @@
 {
+    "terminal.integrated.fontFamily": "MesloLGM Nerd Font",
     "cmake.configureOnOpen": true,
     "files.associations": {
         "array": "cpp",
