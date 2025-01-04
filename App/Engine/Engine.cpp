@@ -72,14 +72,6 @@ void Engine::togglePlay() {
 }
 
 void Engine::clockStart() {
-
-    if(_playtimeMidiNote != 0) {
-        _playtimeMidiNote = 0;
-        setGateOutput(false);
-    }
-    setGateOutputOverride(false);
-    setCvOutputOverride(false);
-
     updateClockSetup();
     onStart();
     _clock.masterStart();
@@ -117,6 +109,13 @@ void Engine::onClockOutput(const IClockObserver::OutputState& state) {
 
 void Engine::onStart() {
     _midiHandler.setBusy(false);
+
+    if(_playtimeMidiNote != 0) {
+        _playtimeMidiNote = 0;
+        setGateOutput(false);
+    }
+    setGateOutputOverride(false);
+    setCvOutputOverride(false);
 }
 
 void Engine::onStop() {
@@ -136,14 +135,14 @@ void Engine::updateTrackOutputs() {
     uint32_t cvqOutput = quantizeCV(cvOutput);
     if(!dio.gate() && gateOutput) {
         // generate note on
-        //UDBG("NoteOn\n");
-        uint8_t midiNote = static_cast<uint8_t>(floorf(61.f/4096.f * cvOutput)) + 36; // 3 octaves up
+        uint8_t midiNote = midiNumberFromCV(cvOutput); // 3 octaves up
+        //UDBG("NoteOn: cv=%ld, midiNote=%d\n", cvOutput, midiNote);
         MidiMessage msg = MidiMessage::makeNoteOn(0, midiNote);
         _midiHandler.enqueueOutgoing(msg);
     } else if(dio.gate() && !gateOutput) {
         // generate note off
-        //UDBG("NoteOff\n");
-        uint8_t midiNote = static_cast<uint8_t>(floorf(61.f/4096.f * cvOutput)) + 36; // 3 octaves up
+        uint8_t midiNote = midiNumberFromCV(cvOutput); // 3 octaves up
+        //UDBG("NoteOff: cv=%ld, midiNote=%d\n", cvOutput, midiNote);
         MidiMessage msg = MidiMessage::makeNoteOff(0, midiNote);
         _midiHandler.enqueueOutgoing(msg);
     }
@@ -170,13 +169,14 @@ uint32_t Engine::quantizeCV(uint32_t cvValue) {
     // semitones
     //float delta = 4095.f / 61; // 5 Octaves * 12 semitones + 1 last C
     //uint8_t k = floorf(cvValue / delta);
-    uint32_t cvqValue = quantize(cvValue, 4096.f, 61.f);// 5 Octaves * 12 semitones + 1 last C
+    uint32_t cvqValue = quantize(cvValue, 4095.f, 61.f);// 5 Octaves * 12 semitones + 1 last C
     //DBG("CV_org: %ld, CV_q: %ld", cvValue, cvqValue);
     return cvqValue;
 }
 
 void Engine::receiveMidi() {
     MidiMessage msg;
+
     while(_midiHandler.dequeueIncoming(&msg)) {
         if(MidiMessage::isChannelMessage(msg.status()) && msg.channel() == 0) {
             if(_clock.runState() == Clock::RunState::Idle) {
@@ -187,11 +187,14 @@ void Engine::receiveMidi() {
                         if(msg.isNoteOn()) {
                             if(_playtimeMidiNote == 0) {
                                 _playtimeMidiNote = midiNote;
+                                uint32_t cv = cvFromMidiNumber(_playtimeMidiNote);
+                                //UDBG("NoteOn: %d, CV: %ld\n", _playtimeMidiNote, cv);
+                                if(_selectedStep > Key::Code::None) {
+                                    static_cast<NoteTrackEngine*>(_trackEngine)->sequence().step(_selectedStep).setNote(cv);
+                                }
                                 setGateOutputOverride(true);
                                 setCvOutputOverride(true);
-                                // midiNote = (61 / 4096 * cv) + 36
-                                // cv = (midiNote - 36) * 4096 / 61
-                                setCvOutput((_playtimeMidiNote - 36) * 4096.f / 61.f);
+                                setCvOutput(cv);
                                 setGateOutput(true);
                             }
                         }

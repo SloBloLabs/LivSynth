@@ -39,3 +39,13 @@ inline void HSVtoRGB(float H, float S, float V, float &R, float &G, float &B) {
     } else if (value > (max)) { \
       value = (max); \
     }
+
+// cv = (midiNote - 36) * 4095 / 61
+inline uint32_t cvFromMidiNumber(uint8_t midiNote) {
+    return static_cast<uint32_t>(ceilf((midiNote - 36) * 4096.f / 61.f));
+}
+
+// midiNote = (61 / 4095 * cv) + 36
+inline uint8_t midiNumberFromCV(uint32_t cv) {
+    return static_cast<uint8_t>(floorf(cv * 61.f / 4096.f)) + 36; // 3 octaves up
+}

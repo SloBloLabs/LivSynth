@@ -38,7 +38,7 @@ public:
     // cv overrides
     inline bool cvOutputOverride() const { return _cvOutputOverride; }
     inline void setCvOutputOverride(bool enabled) { _cvOutputOverride = enabled; }
-    inline void setCvOutput(float value) { _cvOverrideValue = value; }
+    inline void setCvOutput(uint32_t value) { _cvOverrideValue = value; }
 
     inline void setSelectedStep(int step) { _selectedStep = step; }
     inline int selectedStep() { return _selectedStep; }

@@ -6,6 +6,8 @@
 #include <cmath>
 #include "Math.h"
 
+#define PULSE_FRQ 2.f
+
 extern AdcInternal  adc;
 extern ButtonMatrix buttonMatrix;
 extern LEDDriver    ledDriver;
@@ -59,7 +61,7 @@ void UiController::handleControls(uint32_t time) {
 void UiController::renderUI() {
     ledDriver.clear();
 
-    _pulse += .02f;
+    _pulse += .01f;
     if(_pulse >= 1.f) _pulse -= 1.f;
 
     switch(_uiMode) {
@@ -78,42 +80,40 @@ void UiController::renderUI() {
         if(_engine.clockRunning()) {
             gate = sequence.step(currentStep).gate();
             note = sequence.step(currentStep).note();
-            ledDriver.setColourHSV(RGBLed::Code::Play, hueFromNote(note), gate ? 1.f : .1f, gate ? valueFromOctave(note) : .1f);
+            ledDriver.setColourHSV(RGBLed::Code::Play, hueFromCV(note), gate ? 1.f : .1f, gate ? octaveFromCV(note) : .1f);
             if(_engine.selectedStep() >= 0) {
                 note = sequence.step(_engine.selectedStep()).note();
             }
-            ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
+            ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromCV(note), 1.f, 1.f);
         } else {
             ledDriver.setColourHSV(RGBLed::Code::Play, _pulse * 360.f, 1.f, 1.f);
     
             if(_engine.selectedStep() >= 0) {
                 note = sequence.step(_engine.selectedStep()).note();
-                ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromNote(note), 1.f, 1.f);
+                ledDriver.setColourHSV(RGBLed::Code::Tune, hueFromCV(note), 1.f, 1.f);
             } else {
                 ledDriver.setColourHSV(RGBLed::Code::Tune, 1.f, 0.f, 0.f); // off
             }
         }
-    
-        float pulseFrq = 2.f;
         // Set sequence button colours
         for(uint8_t step = firstStep; step <= lastStep; ++step) {
             gate = sequence.step(step).gate();
             note = sequence.step(step).note();
     
             if(gate || _keyState[step]) {
-                float hue = hueFromNote(note);
+                float hue = hueFromCV(note);
                 float saturation = 1.f;
-                float value = valueFromOctave(note);
+                float value = octaveFromCV(note);
                 if(step == currentStep) {
                     value += .2f;
                 } else if(step == _engine.selectedStep() && !_engine.clockRunning()) {
                     // render triangle from pulse
-                    value = 2 * fabsf(pulseFrq * _pulse - floorf(pulseFrq * _pulse + .5f)) * value;
+                    value = 2 * fabsf(PULSE_FRQ * _pulse - floorf(PULSE_FRQ * _pulse + .5f)) * value;
                 }
                 CONSTRAIN(value, 0.f, 1.f);
                 ledDriver.setColourHSV(fromKey(step), hue, saturation, value);
             } else if(step == _engine.selectedStep()) {
-                ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, fabsf(pulseFrq * _pulse - floorf(pulseFrq * _pulse + .5f)));
+                ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, fabsf(PULSE_FRQ * _pulse - floorf(PULSE_FRQ * _pulse + .5f)));
             } else if(step == currentStep) {
                 ledDriver.setColourHSV(fromKey(step), 0.f, 0.f, .05f);
             }
@@ -248,19 +248,19 @@ void UiController::initializeFlash() {
     //_storage.read(v);
 }
 
-float UiController::hueFromNote(uint32_t note) {
+float UiController::hueFromCV(uint32_t cv) {
     // Color: red         yellow       green         lightblue     darkblue      magenta       red
     // Hue  : 0° -------- 60° -------- 120° -------- 180° -------- 240° -------- 300° -------- 0°
     // Note : C           D            E             F#            G#            A#            C
-    float delta = 4096.f / 61; // 5 Octaves * 12 semitones + 1 last C
-    uint8_t k = floorf(note / delta);
+    float delta = 4095.f / 61; // 5 Octaves * 12 semitones + 1 last C
+    uint8_t k = floorf(cv / delta);
     float hue = (k % 12) * 30; // 12 * 30 = 360, one loop per octave
     return hue;
 }
 
-float UiController::valueFromOctave(uint32_t note) {
-    float delta = 4096.f / (61 / 12.f);
-    uint8_t k = floorf(note / delta); // 0,...,5
+float UiController::octaveFromCV(uint32_t cv) {
+    float delta = 4095.f / (61 / 12.f);
+    uint8_t k = floorf(cv / delta); // 0,...,5
     float value = .05f + 0.6f * (k / 5.f);
     return value;
 }

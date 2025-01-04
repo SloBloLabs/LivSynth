@@ -49,8 +49,8 @@ public:
 private:
     
     void initializeFlash();
-    float hueFromNote(uint32_t note);
-    float valueFromOctave(uint32_t note);
+    float hueFromCV(uint32_t note);
+    float octaveFromCV(uint32_t note);
     RGBLed::Code fromKey(uint8_t keyCode);
     void handleEvent(KeyEvent event);
     void handleEvent(PotEvent event);
